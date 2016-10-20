@@ -54,13 +54,13 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QToolBox" name="toolBox">
+   <widget class="QToolBox" name="ToolPages">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>71</width>
-      <height>221</height>
+      <width>101</width>
+      <height>271</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -69,84 +69,163 @@
     <property name="currentIndex">
      <number>1</number>
     </property>
-    <widget class="QWidget" name="page">
+    <widget class="QWidget" name="Draw">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>93</width>
-       <height>157</height>
+       <width>126</width>
+       <height>169</height>
       </rect>
      </property>
      <attribute name="label">
       <string>Page 1</string>
      </attribute>
-     <layout class="QGridLayout" name="gridLayout_2">
+     <layout class="QGridLayout" name="_2">
       <item row="1" column="0">
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="PaintBrushButton">
         <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="text">
-         <string>B</string>
+         <string>Paint Brush</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="FillButton">
         <property name="text">
-         <string>PushButton</string>
+         <string>Fill</string>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="PenButton">
         <property name="text">
-         <string>PushButton</string>
+         <string>Pen</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QPushButton" name="pushButton_6">
+       <widget class="QPushButton" name="EraseButton">
         <property name="text">
-         <string>PushButton</string>
+         <string>Erase</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="page_2">
+    <widget class="QWidget" name="Shape">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>71</width>
-       <height>140</height>
+       <width>101</width>
+       <height>169</height>
       </rect>
      </property>
      <attribute name="label">
       <string>Page 2</string>
      </attribute>
-    </widget>
-    <widget class="QWidget" name="page_3">
-     <attribute name="label">
-      <string>Page</string>
-     </attribute>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="LineButton">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>21</width>
+        <width>81</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Line</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="CircleButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>40</y>
+        <width>81</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Circle</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="SquareButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>81</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Square</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="page_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>101</width>
+       <height>169</height>
+      </rect>
+     </property>
+     <attribute name="label">
+      <string>Page</string>
+     </attribute>
+     <widget class="QPushButton" name="RotateRightButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>81</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>A</string>
+       <string>Rotate Right</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="RotateLeftButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>30</y>
+        <width>101</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Rotate Left</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="FlipHorzButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>60</y>
+        <width>111</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Flip Horizontal</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="FlipVertButton">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>90</y>
+        <width>101</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Flip Vertical</string>
       </property>
      </widget>
     </widget>
@@ -154,7 +233,7 @@
    <widget class="QSlider" name="scrubSlider">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>150</x>
       <y>280</y>
       <width>151</width>
       <height>21</height>
@@ -167,9 +246,9 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>150</x>
       <y>220</y>
-      <width>161</width>
+      <width>191</width>
       <height>61</height>
      </rect>
     </property>
@@ -194,8 +273,8 @@
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>20</y>
+      <x>150</x>
+      <y>10</y>
       <width>200</width>
       <height>200</height>
      </rect>
@@ -212,6 +291,19 @@
      </item>
     </layout>
    </widget>
+   <widget class="QPushButton" name="AddFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>250</y>
+      <width>31</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -219,7 +311,7 @@
      <x>0</x>
      <y>0</y>
      <width>479</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -232,7 +324,15 @@
     <addaction name="actionExport"/>
     <addaction name="actionExit"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -266,6 +366,36 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionPixel_Size">
+   <property name="text">
+    <string>Pixel Size</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionAdd_Frame">
+   <property name="text">
+    <string>Add Frame</string>
+   </property>
+  </action>
+  <action name="actionDelete_Frame">
+   <property name="text">
+    <string>Delete Frame</string>
+   </property>
+  </action>
+  <action name="actionCopy_Fream">
+   <property name="text">
+    <string>Copy Fream</string>
    </property>
   </action>
  </widget>
