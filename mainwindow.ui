@@ -67,7 +67,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Draw">
      <property name="geometry">
@@ -258,17 +258,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QGraphicsView" name="graphicsView_4"/>
-     </item>
-     <item>
-      <widget class="QGraphicsView" name="graphicsView_3"/>
-     </item>
-     <item>
-      <widget class="QGraphicsView" name="graphicsView_2"/>
-     </item>
-    </layout>
+    <layout class="QHBoxLayout" name="horizontalLayout"/>
    </widget>
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
@@ -285,11 +275,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QGraphicsView" name="graphicsView"/>
-     </item>
-    </layout>
+    <layout class="QGridLayout" name="gridLayout"/>
    </widget>
    <widget class="QPushButton" name="AddFrameButton">
     <property name="geometry">

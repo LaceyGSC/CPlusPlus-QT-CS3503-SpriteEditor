@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsScene>
+#include <QImage>
+#include <QPixmap>
+#include <project.h>
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +24,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *canvas;
+    Project project;
+
 };
 
 #endif // MAINWINDOW_H
