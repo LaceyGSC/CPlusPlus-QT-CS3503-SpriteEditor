@@ -1,7 +1,7 @@
 #include "project.h"
 
 Project::Project(std::string name, int width, int height) :
-    WIDTH(width), HEIGHT(height), fileName(name)
+    width(width), height(height), fileName(name)
 {
     Frame firstFrame(width, height);
     framesList.push_back(firstFrame);

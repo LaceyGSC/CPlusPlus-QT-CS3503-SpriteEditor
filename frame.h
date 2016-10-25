@@ -16,7 +16,7 @@ class Frame : public QImage
     //const int WIDTH;
     //const int HEIGHT;
 public:
-    Frame(int width = 1500, int height = 1500);
+    Frame(int width = 64, int height = 64);
 
 protected:
     /*

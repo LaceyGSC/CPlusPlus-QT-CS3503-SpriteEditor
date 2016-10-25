@@ -13,13 +13,15 @@ class Project
     std::stack<QObject> redo;
     //if current implementation doesn't work use pointer or references
     std::list<Frame> framesList;
-    const int WIDTH;
-    const int HEIGHT;
+    //const int WIDTH;
+    //const int HEIGHT;
+    int width;
+    int height;
 
 
 
 public:
-    Project(std::string name = "untitled", int width = 1500, int height = 1500);
+    Project(std::string name = "untitled", int width = 64, int height = 64);
     Frame getFrame(int index);
 };
 
