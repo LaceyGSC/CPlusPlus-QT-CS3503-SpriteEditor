@@ -8,8 +8,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QGraphicsView* view;
-    Frame firstFrame = project.getFrame(0);
+    //std::cout<<ui->frame_2->geometry().width()<<std::endl;
+
+
+    firstFrame = project.getFrame(0);
+    // to view frame, use QPixmap
     QPixmap image = QPixmap::fromImage(firstFrame);
     int opacity = 255;// Set this between 0 is transparent
     image.fill(QColor(255,0,0,opacity));
@@ -17,17 +20,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QPixmap imageZoomed = image.scaled(ui->frame_2->geometry().width(), ui->frame_2->geometry().height(),
                                        Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
-    //QTransform trans;
-    //trans.translate(ui->frame_2->pos().x(), ui->frame_2->pos().y());
-    //trans.translate(500000, 500000);
-    //imageZoomed = imageZoomed.transformed(trans, Qt::FastTransformation);
 
 
-
-
+    // holds image QPixmap
     canvas = new QGraphicsScene(this);
-    canvas ->addPixmap(imageZoomed);
-    canvas->setSceneRect(image.rect());
+    // pixMap (QGraphicsPixmapItem) holds the canvas (QGraphics Scene)
+    pixMap = canvas ->addPixmap(imageZoomed);
+    canvas->setSceneRect(imageZoomed.rect());
 
     QBrush brush(QColor(0, 0, 0, 150));
     canvas->setBackgroundBrush(brush);
@@ -36,6 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     ui->drawingGridLayout->addWidget(view);
+
+    view->scale(.8523, .8523);
+    //view->fitInView(canvas->itemsBoundingRect(), Qt::IgnoreAspectRatio);
+    //view->scale(wFrame, hFrame);
 
 
 
@@ -48,5 +51,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_LineButton_clicked()
 {
+    QRgb value = qRgba(0, 0, 255, 255);
+    firstFrame.setPixel(1,1,value);
+    QPixmap image = QPixmap::fromImage(firstFrame);
+    //int opacity = 255;// Set this between 0 is transparent
+    //image.fill(QColor(0,0,255,opacity));
+    //scales the image to Frame_2 need to move it.
+    QPixmap imageZoomed = image.scaled(ui->frame_2->geometry().width(), ui->frame_2->geometry().height(),
+                                       Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    pixMap->setPixmap(imageZoomed);
+
 
 }

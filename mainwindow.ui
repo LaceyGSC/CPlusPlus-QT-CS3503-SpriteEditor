@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>365</height>
+    <width>593</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="palette">
@@ -67,7 +67,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="Draw">
      <property name="geometry">
@@ -117,8 +117,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>98</width>
-       <height>28</height>
+       <width>101</width>
+       <height>169</height>
       </rect>
      </property>
      <attribute name="label">
@@ -169,8 +169,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>98</width>
-       <height>28</height>
+       <width>101</width>
+       <height>169</height>
       </rect>
      </property>
      <attribute name="label">
@@ -233,9 +233,9 @@
    <widget class="QSlider" name="scrubSlider">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>280</y>
-      <width>151</width>
+      <x>140</x>
+      <y>390</y>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
@@ -246,8 +246,8 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>220</y>
+      <x>140</x>
+      <y>320</y>
       <width>191</width>
       <height>61</height>
      </rect>
@@ -265,8 +265,8 @@
      <rect>
       <x>150</x>
       <y>10</y>
-      <width>200</width>
-      <height>200</height>
+      <width>301</width>
+      <height>301</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -281,7 +281,7 @@
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>250</y>
+      <y>360</y>
       <width>31</width>
       <height>32</height>
      </rect>
@@ -296,7 +296,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>479</width>
+     <width>593</width>
      <height>22</height>
     </rect>
    </property>

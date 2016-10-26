@@ -21,7 +21,7 @@ class Project
 
 
 public:
-    Project(std::string name = "untitled", int width = 64, int height = 64);
+    Project(std::string name = "untitled", int width = 10, int height = 10);
     Frame getFrame(int index);
 };
 

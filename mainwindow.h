@@ -6,6 +6,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <project.h>
+#include <QGraphicsPixmapItem>
 
 namespace Ui {
 class MainWindow;
@@ -26,6 +27,9 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *canvas;
     Project project;
+    Frame firstFrame;
+    QGraphicsView* view;
+    QGraphicsPixmapItem *pixMap;
 
 };
 
