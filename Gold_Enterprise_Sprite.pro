@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     frame.cpp \
-    project.cpp
+    project.cpp \
+    PixelFrame.cpp
 
 HEADERS  += mainwindow.h \
     frame.h \
-    project.h
+    project.h \
+    PixelFrame.h
 
 FORMS    += mainwindow.ui

@@ -10,21 +10,6 @@ Frame::Frame(int width, int height): QImage(width, height, QImage::Format_ARGB32
 
 }
 
-/*
-void Frame::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
-}
 
-void Frame::mouseReleaseEvent(QGraphicsSceneMouseEvent *event){
-
-}
-
-void Frame::mouseMoveEvent(QGraphicsSceneMouseEvent *event){
-
-}
-
-void Frame::keyPressEvent(QKeyEvent *event){
-
-}
-*/
 

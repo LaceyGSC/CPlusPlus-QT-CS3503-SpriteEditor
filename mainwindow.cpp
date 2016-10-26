@@ -8,14 +8,21 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    //std::cout<<ui->frame_2->geometry().width()<<std::endl;
+    //connect(actionGroup, SIGNAL(triggered(QAction*)),
+            //this, SLOT(actionGroupClicked(QAction*)));
 
+    itemToDraw = false;
 
     firstFrame = project.getFrame(0);
+
     // to view frame, use QPixmap
+    //firstFrame.
+
+
     QPixmap image = QPixmap::fromImage(firstFrame);
-    int opacity = 255;// Set this between 0 is transparent
-    image.fill(QColor(255,0,0,opacity));
+
+    //int opacity = 255;// Set this between 0 is transparent
+    //image.fill(QColor(255,0,0,opacity));
     //scales the image to Frame_2 need to move it.
     QPixmap imageZoomed = image.scaled(ui->frame_2->geometry().width(), ui->frame_2->geometry().height(),
                                        Qt::IgnoreAspectRatio, Qt::FastTransformation);
@@ -63,4 +70,28 @@ void MainWindow::on_LineButton_clicked()
     pixMap->setPixmap(imageZoomed);
 
 
+
+
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    start = event->pos();
+
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event){
+
+    QPainter paint((QPaintDevice)firstFrame);
+    paint.drawLine(start, event->pos());
+    QPixmap image = QPixmap::fromImage(firstFrame);
+    QPixmap imageZoomed = image.scaled(ui->frame_2->geometry().width(), ui->frame_2->geometry().height(),
+                                       Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    pixMap->setPixmap(imageZoomed);
+
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event){
+    MainWindow::mouseReleaseEvent(event);
 }
