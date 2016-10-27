@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "slideframe.h"
 #include <iostream>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -11,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //std::cout<<ui->frame_2->geometry().width()<<std::endl;
 
+
     SlideFrame* test;
     test = new SlideFrame(ui->frame_2, new QImage);
 
@@ -18,6 +20,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // to view frame, use QPixmap
     ////QPixmap image = QPixmap::fromImage(firstFrame);
     QPixmap image = QPixmap::fromImage(*test->getImage());
+    mainImage = *test->getImage();
+    MainWindow::getImage();
+
     QBrush brush(QColor(255, 0, 0, 255));
 
     int opacity = 255;// Set this between 0-255, 0 is transparent
@@ -28,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     // holds image QPixmap
-    canvas = new QGraphicsScene(this);
+    canvas = new QGraphicsScene(test);
     view = new QGraphicsView(test);
 
     // pixMap (QGraphicsPixmapItem) holds the canvas (QGraphics Scene)
@@ -37,10 +42,12 @@ MainWindow::MainWindow(QWidget *parent) :
     canvas->setSceneRect(imageZoomed.rect());
     canvas->setBackgroundBrush(brush);
 
+
     view->setScene(canvas);
     view->scale(.8523, .8523);
+    view->setMouseTracking(true);
 
-    ui->drawingGridLayout->addWidget(test);
+    ui->drawingGridLayout->addWidget(view);
 
 }
 
@@ -63,4 +70,35 @@ void MainWindow::on_LineButton_clicked()
     pixMap->setPixmap(imageZoomed);
 
 
+}
+
+QImage MainWindow::getImage()
+{
+    return mainImage;
+}
+
+QPoint MainWindow::getStartPos()
+{
+    return startPos;
+}
+
+void MainWindow::setStartPos(QPoint p)
+{
+    startPos = p;
+}
+
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+     qDebug() << event->pos();
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    qDebug() << event->pos();
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+     qDebug() << event->pos();
 }

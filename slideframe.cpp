@@ -3,7 +3,7 @@
 
 SlideFrame::SlideFrame(QFrame *parent, QImage *image) : QFrame(parent)
 {
-    theImage = image;
+    theImage = new QImage(10,10,QImage::Format_ARGB32);
     this->setMouseTracking(true);
 }
 
