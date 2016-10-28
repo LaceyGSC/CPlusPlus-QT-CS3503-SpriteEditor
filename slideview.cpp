@@ -12,7 +12,10 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     //Creates the default opacity value and background color for the QGraphicScene
     //opacity: Set this between 0-255, 0 is transparent
     int opacity = 255;//
-    //QBrush brush(QColor(0, 255, 0, 255));
+    QBrush brush(QColor(0, 0, 0, 200));
+    QPainter painty(&theImage);
+    //QRectF pix(w, h, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+    painty.fillRect(0,0, pixelWidth, pixelHeight, QBrush(QColor(0, 0, 255, 0)));
     pixelHeight = theImage.height();
     pixelWidth = theImage.width();
 
@@ -35,7 +38,7 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 
     //Sets the view size and background color for QGraphicScene
     theScene->setSceneRect(pixImageZoomed.rect());
-    //theScene->setBackgroundBrush(brush);
+    theScene->setBackgroundBrush(brush);
 
     //Sets values for the QGraphicsView class
     //CURRENT BUG: Scaling not needed for hard coded size values, replace when sizing supported.
@@ -114,18 +117,13 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 void SlideView::mousePressEvent( QMouseEvent* event)
 {
     QPainter painty(&theImage);
-    QRgb value = qRgba(0, 0, 255, 255);
-    //theImage.setPixel(9,9,value);
-    double scenH = theScene->height();
+    //QRgb value = qRgba(0, 0, 255, 255);
     int w = event->pos().x()/(theScene->width()/pixelWidth);
     int h = event->pos().y()/(theScene->height()/pixelHeight);
-    //std::cout<<event->pos().x()/27.7<<" "<< event->pos().y()/27.7<<std::endl;
-    //std::cout<<pixImageZoomed.width()/pixelWidth<<" "<< pixImageZoomed.height()/pixelHeight<<std::endl;
     std::cout<<w<<" "<< h<<std::endl;
-    QRectF pix(w, h, .2, .2);
+    QRectF pix(w, h, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
     painty.setPen(Qt::blue);
     painty.drawRect(pix);
-    //startPos = event->pos();
     pixImage = QPixmap::fromImage(theImage);
     pixImageZoomed = pixImage.scaled(275, 275,
                                            Qt::IgnoreAspectRatio, Qt::FastTransformation);
