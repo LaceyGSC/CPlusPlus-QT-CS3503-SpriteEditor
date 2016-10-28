@@ -4,20 +4,20 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 {
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
     //Failure to create new here causes fatal crash in mouse events
-    theImage = new QImage(10,10,QImage::Format_ARGB32);
-    theScene = new QGraphicsScene(this);
-    pixMap = new QGraphicsPixmapItem();
+    //theImage = new QImage(10,10,QImage::Format_ARGB32);
+    theScene  =  new QGraphicsScene(this);
+   // pixMap = new QGraphicsPixmapItem();
 
     //Creates the default opacity value and background color for the QGraphicScene
     //opacity: Set this between 0-255, 0 is transparent
     int opacity = 255;//
-    QBrush brush(QColor(0, 255, 0, 255));
+    //QBrush brush(QColor(0, 255, 0, 255));
 
 
     //Sets the value of global pixImage to the default image created above
     //Fills with solid red for testing
-    pixImage = QPixmap::fromImage(*theImage);
-    pixImage.fill(QColor(255,0,0,opacity));
+    pixImage = QPixmap::fromImage(theImage);
+    //pixImage.fill(QColor(255,0,0,opacity));
 
     //Scales image
     //CURRENT BUG: incorrect vaules coming from parent geometry
@@ -27,11 +27,11 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 
 
     //Adds zoomed pixel map of image to the QGraphicsScene
-    theScene->addPixmap(pixImageZoomed);
+    pixMap = theScene->addPixmap(pixImageZoomed);
 
     //Sets the view size and background color for QGraphicScene
     theScene->setSceneRect(pixImageZoomed.rect());
-    theScene->setBackgroundBrush(brush);
+    //theScene->setBackgroundBrush(brush);
 
     //Sets values for the QGraphicsView class
     //CURRENT BUG: Scaling not needed for hard coded size values, replace when sizing supported.
@@ -53,7 +53,7 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
  * Returns the default QImage created within the constructor
  *
  * */
-QImage* SlideView::getImage()
+QImage SlideView::getImage()
 {
     return theImage;
 }
@@ -79,13 +79,17 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
     * Tried to add, but my understading of the Q Graphics interactions isn't great
     * So will let someone else add
     * */
-    QPainter paint(theImage);
-    paint.drawLine(startPos, event->pos());
+    //QRectF rect(pos().x(), )
+    /*if(MousPessed){
+        QPainter paint(theImage);
+        paint.drawLine(startPos, event->pos());
 
-    pixImage = QPixmap::fromImage(*theImage);
-    pixImageZoomed = pixImage.scaled(275, 275,
-                                           Qt::IgnoreAspectRatio, Qt::FastTransformation);
-    pixMap->setPixmap(pixImageZoomed);
+        pixImage = QPixmap::fromImage(*theImage);
+        pixImageZoomed = pixImage.scaled(275, 275,
+                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        pixMap->setPixmap(pixImageZoomed);
+    }*/
+
 
     qDebug() << event->pos();
 }
@@ -105,7 +109,27 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
  * */
 void SlideView::mousePressEvent( QMouseEvent* event)
 {
-    startPos = event->pos();
+    QPainter painty(&theImage);
+    QRect pix(pos().x(), pos().y(), 50, 50);
+    painty.setPen(Qt::blue);
+    painty.drawRect(pix);
+    //startPos = event->pos();
+    pixImage = QPixmap::fromImage(theImage);
+    pixImageZoomed = pixImage.scaled(275, 275,
+                                           Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    pixMap = theScene->addPixmap(pixImageZoomed);
+
+    //Sets the view size and background color for QGraphicScene
+    theScene->setSceneRect(pixImageZoomed.rect());
+    //theScene->setBackgroundBrush(brush);
+
+    //Sets values for the QGraphicsView class
+    //CURRENT BUG: Scaling not needed for hard coded size values, replace when sizing supported.
+    this->setScene(theScene);
+
+    pixMap->setPixmap(pixImageZoomed);
+    this->update();
 }
 
 /*

@@ -14,10 +14,10 @@ class SlideView : public QGraphicsView
     Q_OBJECT
 public:
     explicit SlideView(QGraphicsView *parent = 0);
-    QImage *getImage();
+    QImage getImage();
 
 private:
-    QImage *theImage;
+    QImage theImage = QImage(10,10,QImage::Format_ARGB32);
     QPoint startPos;
     QGraphicsScene *theScene;
     QGraphicsPixmapItem *pixMap;
