@@ -8,6 +8,7 @@
 #include <QPoint>
 #include <QDebug>
 #include <QPixmap>
+#include <iostream>
 
 class SlideView : public QGraphicsView
 {
@@ -23,6 +24,8 @@ private:
     QGraphicsPixmapItem *pixMap;
     QPixmap pixImage;
     QPixmap pixImageZoomed;
+    int pixelHeight;
+    int pixelWidth;
 
 protected:
     virtual void mouseMoveEvent( QMouseEvent* event);

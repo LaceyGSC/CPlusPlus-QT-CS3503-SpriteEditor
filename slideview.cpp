@@ -1,5 +1,6 @@
 #include "slideview.h"
 
+
 SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 {
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
@@ -12,11 +13,14 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     //opacity: Set this between 0-255, 0 is transparent
     int opacity = 255;//
     //QBrush brush(QColor(0, 255, 0, 255));
+    pixelHeight = theImage.height();
+    pixelWidth = theImage.width();
 
 
     //Sets the value of global pixImage to the default image created above
     //Fills with solid red for testing
     pixImage = QPixmap::fromImage(theImage);
+
     //pixImage.fill(QColor(255,0,0,opacity));
 
     //Scales image
@@ -110,7 +114,15 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 void SlideView::mousePressEvent( QMouseEvent* event)
 {
     QPainter painty(&theImage);
-    QRect pix(pos().x(), pos().y(), 50, 50);
+    QRgb value = qRgba(0, 0, 255, 255);
+    //theImage.setPixel(9,9,value);
+    double scenH = theScene->height();
+    int w = event->pos().x()/(pixImageZoomed.width()/pixelWidth);
+    int h = event->pos().y()/(pixImageZoomed.height()/pixelHeight);
+    std::cout<<event->pos().x()/27.7<<" "<< event->pos().y()/27.7<<std::endl;
+    std::cout<<pixImageZoomed.height()<<" "<< this->height()<<std::endl;
+    std::cout<<w<<" "<< h<<std::endl;
+    QRect pix(w, h, 1, 1);
     painty.setPen(Qt::blue);
     painty.drawRect(pix);
     //startPos = event->pos();
