@@ -31,9 +31,11 @@ private slots:
     //void actionGroupClicked(QAction*);
 
 
+
+protected:
+
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene *canvas;
     Project project;
 
     QImage firstFrame(10, 10, QImage::Format_ARGB32);

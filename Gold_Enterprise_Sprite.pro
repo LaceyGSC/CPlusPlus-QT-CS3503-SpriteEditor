@@ -16,11 +16,11 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     frame.cpp \
     project.cpp \
-    PixelFrame.cpp
+    slideview.cpp
 
 HEADERS  += mainwindow.h \
     frame.h \
     project.h \
-    PixelFrame.h
+    slideview.h
 
 FORMS    += mainwindow.ui
