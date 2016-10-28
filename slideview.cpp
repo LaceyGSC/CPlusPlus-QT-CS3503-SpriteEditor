@@ -117,12 +117,12 @@ void SlideView::mousePressEvent( QMouseEvent* event)
     QRgb value = qRgba(0, 0, 255, 255);
     //theImage.setPixel(9,9,value);
     double scenH = theScene->height();
-    int w = event->pos().x()/(pixImageZoomed.width()/pixelWidth);
-    int h = event->pos().y()/(pixImageZoomed.height()/pixelHeight);
-    std::cout<<event->pos().x()/27.7<<" "<< event->pos().y()/27.7<<std::endl;
-    std::cout<<pixImageZoomed.height()<<" "<< this->height()<<std::endl;
+    int w = event->pos().x()/(theScene->width()/pixelWidth);
+    int h = event->pos().y()/(theScene->height()/pixelHeight);
+    //std::cout<<event->pos().x()/27.7<<" "<< event->pos().y()/27.7<<std::endl;
+    //std::cout<<pixImageZoomed.width()/pixelWidth<<" "<< pixImageZoomed.height()/pixelHeight<<std::endl;
     std::cout<<w<<" "<< h<<std::endl;
-    QRect pix(w, h, 1, 1);
+    QRectF pix(w, h, .2, .2);
     painty.setPen(Qt::blue);
     painty.drawRect(pix);
     //startPos = event->pos();
