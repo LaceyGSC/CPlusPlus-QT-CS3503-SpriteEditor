@@ -16,11 +16,11 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     frame.cpp \
     project.cpp \
-    slideframe.cpp
+    slideview.cpp
 
 HEADERS  += mainwindow.h \
     frame.h \
     project.h \
-    slideframe.h
+    slideview.h
 
 FORMS    += mainwindow.ui

@@ -1,13 +1,33 @@
 #ifndef SLIDEVIEW_H
 #define SLIDEVIEW_H
 
-#include <QWidget>
+#include <QGraphicsView>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
+#include <QMouseEvent>
+#include <QPoint>
+#include <QDebug>
+#include <QPixmap>
 
-class SlideView : public QWidget
+class SlideView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    explicit SlideView(QWidget *parent = 0);
+    explicit SlideView(QGraphicsView *parent = 0);
+    QImage *getImage();
+
+private:
+    QImage *theImage;
+    QPoint startPos;
+    QGraphicsScene *theScene;
+    QGraphicsPixmapItem *pixMap;
+    QPixmap pixImage;
+    QPixmap pixImageZoomed;
+
+protected:
+    virtual void mouseMoveEvent( QMouseEvent* event);
+    virtual void mousePressEvent( QMouseEvent* event);
+    virtual void mouseReleaseEvent( QMouseEvent* event);
 
 signals:
 
