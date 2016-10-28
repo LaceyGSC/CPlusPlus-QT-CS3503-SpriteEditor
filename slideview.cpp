@@ -11,11 +11,13 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 
     //Creates the default opacity value and background color for the QGraphicScene
     //opacity: Set this between 0-255, 0 is transparent
-    int opacity = 255;//
+    //int opacity = 255;//
     QBrush brush(QColor(0, 0, 0, 200));
     QPainter painty(&theImage);
-    //QRectF pix(w, h, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-    painty.fillRect(0,0, pixelWidth, pixelHeight, QBrush(QColor(0, 0, 255, 0)));
+    //Make alpha channel
+    QRgb value = qRgba(0, 0, 0, 0);
+    painty.fillRect(0,0, pixelWidth, pixelHeight, value);
+    //get height and width of Qimage
     pixelHeight = theImage.height();
     pixelWidth = theImage.width();
 
@@ -24,7 +26,6 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     //Fills with solid red for testing
     pixImage = QPixmap::fromImage(theImage);
 
-    //pixImage.fill(QColor(255,0,0,opacity));
 
     //Scales image
     //CURRENT BUG: incorrect vaules coming from parent geometry
@@ -113,33 +114,33 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
  * Overrides parent class method
  * Listens for mousePressEvent events
  * Sets starting position to the QPoint of the events pos() method
+ *
+ * FOR TESTING: can change individual pixel with mous click
  * */
 void SlideView::mousePressEvent( QMouseEvent* event)
 {
+    //make a painter
     QPainter painty(&theImage);
-    //QRgb value = qRgba(0, 0, 255, 255);
+    //get pixel Position with mouse click
     int w = event->pos().x()/(theScene->width()/pixelWidth);
     int h = event->pos().y()/(theScene->height()/pixelHeight);
+    //for testing
     std::cout<<w<<" "<< h<<std::endl;
+    //set up the pixel w and h are the pixel positions the next two values are how big the the pixels need to be
     QRectF pix(w, h, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+    //set color for testing
     painty.setPen(Qt::blue);
+    //draw the pixel
     painty.drawRect(pix);
+    //add Qimage to pix map
     pixImage = QPixmap::fromImage(theImage);
+    //scale image
     pixImageZoomed = pixImage.scaled(275, 275,
                                            Qt::IgnoreAspectRatio, Qt::FastTransformation);
-
-    pixMap = theScene->addPixmap(pixImageZoomed);
-
-    //Sets the view size and background color for QGraphicScene
-    theScene->setSceneRect(pixImageZoomed.rect());
-    //theScene->setBackgroundBrush(brush);
-
-    //Sets values for the QGraphicsView class
-    //CURRENT BUG: Scaling not needed for hard coded size values, replace when sizing supported.
-    this->setScene(theScene);
+    //add pixmap to scene
 
     pixMap->setPixmap(pixImageZoomed);
-    this->update();
+    //this->update();
 }
 
 /*
