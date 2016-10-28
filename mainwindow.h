@@ -21,15 +21,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-protected:
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
-
 private slots:
     void on_LineButton_clicked();
-    //void actionGroupClicked(QAction*);
-
 
 
 protected:
@@ -37,21 +30,9 @@ protected:
 private:
     Ui::MainWindow *ui;
     Project project;
-
-    QImage firstFrame(10, 10, QImage::Format_ARGB32);
-
-    //QImage firstFrame(10,10, QImage::Format_ARGB32);
-    QImage f(10, 10, QImage::Format_ARGB32);
-
+    Frame firstFrame;
     QGraphicsView* view;
     QGraphicsPixmapItem *pixMap;
-
-    QPoint start;
-    QPoint end;
-
-    bool itemToDraw;
-
-    enum tools {noMode, pen, paint, erase, lineShape, circleShape, squareShape};
 
 };
 

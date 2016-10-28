@@ -57,7 +57,7 @@ void MainWindow::on_LineButton_clicked()
 //    paint.drawLine(start, event->pos());
 //    QPixmap image = QPixmap::fromImage(firstFrame);
 //    QPixmap imageZoomed = image.scaled(ui->frame_2->geometry().width(), ui->frame_2->geometry().height(),
-                                       Qt::IgnoreAspectRatio, Qt::FastTransformation);
+//                                       Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
 //    pixMap->setPixmap(imageZoomed);
 
