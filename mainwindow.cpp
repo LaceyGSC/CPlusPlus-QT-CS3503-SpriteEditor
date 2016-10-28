@@ -41,7 +41,28 @@ void MainWindow::on_LineButton_clicked()
 //    pixMap->setPixmap(imageZoomed);
 
 
+
+
 }
 
+//void MainWindow::mousePressEvent(QMouseEvent *event)
+//{
+//    start = event->pos();
+//
+//}
+//
+//void MainWindow::mouseMoveEvent(QMouseEvent *event){
 
+//    QPainter paint((QPaintDevice)firstFrame);
+//    paint.drawLine(start, event->pos());
+//    QPixmap image = QPixmap::fromImage(firstFrame);
+//    QPixmap imageZoomed = image.scaled(ui->frame_2->geometry().width(), ui->frame_2->geometry().height(),
+//                                       Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
+//    pixMap->setPixmap(imageZoomed);
+
+//}
+
+//void MainWindow::mouseReleaseEvent(QMouseEvent *event){
+//    MainWindow::mouseReleaseEvent(event);
+//}

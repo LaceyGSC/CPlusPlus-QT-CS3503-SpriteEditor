@@ -7,6 +7,7 @@
 #include <QPixmap>
 #include <project.h>
 #include <QGraphicsPixmapItem>
+#include <QImage>
 
 namespace Ui {
 class MainWindow;
