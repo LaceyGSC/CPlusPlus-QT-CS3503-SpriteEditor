@@ -101,8 +101,9 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
     if(drawing){
         drawingX = event->pos().x()/(theScene->width()/pixelWidth);
         drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+
         QPainter paint(&theImage);
-        QRectF pix(drawingX, drawingX, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+        QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
         paint.setPen(color);
         paint.drawRect(pix);
         //add Qimage to pix map
@@ -169,8 +170,9 @@ void SlideView::mousePressEvent( QMouseEvent* event)
         //get the x and y coordinates of the pixel
         drawingX = event->pos().x()/(theScene->width()/pixelWidth);
         drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+        std::cout<<drawingX<<" "<<drawingY<<std::endl;
         QPainter paint(&theImage);
-        QRectF pix(drawingX, drawingX, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+        QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
         paint.setPen(color);
         paint.drawRect(pix);
         //add Qimage to pix map

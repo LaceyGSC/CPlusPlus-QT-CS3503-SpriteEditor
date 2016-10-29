@@ -18,7 +18,7 @@ public:
     QImage getImage();
 
 private:
-    QImage theImage = QImage(10,10,QImage::Format_ARGB32);
+    QImage theImage = QImage(32,32,QImage::Format_ARGB32);
     QPoint startPos;
     QGraphicsScene *theScene;
     QGraphicsPixmapItem *pixMap;
