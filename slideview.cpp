@@ -5,9 +5,8 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 {
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
     //Failure to create new here causes fatal crash in mouse events
-    //theImage = new QImage(10,10,QImage::Format_ARGB32);
     theScene  =  new QGraphicsScene(this);
-   // pixMap = new QGraphicsPixmapItem();
+    drawing = false;
 
     //Creates the default opacity value and background color for the QGraphicScene
     //opacity: Set this between 0-255, 0 is transparent
@@ -20,6 +19,8 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     //get height and width of Qimage
     pixelHeight = theImage.height();
     pixelWidth = theImage.width();
+    //color for testing
+    color = qRgba(0, 255, 0, 0);
 
 
     //Sets the value of global pixImage to the default image created above
@@ -119,6 +120,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
  * */
 void SlideView::mousePressEvent( QMouseEvent* event)
 {
+    /*
     //make a painter
     QPainter painty(&theImage);
     //get pixel Position with mouse click
@@ -141,6 +143,18 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
     pixMap->setPixmap(pixImageZoomed);
     //this->update();
+    */
+    if (event->button() == Qt::LeftButton)
+    {
+        drawing = true;
+        //get the x and y coordinates of pixel
+        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+
+
+
+        this->update();
+    }
 }
 
 /*

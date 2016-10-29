@@ -31,6 +31,13 @@ private:
     Ui::MainWindow *ui;
     Project project;
     Frame firstFrame;
+
+    //QImage firstFrame(10, 10, QImage::Format_ARGB32);
+
+    //QImage firstFrame(10,10, QImage::Format_ARGB32);
+    //QImage f(10, 10, QImage::Format_ARGB32);
+
+
     QGraphicsView* view;
     QGraphicsPixmapItem *pixMap;
 

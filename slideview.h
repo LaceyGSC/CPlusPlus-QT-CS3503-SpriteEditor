@@ -26,6 +26,11 @@ private:
     QPixmap pixImageZoomed;
     int pixelHeight;
     int pixelWidth;
+    bool drawing;
+    QPoint lastPoint;
+    QRgb color;
+    int drawingY;
+    int drawingX;
 
 protected:
     virtual void mouseMoveEvent( QMouseEvent* event);
