@@ -31,6 +31,8 @@ private:
     QRgb color;
     int drawingY;
     int drawingX;
+    //the types of tool we use to edit pixels
+    enum tool {pen, paintBrush, erase, shapeLine, shapeCircle, shapeSquare};
 
 protected:
     virtual void mouseMoveEvent( QMouseEvent* event);
