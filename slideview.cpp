@@ -98,6 +98,25 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                                                Qt::IgnoreAspectRatio, Qt::FastTransformation);
         pixMap->setPixmap(pixImageZoomed);
     }*/
+    if(drawing){
+        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+        QPainter paint(&theImage);
+        QRectF pix(drawingX, drawingX, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+        paint.setPen(color);
+        paint.drawRect(pix);
+        //add Qimage to pix map
+        pixImage = QPixmap::fromImage(theImage);
+        //scale image
+        pixImageZoomed = pixImage.scaled(275, 275,
+                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        //add pixmap to scene
+
+        pixMap->setPixmap(pixImageZoomed);
+        this->update();
+
+
+    }
 
 
     qDebug() << event->pos();
@@ -147,11 +166,21 @@ void SlideView::mousePressEvent( QMouseEvent* event)
     if (event->button() == Qt::LeftButton)
     {
         drawing = true;
-        //get the x and y coordinates of pixel
+        //get the x and y coordinates of the pixel
         drawingX = event->pos().x()/(theScene->width()/pixelWidth);
         drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+        QPainter paint(&theImage);
+        QRectF pix(drawingX, drawingX, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+        paint.setPen(color);
+        paint.drawRect(pix);
+        //add Qimage to pix map
+        pixImage = QPixmap::fromImage(theImage);
+        //scale image
+        pixImageZoomed = pixImage.scaled(275, 275,
+                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        //add pixmap to scene
 
-
+        pixMap->setPixmap(pixImageZoomed);
 
         this->update();
     }
@@ -171,5 +200,9 @@ void SlideView::mousePressEvent( QMouseEvent* event)
  * */
 void SlideView::mouseReleaseEvent( QMouseEvent* event)
 {
+    if(event->button() == Qt::LeftButton)
+    {
+        drawing = false;
+    }
     qDebug() << event->pos();
 }
