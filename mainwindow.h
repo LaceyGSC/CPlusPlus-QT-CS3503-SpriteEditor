@@ -25,6 +25,15 @@ private slots:
     void on_LineButton_clicked();
 
 
+    // for undo event
+    void on_actionUndo_triggered();
+
+    void on_actionRedo_triggered();
+
+signals:
+    void undoSignal();
+    void redoSignal();
+
 protected:
 
 private:

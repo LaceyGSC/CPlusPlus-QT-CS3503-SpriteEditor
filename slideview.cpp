@@ -16,10 +16,12 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     //Make alpha channel
     QRgb value = qRgba(0, 0, 0, 0);
     painty.fillRect(0,0, pixelWidth, pixelHeight, value);
+
     //get height and width of Qimage
     pixelHeight = theImage.height();
     pixelWidth = theImage.width();
     //color for testing
+
     color = qRgba(0, 255, 0, 0);
 
 
@@ -47,8 +49,6 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     this->setScene(theScene);
     //this->scale(.823, .823);
     this->setMouseTracking(true);
-
-
 }
 
 /*
@@ -97,8 +97,16 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
         pixImageZoomed = pixImage.scaled(275, 275,
                                                Qt::IgnoreAspectRatio, Qt::FastTransformation);
         pixMap->setPixmap(pixImageZoomed);
+
     }*/
-    if(drawing){
+
+
+
+    if(drawing)
+    {
+        // before drawing, save the current image for undo
+        undoStack.push(theImage.copy());
+
         drawingX = event->pos().x()/(theScene->width()/pixelWidth);
         drawingY = event->pos().y()/(theScene->height()/pixelHeight);
 
@@ -166,11 +174,14 @@ void SlideView::mousePressEvent( QMouseEvent* event)
     */
     if (event->button() == Qt::LeftButton)
     {
+        // before drawing, save the current image for undo
+        undoStack.push(theImage.copy());
+
         drawing = true;
         //get the x and y coordinates of the pixel
         drawingX = event->pos().x()/(theScene->width()/pixelWidth);
         drawingY = event->pos().y()/(theScene->height()/pixelHeight);
-        std::cout<<drawingX<<" "<<drawingY<<std::endl;
+        //std::cout<<drawingX<<" "<<drawingY<<std::endl;
         QPainter paint(&theImage);
         QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
         paint.setPen(color);
@@ -205,6 +216,57 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
     if(event->button() == Qt::LeftButton)
     {
         drawing = false;
+
     }
-    qDebug() << event->pos();
+
+
+   // qDebug() << event->pos();
 }
+
+void SlideView::undoSlot()
+{
+    if (undoStack.empty())
+    {
+        return;
+    }
+
+   //qDebug() << "start slot";
+   redoStack.push(theImage);  // theImage.copy()
+   theImage = undoStack.top();//.copy();
+   undoStack.pop();
+
+    updateScene();
+
+   //qDebug() << "end slot";
+}
+
+void SlideView::redoSlot()
+{
+    if (redoStack.empty())
+    {
+        return;
+    }
+
+    undoStack.push(theImage);
+    theImage = redoStack.top();
+    redoStack.pop();
+
+    updateScene();
+}
+
+
+void SlideView::updateScene()
+{
+    // draw
+    pixImage = QPixmap::fromImage(theImage);
+    //scale image
+    pixImageZoomed = pixImage.scaled(275, 275,
+                                           Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    //add pixmap to scene
+    //Adds zoomed pixel map of image to the QGraphicsScene
+    pixMap = theScene->addPixmap(pixImageZoomed);
+    this->update();
+}
+
+

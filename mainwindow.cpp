@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <slideview.h>
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -20,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
 
+    connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
+    connect(this, &MainWindow::redoSignal, theView, &SlideView::redoSlot);
 }
 
 MainWindow::~MainWindow()
@@ -33,3 +36,17 @@ void MainWindow::on_LineButton_clicked()
 
 }
 
+// bring back the image that the user made after they released the mouse
+void MainWindow::on_actionUndo_triggered()
+{
+    qDebug()<< "undoSignal starts";
+    emit undoSignal();
+     qDebug() << "undoSignal done";
+
+}
+
+void MainWindow::on_actionRedo_triggered()
+{
+
+    emit redoSignal();
+}

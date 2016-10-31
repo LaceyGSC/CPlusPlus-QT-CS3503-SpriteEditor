@@ -9,8 +9,7 @@
 class Project
 {
     std::string fileName;
-    std::stack<QObject> undo;
-    std::stack<QObject> redo;
+
     //if current implementation doesn't work use pointer or references
     std::list<Frame> framesList;
     //const int WIDTH;
