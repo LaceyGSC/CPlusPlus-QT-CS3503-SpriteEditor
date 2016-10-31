@@ -93,7 +93,6 @@ QImage SlideView::getImage()
 void SlideView::mouseMoveEvent( QMouseEvent* event)
 {
 
-
     if(drawing)
     {
         if(theTool == test){
@@ -420,41 +419,9 @@ void SlideView::flipVerticalSlot()
     theImage = flippedImage;
     updateScene();
 
-<<<<<<< HEAD
 }
 
 
 
 
-=======
-/*
- *draws a line to Qimage
-*/
-void SlideView::drawLine(int x1, int y1, int x2, int y2){
-    QPainter line(&theImage);
-    QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    line.setPen(color);
-    QLineF drawLine(x1, y1, x2, y2);
-    line.drawLine(drawLine);
-}
-
-void SlideView::drawCirle(int x1, int y1, int w, int h){
-    QPainter paint(&theImage);
-    QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    paint.setPen(color);
-    //QRect circle(x1, y1, w, h);
-    paint.drawEllipse(x1, y1, w - x1, h - y1);
-}
-
-void SlideView::drawSquare(int x1, int y1, int w, int h){
-    QPainter paint(&theImage);
-    QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    paint.setPen(color);
-    //QRect circle(x1, y1, w, h);
-    paint.drawRect(x1, y1, w - x1, h - y1);
-}
->>>>>>> parent of 4b1783c... fill rectangle
 
