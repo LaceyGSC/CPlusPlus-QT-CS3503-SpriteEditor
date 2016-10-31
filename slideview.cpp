@@ -178,7 +178,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
 
     //qDebug() << event->pos();
-}
+
 
 
 
@@ -339,20 +339,6 @@ void SlideView::rotateLeftSlot()
         // before drawing, save the current image for undo
         undoStack.push(theImage.copy());
 
-        drawing = true;
-        //get the x and y coordinates of the pixel
-        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
-        //std::cout<<drawingX<<" "<<drawingY<<std::endl;
-        QPainter paint(&theImage);
-        QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-        paint.setPen(color);
-        paint.drawRect(pix);
-        //add Qimage to pix map
-        pixImage = QPixmap::fromImage(theImage);
-        //scale image
-        pixImageZoomed = pixImage.scaled(275, 275,
-                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
         //add pixmap to scene
 
     theImage = flippedImage;
@@ -438,6 +424,5 @@ void SlideView::flipVerticalSlot()
 
 
 
-   // qDebug() << event->pos();
-}
+
 
