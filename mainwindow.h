@@ -45,6 +45,7 @@ private slots:
 
     void on_checkBox_stateChanged(int arg1);
 
+
 signals:
     void undoSignal();
     void redoSignal();
