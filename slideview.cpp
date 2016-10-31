@@ -493,6 +493,10 @@ void SlideView::drawCirle(int x1, int y1, int w, int h)
     pen.setWidthF(scaledPixelWidth);
     paint.setPen(color);
     //QRect circle(x1, y1, w - x1, h - y1);
+    if(fillShape){
+        QBrush brush (color);
+        paint.setBrush(brush);
+    }
     paint.drawEllipse(x1, y1, w - x1, h - y1);
 
 
