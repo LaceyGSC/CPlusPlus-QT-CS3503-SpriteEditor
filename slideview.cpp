@@ -132,6 +132,26 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
         }
 
+        if(theTool == shapeCircle){
+            std::cout<<"reached move"<<std::endl;
+
+            //this->update();
+            if(!circleToDraw){
+                circleToDraw = new QGraphicsEllipseItem;
+                theScene->addItem(circleToDraw);
+                QPen pen(Qt::black);
+                pen.setWidth(4);
+                //pen.setWidth(10);
+                circleToDraw->setPen(pen);
+                //itemToDraw->setPos(origPoint);
+            }
+            circleToDraw->
+                    setRect(origPoint.x(), origPoint.y(), event->pos().x() - origPoint.x(),
+                            event->pos().y() - origPoint.y());
+
+
+        }
+
 
     }
 
@@ -184,12 +204,12 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
             this->update();
         }
-        if(theTool == shapeLine){
-            std::cout<<"reached clicked"<<std::endl;
-            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
-            origPoint = event->pos();
-        }
+
+        std::cout<<"reached clicked"<<std::endl;
+        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+        origPoint = event->pos();
+
     }
 }
 
@@ -211,7 +231,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
     {
         drawing = false;
 
-        if(theTool = shapeLine){
+        if(theTool == shapeLine){
             int x2 = event->pos().x()/(theScene->width()/pixelWidth);
             int y2 = event->pos().y()/(theScene->height()/pixelHeight);
 
@@ -225,7 +245,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
             //delete itemToDraw;
         }
 
-        if(theTool = shapeCircle){
+        if(theTool == shapeCircle){
             int x2 = event->pos().x()/(theScene->width()/pixelWidth);
             int y2 = event->pos().y()/(theScene->height()/pixelHeight);
 
@@ -258,7 +278,11 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 void SlideView::setTool(std::string tool) {
     if(tool == "line"){
         theTool = shapeLine;
-        std::cout<<"reached setTool"<<std::endl;
+        //std::cout<<"reached setTool"<<std::endl;
+    }
+    if(tool == "circle"){
+        theTool = shapeCircle;
+        //std::cout<<"reached setTool"<<std::endl;
     }
 }
 
@@ -428,12 +452,21 @@ void SlideView::drawLine(int x1, int y1, int x2, int y2){
     line.drawLine(drawLine);
 }
 
-void SlideView::drawCirle(int x1, int y1, int w){
+void SlideView::drawCirle(int x1, int y1, int w, int h){
     QPainter paint(&theImage);
     QPen pen(color);
     pen.setWidthF(scaledPixelWidth);
     paint.setPen(color);
-    QRect circle(x1, y1, w, w);
-    paint.drawEllipse(circle);
+    //QRect circle(x1, y1, w, h);
+    paint.drawEllipse(x1, y1, w - x1, h - y1);
+}
+
+void SlideView::drawSquare(int x1, int y1, int w, int h){
+    QPainter paint(&theImage);
+    QPen pen(color);
+    pen.setWidthF(scaledPixelWidth);
+    paint.setPen(color);
+    //QRect circle(x1, y1, w, h);
+    paint.drawRect(x1, y1, w - x1, h - y1);
 }
 

@@ -39,6 +39,8 @@ private slots:
 
     void on_FlipVertButton_clicked();
 
+    void on_CircleButton_clicked();
+
 signals:
     void undoSignal();
     void redoSignal();

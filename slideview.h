@@ -51,6 +51,7 @@ private:
 
     QPointF origPoint;
     QGraphicsLineItem* itemToDraw;
+    QGraphicsEllipseItem* circleToDraw;
 
 
 

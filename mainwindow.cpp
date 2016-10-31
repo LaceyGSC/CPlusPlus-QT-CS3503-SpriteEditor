@@ -73,3 +73,8 @@ void MainWindow::on_FlipVertButton_clicked()
 {
     emit flipVerticalSignal();
 }
+
+void MainWindow::on_CircleButton_clicked()
+{
+    theView->setTool("circle");
+}
