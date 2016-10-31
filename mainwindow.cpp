@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     theView = new SlideView(view);
 
+    theView->setFill(false);
+
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
 
@@ -83,7 +85,6 @@ void MainWindow::on_SquareButton_clicked()
 {
     theView->setTool("rect");
 }
-<<<<<<< HEAD
 
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
@@ -95,5 +96,3 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
     }
 
 }
-=======
->>>>>>> parent of 4b1783c... fill rectangle
