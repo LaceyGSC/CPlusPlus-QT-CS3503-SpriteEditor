@@ -83,6 +83,7 @@ void MainWindow::on_SquareButton_clicked()
 {
     theView->setTool("rect");
 }
+<<<<<<< HEAD
 
 void MainWindow::on_checkBox_stateChanged(int arg1)
 {
@@ -94,4 +95,5 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
     }
 
 }
-
+=======
+>>>>>>> parent of 4b1783c... fill rectangle
