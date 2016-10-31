@@ -213,10 +213,6 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
     if(event->button() == Qt::LeftButton)
     {
         drawing = false;
-
-        // save the current image for undo
-        //undoStack.push(theImage.copy());
-
     }
 
 
