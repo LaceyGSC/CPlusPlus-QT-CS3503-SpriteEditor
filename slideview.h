@@ -47,6 +47,10 @@ private:
     void updateScene();
 
     void drawLine(int x1, int y1, int x2, int y2);
+    void drawCirle(int x1, int y1, int w, int h);
+
+    QPointF origPoint;
+    QGraphicsLineItem* itemToDraw;
 
 
 

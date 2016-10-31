@@ -14,7 +14,7 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     //Creates the default opacity value and background color for the QGraphicScene
     //opacity: Set this between 0-255, 0 is transparent
     //int opacity = 255;//
-    QBrush brush(QColor(0, 0, 0, 200));
+    QBrush brush(QColor(128, 128, 128, 255));
     QPainter painty(&theImage);
     //Make alpha channel
     QRgb value = qRgba(0, 0, 0, 0);
@@ -116,28 +116,19 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
         }
         if(theTool == shapeLine){
             std::cout<<"reached move"<<std::endl;
-            int x2 = event->pos().x()/(theScene->width()/pixelWidth);
-            int y2 = event->pos().y()/(theScene->height()/pixelHeight);
 
-            drawLine(drawingX, drawingY, x2, y2);
-
-            pixImage = QPixmap::fromImage(theImage);
-            //scale image
-            pixImageZoomed = pixImage.scaled(275, 275,
-                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
-            //add pixmap to scene
-
-            pixMap->setPixmap(pixImageZoomed);
             //this->update();
             if(!itemToDraw){
                 itemToDraw = new QGraphicsLineItem;
-                this->addItem(itemToDraw);
-                itemToDraw->setPen(QPen(Qt::black, 3, Qt::SolidLine));
-                itemToDraw->setPos(origPoint);
+                theScene->addItem(itemToDraw);
+                QPen pen(Qt::black);
+                pen.setWidth(4);
+                //pen.setWidth(10);
+                itemToDraw->setPen(pen);
+                //itemToDraw->setPos(origPoint);
             }
-            itemToDraw->setLine(0,0,
-                                event->scenePos().x() - origPoint.x(),
-                                event->scenePos().y() - origPoint.y());
+            itemToDraw->setLine(event->pos().x(), event->pos().y(), origPoint.x(), origPoint.y());
+
 
         }
 
@@ -197,7 +188,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
             std::cout<<"reached clicked"<<std::endl;
             drawingX = event->pos().x()/(theScene->width()/pixelWidth);
             drawingY = event->pos().y()/(theScene->height()/pixelHeight);
-            origPoint = event->scenePos();
+            origPoint = event->pos();
         }
     }
 }
@@ -219,6 +210,37 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
     if(event->button() == Qt::LeftButton)
     {
         drawing = false;
+
+        if(theTool = shapeLine){
+            int x2 = event->pos().x()/(theScene->width()/pixelWidth);
+            int y2 = event->pos().y()/(theScene->height()/pixelHeight);
+
+            drawLine(drawingX, drawingY, x2, y2);
+
+            updateScene();
+
+            //theScene->setBackgroundBrush(QColor(128, 128, 128, 255));
+            //theScene->setForegroundBrush(QColor(128, 128, 128, 255));
+            //theScene->removeItem(itemToDraw);
+            //delete itemToDraw;
+        }
+
+        if(theTool = shapeCircle){
+            int x2 = event->pos().x()/(theScene->width()/pixelWidth);
+            int y2 = event->pos().y()/(theScene->height()/pixelHeight);
+
+            drawCirle(drawingX, drawingY, x2, y2);
+
+            updateScene();
+
+            //theScene->setBackgroundBrush(QColor(128, 128, 128, 255));
+            //theScene->setForegroundBrush(QColor(128, 128, 128, 255));
+            //theScene->removeItem(itemToDraw);
+            //delete itemToDraw;
+        }
+
+
+
 
         // save the current image for undo
         //undoStack.push(theImage.copy());
@@ -394,6 +416,9 @@ void SlideView::flipVerticalSlot()
     updateScene();
 }
 
+/*
+ *draws a line to Qimage
+*/
 void SlideView::drawLine(int x1, int y1, int x2, int y2){
     QPainter line(&theImage);
     QPen pen(color);
@@ -401,8 +426,14 @@ void SlideView::drawLine(int x1, int y1, int x2, int y2){
     line.setPen(color);
     QLineF drawLine(x1, y1, x2, y2);
     line.drawLine(drawLine);
+}
 
-
-
+void SlideView::drawCirle(int x1, int y1, int w){
+    QPainter paint(&theImage);
+    QPen pen(color);
+    pen.setWidthF(scaledPixelWidth);
+    paint.setPen(color);
+    QRect circle(x1, y1, w, w);
+    paint.drawEllipse(circle);
 }
 
