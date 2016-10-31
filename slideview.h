@@ -19,6 +19,7 @@ public:
     explicit SlideView(QGraphicsView *parent = 0);
     QImage getImage();
     void setTool(std::string tool);
+    void setFill(bool fill);
 
 private:
     QImage theImage = QImage(32,32,QImage::Format_ARGB32);
@@ -39,6 +40,8 @@ private:
     enum tools {test, pen, paintBrush, erase, shapeLine, shapeCircle, shapeSquare};
     tools theTool;
 
+    bool fillShape;
+
     const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
 
     //Undo-redo features
@@ -57,14 +60,6 @@ private:
 
 
 
-
-
-    const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
-
-    //Undo-redo features
-    std::stack<QImage> undoStack;
-    std::stack<QImage> redoStack;
-    void updateScene();
 
 
 
