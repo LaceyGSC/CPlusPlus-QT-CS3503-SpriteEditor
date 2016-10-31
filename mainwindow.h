@@ -47,6 +47,8 @@ private slots:
 
     void on_checkBox_2_stateChanged(int arg1);
 
+    void on_PenButton_clicked();
+
 signals:
     void undoSignal();
     void redoSignal();

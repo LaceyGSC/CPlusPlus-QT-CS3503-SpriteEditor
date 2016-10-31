@@ -6,7 +6,7 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 {
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
     //Failure to create new here causes fatal crash in mouse events
-    theTool = test;
+    theTool = pen;
     theScene  =  new QGraphicsScene(this);
     drawing = false;
 
@@ -14,11 +14,12 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     //Creates the default opacity value and background color for the QGraphicScene
     //opacity: Set this between 0-255, 0 is transparent
     //int opacity = 255;//
-    QBrush brush(QColor(128, 128, 128, 255));
+    QBrush brush2(QColor(128, 128, 128, 255));
+    QBrush brush(QColor(0, 0, 0, 0));
     QPainter painty(&theImage);
     //Make alpha channel
-    QRgb value = qRgba(0, 0, 0, 0);
-    painty.fillRect(0,0, pixelWidth, pixelHeight, value);
+    //QRgb value = qRgba(0, 0, 0, 0);
+    painty.fillRect(0,0, pixelWidth, pixelHeight, brush);
 
     //get height and width of Qimage
     pixelHeight = theImage.height();
@@ -46,7 +47,7 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 
     //Sets the view size and background color for QGraphicScene
     theScene->setSceneRect(pixImageZoomed.rect());
-    theScene->setBackgroundBrush(brush);
+    theScene->setBackgroundBrush(brush2);
 
 
     //Sets values for the QGraphicsView class
@@ -96,7 +97,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
     if(drawing)
     {
-        if(theTool == test){
+        if(theTool == pen){
             drawingX = event->pos().x()/(theScene->width()/pixelWidth);
             drawingY = event->pos().y()/(theScene->height()/pixelHeight);
 
@@ -200,7 +201,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
     if (event->button() == Qt::LeftButton)
     {
         drawing = true;
-        if(theTool == test){
+        if(theTool == pen){
             // before drawing, save the current image for undo
             undoStack.push(theImage.copy());
 
@@ -316,6 +317,9 @@ void SlideView::setTool(std::string tool) {
     }
     if(tool == "rect"){
         theTool = shapeSquare;
+    }
+    if(tool == "pen"){
+        theTool = pen;
     }
 }
 

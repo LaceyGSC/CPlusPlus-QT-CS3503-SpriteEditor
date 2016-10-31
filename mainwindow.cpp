@@ -84,6 +84,7 @@ void MainWindow::on_CircleButton_clicked()
 void MainWindow::on_SquareButton_clicked()
 {
     theView->setTool("rect");
+    //ui->SquareButton->
 }
 
 //DO NOT DELETE CODE BREAKS IF DELETED
@@ -103,4 +104,9 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
         theView->setFill(true);
     }
 
+}
+
+void MainWindow::on_PenButton_clicked()
+{
+    theView->setTool("pen");
 }
