@@ -1,5 +1,5 @@
 #include "slideview.h"
-
+#include <math.h>
 
 SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 {
@@ -223,6 +223,9 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
    // qDebug() << event->pos();
 }
 
+/**
+ * Sets the scene back to the last time before any image modifying event took place: drawing, rotating, flipping, etc.
+ */
 void SlideView::undoSlot()
 {
     if (undoStack.empty())
@@ -230,16 +233,17 @@ void SlideView::undoSlot()
         return;
     }
 
-   //qDebug() << "start slot";
-   redoStack.push(theImage);  // theImage.copy()
-   theImage = undoStack.top();//.copy();
+   redoStack.push(theImage);
+   theImage = undoStack.top();
    undoStack.pop();
 
     updateScene();
 
-   //qDebug() << "end slot";
 }
 
+/**
+ * Sets the image back to the last time the user selected undo
+ */
 void SlideView::redoSlot()
 {
     if (redoStack.empty())
@@ -269,4 +273,104 @@ void SlideView::updateScene()
     this->update();
 }
 
+
+/**
+ * Rotates the image to the left 90 degrees
+ */
+void SlideView::rotateLeftSlot()
+{
+    undoStack.push(theImage);
+    QImage flippedImage = QImage(IMAGE_SIZE,IMAGE_SIZE,QImage::Format_ARGB32);
+
+    // this is the algorithm was a trial and error for rotating left.  Somehow the rotating left algorithm doesn't work
+    for (int row = 0; row < IMAGE_SIZE; row++)
+    {
+        for (int col = IMAGE_SIZE-1, flipCol = 0; col >= 0; col--, flipCol++)
+        {
+            //QRgb pix = theImage.pixel(row, col);
+            //flippedImage.setPixel(row, flipCol, pix);
+            QRgb pix = theImage.pixel(col, row);
+            flippedImage.setPixel(row, flipCol, pix);
+        }
+    }
+
+    theImage = flippedImage;
+    updateScene();
+}
+
+
+/**
+ * Rotates the image to the right 90 degrees
+ */
+void SlideView::rotateRightSlot()
+{
+    undoStack.push(theImage);
+
+    QImage rotatedImage = QImage(IMAGE_SIZE,IMAGE_SIZE,QImage::Format_ARGB32);
+
+    // this is the algorithm for rotating left, but somehow our picture comes out rotated right.
+
+    for (int row = 0; row < IMAGE_SIZE; row++)
+    {
+        for (int col = IMAGE_SIZE-1, leftRow = 0; col >= 0; col--, leftRow++)
+        {
+            QRgb pix = theImage.pixel(row,col);
+            rotatedImage.setPixel(leftRow, row, pix);
+            qDebug() << "rotatedLeftImg: " << leftRow << " " << row;
+            qDebug() << "image: " << row << " " << col;
+        }
+    }
+
+    theImage = rotatedImage;
+
+    updateScene();
+}
+
+
+/**
+ * Flips the image horizontally
+ */
+void SlideView::flipHorizontalSlot()
+{
+    undoStack.push(theImage);
+    QImage rotatedImage = QImage(IMAGE_SIZE,IMAGE_SIZE,QImage::Format_ARGB32);
+
+    // this algorithm is to rotate the image 90 degrees right, but somehow the image comes out flipped horizontal
+
+    for (int row = 0, rotateCol = IMAGE_SIZE-1; row < IMAGE_SIZE; row++, rotateCol--)
+    {
+        for (int col = 0; col < IMAGE_SIZE; col++)
+        {
+            QRgb pix = theImage.pixel(row, col);
+            rotatedImage.setPixel(rotateCol, col, pix);
+        }
+    }
+
+    theImage = rotatedImage;
+
+    updateScene();
+}
+
+
+/**
+ * Flips the image vertically
+ */
+void SlideView::flipVerticalSlot()
+{
+    undoStack.push(theImage);
+    QImage flippedImage = QImage(IMAGE_SIZE,IMAGE_SIZE,QImage::Format_ARGB32);
+
+    // this is the algorithm was for flipping horizontally, but somehow the image came out flipped vertically.
+    for (int row = 0; row < IMAGE_SIZE; row++)
+    {
+        for (int col = IMAGE_SIZE-1, flipCol = 0; col >= 0; col--, flipCol++)
+        {
+            QRgb pix = theImage.pixel(row, col);
+            flippedImage.setPixel(row, flipCol, pix);
+        }
+    }
+
+    theImage = flippedImage;
+    updateScene();
+}
 

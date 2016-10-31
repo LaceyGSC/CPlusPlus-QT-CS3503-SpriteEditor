@@ -30,9 +30,21 @@ private slots:
 
     void on_actionRedo_triggered();
 
+    void on_RotateLeftButton_clicked();
+
+    void on_RotateRightButton_clicked();
+
+    void on_FlipHorzButton_clicked();
+
+    void on_FlipVertButton_clicked();
+
 signals:
     void undoSignal();
     void redoSignal();
+    void rotateLeftSignal();
+    void rotateRightSignal();
+    void flipHorizontalSignal();
+    void flipVerticalSignal();
 
 protected:
 

@@ -35,6 +35,8 @@ private:
     //the types of tool we use to edit pixels
     enum tool {pen, paintBrush, erase, shapeLine, shapeCircle, shapeSquare};
 
+    const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
+
     //Undo-redo features
     std::stack<QImage> undoStack;
     std::stack<QImage> redoStack;
@@ -52,6 +54,10 @@ signals:
 public slots:
     void undoSlot();
     void redoSlot();
+    void rotateLeftSlot();
+    void rotateRightSlot();
+    void flipHorizontalSlot();
+    void flipVerticalSlot();
 };
 
 #endif // SLIDEVIEW_H
