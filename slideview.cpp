@@ -260,7 +260,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 
             updateScene();
 
-            itemToDraw->setPen(QColor(128, 128, 128, 255));
+            itemToDraw->setPen(QColor(128, 128, 128, 0));
             itemToDraw = 0;
 
 
@@ -273,7 +273,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
             drawCirle(drawingX, drawingY, x2, y2);
 
             updateScene();
-            circleToDraw->setPen(QColor(128, 128, 128, 255));
+            circleToDraw->setPen(QColor(128, 128, 128, 0));
             circleToDraw = 0;
 
 
@@ -285,7 +285,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
             drawSquare(drawingX, drawingY, x2, y2);
 
             updateScene();
-            SquareToDraw->setPen(QColor(128, 128, 128, 255));
+            SquareToDraw->setPen(QColor(128, 128, 128, 0));
             SquareToDraw = 0;
         }
 
@@ -372,7 +372,7 @@ void SlideView::updateScene()
 
     //add pixmap to scene
     //Adds zoomed pixel map of image to the QGraphicsScene
-    pixMap = theScene->addPixmap(pixImageZoomed);
+    pixMap->setPixmap(pixImageZoomed);
     this->update();
 }
 
