@@ -1,12 +1,15 @@
 #include "slideview.h"
 #include <math.h>
 
+
 SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 {
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
     //Failure to create new here causes fatal crash in mouse events
+    theTool = test;
     theScene  =  new QGraphicsScene(this);
     drawing = false;
+
 
     //Creates the default opacity value and background color for the QGraphicScene
     //opacity: Set this between 0-255, 0 is transparent
@@ -20,6 +23,7 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     //get height and width of Qimage
     pixelHeight = theImage.height();
     pixelWidth = theImage.width();
+
     //color for testing
 
     color = qRgba(0, 255, 0, 0);
@@ -44,9 +48,14 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
     theScene->setSceneRect(pixImageZoomed.rect());
     theScene->setBackgroundBrush(brush);
 
+
     //Sets values for the QGraphicsView class
     //CURRENT BUG: Scaling not needed for hard coded size values, replace when sizing supported.
     this->setScene(theScene);
+
+    //scaled the width for drawing
+    scaledPixelWidth = 1/(theScene->height()/pixelHeight);
+
     //this->scale(.823, .823);
     this->setMouseTracking(true);
 }
@@ -84,42 +93,30 @@ QImage SlideView::getImage()
  * */
 void SlideView::mouseMoveEvent( QMouseEvent* event)
 {
-   /*This is probably where a lot of the drawing methods could go
-    * Tried to add, but my understading of the Q Graphics interactions isn't great
-    * So will let someone else add
-    * */
-    //QRectF rect(pos().x(), )
-    /*if(MousPessed){
-        QPainter paint(theImage);
-        paint.drawLine(startPos, event->pos());
-
-        pixImage = QPixmap::fromImage(*theImage);
-        pixImageZoomed = pixImage.scaled(275, 275,
-                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
-        pixMap->setPixmap(pixImageZoomed);
-
-    }*/
-
-
 
     if(drawing)
     {
-        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+        if(theTool == test){
+            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
 
-        QPainter paint(&theImage);
-        QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-        paint.setPen(color);
-        paint.drawRect(pix);
-        //add Qimage to pix map
-        pixImage = QPixmap::fromImage(theImage);
-        //scale image
-        pixImageZoomed = pixImage.scaled(275, 275,
+            QPainter paint(&theImage);
+            QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+            paint.setPen(color);
+            paint.drawRect(pix);
+            //add Qimage to pix map
+            pixImage = QPixmap::fromImage(theImage);
+            //scale image
+            pixImageZoomed = pixImage.scaled(275, 275,
                                                Qt::IgnoreAspectRatio, Qt::FastTransformation);
-        //add pixmap to scene
+            //add pixmap to scene
 
-        pixMap->setPixmap(pixImageZoomed);
-        this->update();
+            pixMap->setPixmap(pixImageZoomed);
+            this->update();
+        }
+        if(theTool == shapeLine){
+
+        }
 
 
     }
@@ -145,54 +142,37 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
  * */
 void SlideView::mousePressEvent( QMouseEvent* event)
 {
-    /*
-    //make a painter
-    QPainter painty(&theImage);
-    //get pixel Position with mouse click
-    int w = event->pos().x()/(theScene->width()/pixelWidth);
-    int h = event->pos().y()/(theScene->height()/pixelHeight);
-    //for testing
-    std::cout<<w<<" "<< h<<std::endl;
-    //set up the pixel w and h are the pixel positions the next two values are how big the the pixels need to be
-    QRectF pix(w, h, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-    //set color for testing
-    painty.setPen(Qt::blue);
-    //draw the pixel
-    painty.drawRect(pix);
-    //add Qimage to pix map
-    pixImage = QPixmap::fromImage(theImage);
-    //scale image
-    pixImageZoomed = pixImage.scaled(275, 275,
-                                           Qt::IgnoreAspectRatio, Qt::FastTransformation);
-    //add pixmap to scene
 
-    pixMap->setPixmap(pixImageZoomed);
-    //this->update();
-    */
     if (event->button() == Qt::LeftButton)
     {
-        // before drawing, save the current image for undo
-        undoStack.push(theImage.copy());
+        if(theTool == test){
+            // before drawing, save the current image for undo
+            undoStack.push(theImage.copy());
 
-        drawing = true;
-        //get the x and y coordinates of the pixel
-        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
-        //std::cout<<drawingX<<" "<<drawingY<<std::endl;
-        QPainter paint(&theImage);
-        QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-        paint.setPen(color);
-        paint.drawRect(pix);
-        //add Qimage to pix map
-        pixImage = QPixmap::fromImage(theImage);
-        //scale image
-        pixImageZoomed = pixImage.scaled(275, 275,
-                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
-        //add pixmap to scene
+            drawing = true;
+            //get the x and y coordinates of the pixel
+            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+            //std::cout<<drawingX<<" "<<drawingY<<std::endl;
+            QPainter paint(&theImage);
+            QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+            paint.setPen(color);
+            paint.drawRect(pix);
+            //add Qimage to pix map
+            pixImage = QPixmap::fromImage(theImage);
+            //scale image
+            pixImageZoomed = pixImage.scaled(275, 275,
+                                                   Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            //add pixmap to scene
 
-        pixMap->setPixmap(pixImageZoomed);
+            pixMap->setPixmap(pixImageZoomed);
 
-        this->update();
+            this->update();
+        }
+        if(theTool == shapeLine){
+            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+        }
     }
 }
 
@@ -221,6 +201,15 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 
 
    // qDebug() << event->pos();
+}
+
+/*
+ * Set what tool will be used in Qt
+ */
+void SlideView::setTool(std::string tool) {
+    if(tool == "line"){
+        theTool = shapeLine;
+    }
 }
 
 /**
@@ -375,5 +364,17 @@ void SlideView::flipVerticalSlot()
 
     theImage = flippedImage;
     updateScene();
+}
+
+void SlideView::drawLine(int x1, int y1, int x2, int y2){
+    QPainter line(&theImage);
+    QPen pen(color);
+    pen.setWidthF(scaledPixelWidth);
+    line.setPen(color);
+    QLineF drawLine(x1, y1, x2, y2);
+    line.drawLine(drawLine);
+
+
+
 }
 

@@ -8,6 +8,7 @@
 #include <project.h>
 #include <QGraphicsPixmapItem>
 #include <QImage>
+#include "slideview.h"
 
 namespace Ui {
 class MainWindow;
@@ -52,6 +53,7 @@ private:
     Ui::MainWindow *ui;
     Project project;
     Frame firstFrame;
+    SlideView* theView;
 
     //QImage firstFrame(10, 10, QImage::Format_ARGB32);
 

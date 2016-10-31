@@ -10,6 +10,7 @@
 #include <QPixmap>
 #include <iostream>
 #include <stack>
+#include <string>
 
 class SlideView : public QGraphicsView
 {
@@ -17,6 +18,7 @@ class SlideView : public QGraphicsView
 public:
     explicit SlideView(QGraphicsView *parent = 0);
     QImage getImage();
+    void setTool(std::string tool);
 
 private:
     QImage theImage = QImage(32,32,QImage::Format_ARGB32);
@@ -32,8 +34,10 @@ private:
     QRgb color;
     int drawingY;
     int drawingX;
+    double scaledPixelWidth;
     //the types of tool we use to edit pixels
-    enum tool {pen, paintBrush, erase, shapeLine, shapeCircle, shapeSquare};
+    enum tools {test, pen, paintBrush, erase, shapeLine, shapeCircle, shapeSquare};
+    tools theTool;
 
     const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
 
@@ -42,12 +46,15 @@ private:
     std::stack<QImage> redoStack;
     void updateScene();
 
+    void drawLine(int x1, int y1, int x2, int y2);
+
 
 
 protected:
     virtual void mouseMoveEvent( QMouseEvent* event);
     virtual void mousePressEvent( QMouseEvent* event);
     virtual void mouseReleaseEvent( QMouseEvent* event);
+
     //virtual void mouseDoubleClickEvent(QMouseEvent *event);
 
 signals:

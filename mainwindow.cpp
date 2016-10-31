@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     view = new QGraphicsView();
 
     //Creates a slide view: extended qGraphicsView with view as its parent
-    SlideView* theView;
+
     theView = new SlideView(view);
 
     //Adds a the extended slideview to the layout for frame_2
@@ -36,7 +36,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_LineButton_clicked()
 {
-
+    std::string line = "line";
+    theView->setTool(line);
 
 }
 
