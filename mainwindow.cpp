@@ -78,3 +78,8 @@ void MainWindow::on_CircleButton_clicked()
 {
     theView->setTool("circle");
 }
+
+void MainWindow::on_SquareButton_clicked()
+{
+    theView->setTool("rect");
+}

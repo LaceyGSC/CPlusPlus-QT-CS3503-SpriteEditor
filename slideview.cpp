@@ -121,7 +121,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             if(!itemToDraw){
                 itemToDraw = new QGraphicsLineItem;
                 theScene->addItem(itemToDraw);
-                QPen pen(Qt::black);
+                QPen pen(color);
                 pen.setWidth(4);
                 //pen.setWidth(10);
                 itemToDraw->setPen(pen);
@@ -139,13 +139,33 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             if(!circleToDraw){
                 circleToDraw = new QGraphicsEllipseItem;
                 theScene->addItem(circleToDraw);
-                QPen pen(Qt::black);
+                QPen pen(color);
                 pen.setWidth(4);
                 //pen.setWidth(10);
                 circleToDraw->setPen(pen);
                 //itemToDraw->setPos(origPoint);
             }
             circleToDraw->
+                    setRect(origPoint.x(), origPoint.y(), event->pos().x() - origPoint.x(),
+                            event->pos().y() - origPoint.y());
+
+
+        }
+
+        if(theTool == shapeSquare){
+            std::cout<<"reached move"<<std::endl;
+
+            //this->update();
+            if(!SquareToDraw){
+                SquareToDraw = new QGraphicsRectItem;
+                theScene->addItem(SquareToDraw);
+                QPen pen(color);
+                pen.setWidth(4);
+                //pen.setWidth(10);
+                SquareToDraw->setPen(pen);
+                //itemToDraw->setPos(origPoint);
+            }
+            SquareToDraw->
                     setRect(origPoint.x(), origPoint.y(), event->pos().x() - origPoint.x(),
                             event->pos().y() - origPoint.y());
 
@@ -239,25 +259,35 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 
             updateScene();
 
-            //theScene->setBackgroundBrush(QColor(128, 128, 128, 255));
-            //theScene->setForegroundBrush(QColor(128, 128, 128, 255));
-            //theScene->removeItem(itemToDraw);
-            //delete itemToDraw;
+            itemToDraw->setPen(QColor(128, 128, 128, 255));
+            itemToDraw = 0;
+
+
         }
 
-        if(theTool == shapeCircle){
+        else if(theTool == shapeCircle){
             int x2 = event->pos().x()/(theScene->width()/pixelWidth);
             int y2 = event->pos().y()/(theScene->height()/pixelHeight);
 
             drawCirle(drawingX, drawingY, x2, y2);
 
             updateScene();
+            circleToDraw->setPen(QColor(128, 128, 128, 255));
+            circleToDraw = 0;
 
-            //theScene->setBackgroundBrush(QColor(128, 128, 128, 255));
-            //theScene->setForegroundBrush(QColor(128, 128, 128, 255));
-            //theScene->removeItem(itemToDraw);
-            //delete itemToDraw;
+
         }
+        else if(theTool == shapeSquare){
+            int x2 = event->pos().x()/(theScene->width()/pixelWidth);
+            int y2 = event->pos().y()/(theScene->height()/pixelHeight);
+
+            drawSquare(drawingX, drawingY, x2, y2);
+
+            updateScene();
+            SquareToDraw->setPen(QColor(128, 128, 128, 255));
+            SquareToDraw = 0;
+        }
+
 
 
 
@@ -283,6 +313,9 @@ void SlideView::setTool(std::string tool) {
     if(tool == "circle"){
         theTool = shapeCircle;
         //std::cout<<"reached setTool"<<std::endl;
+    }
+    if(tool == "rect"){
+        theTool = shapeSquare;
     }
 }
 

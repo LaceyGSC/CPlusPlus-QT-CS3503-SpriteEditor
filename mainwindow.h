@@ -41,6 +41,8 @@ private slots:
 
     void on_CircleButton_clicked();
 
+    void on_SquareButton_clicked();
+
 signals:
     void undoSignal();
     void redoSignal();
