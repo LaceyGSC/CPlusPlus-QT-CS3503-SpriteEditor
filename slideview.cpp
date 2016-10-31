@@ -259,7 +259,6 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
             drawLine(drawingX, drawingY, x2, y2);
 
             updateScene();
-
             itemToDraw->setPen(QColor(128, 128, 128, 0));
             itemToDraw = 0;
 
@@ -286,7 +285,10 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 
             updateScene();
             SquareToDraw->setPen(QColor(128, 128, 128, 0));
-            SquareToDraw = 0;
+
+            SquareToDraw->setPen(QColor(128, 128, 128, 0));
+            //SquareToDraw->setBrush(QColor(128, 128, 128, 255));
+
         }
 
 
@@ -373,8 +375,10 @@ void SlideView::updateScene()
     //add pixmap to scene
     //Adds zoomed pixel map of image to the QGraphicsScene
     pixMap->setPixmap(pixImageZoomed);
+    //pixMap = theScene->addPixmap(pixImageZoomed);
     this->update();
 }
+
 
 
 /**
@@ -397,7 +401,7 @@ void SlideView::rotateLeftSlot()
         }
     }
 
-    theImage = flippedImage;
+    theImage = flippedImage.copy();
     updateScene();
 }
 
@@ -424,7 +428,7 @@ void SlideView::rotateRightSlot()
         }
     }
 
-    theImage = rotatedImage;
+    theImage = rotatedImage.copy();
 
     updateScene();
 }
@@ -449,7 +453,7 @@ void SlideView::flipHorizontalSlot()
         }
     }
 
-    theImage = rotatedImage;
+    theImage = rotatedImage.copy();
 
     updateScene();
 }
@@ -473,7 +477,7 @@ void SlideView::flipVerticalSlot()
         }
     }
 
-    theImage = flippedImage;
+    theImage = flippedImage.copy();
     updateScene();
 }
 
