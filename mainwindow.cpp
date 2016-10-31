@@ -38,6 +38,7 @@ void MainWindow::on_LineButton_clicked()
 {
     std::string line = "line";
     theView->setTool(line);
+    std::cout<<"reached"<<std::endl;
 
 }
 

@@ -115,6 +115,29 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             this->update();
         }
         if(theTool == shapeLine){
+            std::cout<<"reached move"<<std::endl;
+            int x2 = event->pos().x()/(theScene->width()/pixelWidth);
+            int y2 = event->pos().y()/(theScene->height()/pixelHeight);
+
+            drawLine(drawingX, drawingY, x2, y2);
+
+            pixImage = QPixmap::fromImage(theImage);
+            //scale image
+            pixImageZoomed = pixImage.scaled(275, 275,
+                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            //add pixmap to scene
+
+            pixMap->setPixmap(pixImageZoomed);
+            //this->update();
+            if(!itemToDraw){
+                itemToDraw = new QGraphicsLineItem;
+                this->addItem(itemToDraw);
+                itemToDraw->setPen(QPen(Qt::black, 3, Qt::SolidLine));
+                itemToDraw->setPos(origPoint);
+            }
+            itemToDraw->setLine(0,0,
+                                event->scenePos().x() - origPoint.x(),
+                                event->scenePos().y() - origPoint.y());
 
         }
 
@@ -122,7 +145,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
     }
 
 
-    qDebug() << event->pos();
+    //qDebug() << event->pos();
 }
 
 
@@ -145,11 +168,12 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
     if (event->button() == Qt::LeftButton)
     {
+        drawing = true;
         if(theTool == test){
             // before drawing, save the current image for undo
             undoStack.push(theImage.copy());
 
-            drawing = true;
+
             //get the x and y coordinates of the pixel
             drawingX = event->pos().x()/(theScene->width()/pixelWidth);
             drawingY = event->pos().y()/(theScene->height()/pixelHeight);
@@ -170,8 +194,10 @@ void SlideView::mousePressEvent( QMouseEvent* event)
             this->update();
         }
         if(theTool == shapeLine){
+            std::cout<<"reached clicked"<<std::endl;
             drawingX = event->pos().x()/(theScene->width()/pixelWidth);
             drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+            origPoint = event->scenePos();
         }
     }
 }
@@ -200,6 +226,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
     }
 
 
+
    // qDebug() << event->pos();
 }
 
@@ -209,6 +236,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 void SlideView::setTool(std::string tool) {
     if(tool == "line"){
         theTool = shapeLine;
+        std::cout<<"reached setTool"<<std::endl;
     }
 }
 
