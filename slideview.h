@@ -48,7 +48,6 @@ private:
     std::stack<QImage> undoStack;
     std::stack<QImage> redoStack;
     void updateScene();
-    void updateShape();
 
     void drawLine(int x1, int y1, int x2, int y2);
     void drawCirle(int x1, int y1, int w, int h);
