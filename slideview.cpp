@@ -93,28 +93,6 @@ QImage SlideView::getImage()
  * */
 void SlideView::mouseMoveEvent( QMouseEvent* event)
 {
-   /*This is probably where a lot of the drawing methods could go
-    * Tried to add, but my understading of the Q Graphics interactions isn't great
-    * So will let someone else add
-    * */
-    //QRectF rect(pos().x(), )
-    /*if(MousPessed){
-        QPainter paint(theImage);
-        paint.drawLine(startPos, event->pos());
-
-        pixImage = QPixmap::fromImage(*theImage);
-        pixImageZoomed = pixImage.scaled(275, 275,
-                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
-        pixMap->setPixmap(pixImageZoomed);
-
-    }*/
-
-
-
-    if(drawing)
-    {
-        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
 
     if(drawing)
     {
@@ -196,19 +174,138 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
 
     }
-    }
 
 
     //qDebug() << event->pos();
 }
 
 
+/*
+ * mousePressEvent method:
+ * ----------------
+ * Parameters:
+ *      -QMouseEvent*
+ * Return Value:
+ *      -void
+ * ----------------
+ * Overrides parent class method
+ * Listens for mousePressEvent events
+ * Sets starting position to the QPoint of the events pos() method
+ *
+ * FOR TESTING: can change individual pixel with mous click
+ * */
+void SlideView::mousePressEvent( QMouseEvent* event)
+{
+
+    if (event->button() == Qt::LeftButton)
+    {
+        drawing = true;
+        if(theTool == test){
+            // before drawing, save the current image for undo
+            undoStack.push(theImage.copy());
+
+
+            //get the x and y coordinates of the pixel
+            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+            //std::cout<<drawingX<<" "<<drawingY<<std::endl;
+            QPainter paint(&theImage);
+            QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+            paint.setPen(color);
+            paint.drawRect(pix);
+            //add Qimage to pix map
+            pixImage = QPixmap::fromImage(theImage);
+            //scale image
+            pixImageZoomed = pixImage.scaled(275, 275,
+                                                   Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            //add pixmap to scene
+
+            pixMap->setPixmap(pixImageZoomed);
+
+            this->update();
+        }
+
+        std::cout<<"reached clicked"<<std::endl;
+        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+        origPoint = event->pos();
+
+    }
+}
+
+/*
+ * mousePressEvent method:
+ * ----------------
+ * Parameters:
+ *      -QMouseEvent*
+ * Return Value:
+ *      -void
+ * ----------------
+ * Overrides parent class method
+ * Listens for mousePressEvent events
+ * QPoint of the events pos() method is written to debug console for testing
+ * */
+void SlideView::mouseReleaseEvent( QMouseEvent* event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        drawing = false;
+
+        if(theTool == shapeLine){
+            int x2 = event->pos().x()/(theScene->width()/pixelWidth);
+            int y2 = event->pos().y()/(theScene->height()/pixelHeight);
+
+            drawLine(drawingX, drawingY, x2, y2);
+
+            updateScene();
+
+            itemToDraw->setPen(QColor(128, 128, 128, 255));
+            itemToDraw = 0;
+
+
+        }
+
+        else if(theTool == shapeCircle){
+            int x2 = event->pos().x()/(theScene->width()/pixelWidth);
+            int y2 = event->pos().y()/(theScene->height()/pixelHeight);
+
+            drawCirle(drawingX, drawingY, x2, y2);
+
+            updateScene();
+            circleToDraw->setPen(QColor(128, 128, 128, 255));
+            circleToDraw = 0;
+
+
+        }
+        else if(theTool == shapeSquare){
+            int x2 = event->pos().x()/(theScene->width()/pixelWidth);
+            int y2 = event->pos().y()/(theScene->height()/pixelHeight);
+
+            drawSquare(drawingX, drawingY, x2, y2);
+
+            updateScene();
+            SquareToDraw->setPen(QColor(128, 128, 128, 255));
+            SquareToDraw = 0;
+        }
+
+
+
+
+
+        // save the current image for undo
+        //undoStack.push(theImage.copy());
+
+    }
+
+
+
+   // qDebug() << event->pos();
+}
 
 /*
  * Set what tool will be used in Qt
  */
-void SlideView::setTool(std::string tool)
-{
+void SlideView::setTool(std::string tool) {
     if(tool == "line"){
         theTool = shapeLine;
         //std::cout<<"reached setTool"<<std::endl;
@@ -220,68 +317,6 @@ void SlideView::setTool(std::string tool)
     if(tool == "rect"){
         theTool = shapeSquare;
     }
-}
-
-/**
- * Sets the scene back to the last time before any image modifying event took place: drawing, rotating, flipping, etc.
- */
-
-
-
-
-/*
- *draws a line to Qimage
-*/
-void SlideView::drawLine(int x1, int y1, int x2, int y2)
-{
-    QPainter line(&theImage);
-    QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    line.setPen(color);
-    QLineF drawLine(x1, y1, x2, y2);
-    line.drawLine(drawLine);
-}
-
-void SlideView::drawCirle(int x1, int y1, int w, int h)
-{
-    QPainter paint(&theImage);
-    QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    paint.setPen(color);
-    if(fillShape){
-        QBrush brush(color);
-        paint.setBrush(brush);
-    }
-    //QRect circle(x1, y1, w - x1, h - y1);
-    paint.drawEllipse(x1, y1, w - x1, h - y1);
-
-
-}
-
-void SlideView::drawSquare(int x1, int y1, int w, int h)
-{
-    QPainter paint(&theImage);
-    QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    paint.setPen(color);
-    QRect rect(x1, y1, w - x1, h - y1);
-
-    if(fillShape)
-    {
-        paint.fillRect(rect, color);
-    }
-    else
-    {
-        paint.drawRect(x1, y1, w - x1, h - y1);
-    }
-
-}
-/*
-sets if the shpae needs to be filled or not
-*/
-void SlideView::setFill(bool fill){
-    fillShape = fill;
-
 }
 
 /**
@@ -436,6 +471,55 @@ void SlideView::flipVerticalSlot()
 
     theImage = flippedImage;
     updateScene();
+}
 
+/*
+ *draws a line to Qimage
+*/
+void SlideView::drawLine(int x1, int y1, int x2, int y2)
+{
+    QPainter line(&theImage);
+    QPen pen(color);
+    pen.setWidthF(scaledPixelWidth);
+    line.setPen(color);
+    QLineF drawLine(x1, y1, x2, y2);
+    line.drawLine(drawLine);
+}
+
+void SlideView::drawCirle(int x1, int y1, int w, int h)
+{
+    QPainter paint(&theImage);
+    QPen pen(color);
+    pen.setWidthF(scaledPixelWidth);
+    paint.setPen(color);
+    //QRect circle(x1, y1, w - x1, h - y1);
+    paint.drawEllipse(x1, y1, w - x1, h - y1);
+
+
+}
+
+void SlideView::drawSquare(int x1, int y1, int w, int h)
+{
+    QPainter paint(&theImage);
+    QPen pen(color);
+    pen.setWidthF(scaledPixelWidth);
+    paint.setPen(color);
+    QRect rect(x1, y1, w - x1, h - y1);
+
+    if(fillShape)
+    {
+        paint.fillRect(rect, color);
+    }
+    else
+    {
+        paint.drawRect(x1, y1, w - x1, h - y1);
+    }
+
+}
+/*
+sets if the shpae needs to be filled or not
+*/
+void SlideView::setFill(bool fill){
+    fillShape = fill;
 }
 
