@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QPixmap>
 #include <iostream>
+#include <stack>
 
 class SlideView : public QGraphicsView
 {
@@ -34,14 +35,30 @@ private:
     //the types of tool we use to edit pixels
     enum tool {pen, paintBrush, erase, shapeLine, shapeCircle, shapeSquare};
 
+    const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
+
+    //Undo-redo features
+    std::stack<QImage> undoStack;
+    std::stack<QImage> redoStack;
+    void updateScene();
+
+
+
 protected:
     virtual void mouseMoveEvent( QMouseEvent* event);
     virtual void mousePressEvent( QMouseEvent* event);
     virtual void mouseReleaseEvent( QMouseEvent* event);
+    //virtual void mouseDoubleClickEvent(QMouseEvent *event);
 
 signals:
 
 public slots:
+    void undoSlot();
+    void redoSlot();
+    void rotateLeftSlot();
+    void rotateRightSlot();
+    void flipHorizontalSlot();
+    void flipVerticalSlot();
 };
 
 #endif // SLIDEVIEW_H
