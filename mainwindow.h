@@ -43,12 +43,9 @@ private slots:
 
     void on_SquareButton_clicked();
 
-<<<<<<< HEAD
+
     void on_checkBox_stateChanged(int arg1);
 
-
-=======
->>>>>>> parent of 4b1783c... fill rectangle
 signals:
     void undoSignal();
     void redoSignal();
