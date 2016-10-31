@@ -180,10 +180,13 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> parent of 7b13288... this sucks
 =======
+=======
+>>>>>>> parent of 7b13288... this sucks
 
 >>>>>>> parent of 7b13288... this sucks
 
@@ -527,6 +530,7 @@ void SlideView::drawCirle(int x1, int y1, int w, int h)
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 
 void SlideView::drawSquare(int x1, int y1, int w, int h)
@@ -552,6 +556,9 @@ sets if the shpae needs to be filled or not
 */
 void SlideView::setFill(bool fill){
     fillShape = fill;
+=======
+   // qDebug() << event->pos();
+>>>>>>> parent of 7b13288... this sucks
 =======
    // qDebug() << event->pos();
 >>>>>>> parent of 7b13288... this sucks
