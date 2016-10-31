@@ -12,7 +12,6 @@
 #include <stack>
 #include <string>
 
-
 class SlideView : public QGraphicsView
 {
     Q_OBJECT
@@ -63,21 +62,13 @@ private:
 
 
 
-    const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
-
-    //Undo-redo features
-    std::stack<QImage> undoStack;
-    std::stack<QImage> redoStack;
-    void updateScene();
-
-
-
 protected:
     virtual void mouseMoveEvent( QMouseEvent* event);
     virtual void mousePressEvent( QMouseEvent* event);
     virtual void mouseReleaseEvent( QMouseEvent* event);
     //virtual void mouseDoubleClickEvent(QMouseEvent *event);
 
+    //virtual void mouseDoubleClickEvent(QMouseEvent *event);
 
 signals:
 

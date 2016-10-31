@@ -1,6 +1,7 @@
 #include "slideview.h"
 #include <math.h>
 
+
 SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 {
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
@@ -92,7 +93,28 @@ QImage SlideView::getImage()
  * */
 void SlideView::mouseMoveEvent( QMouseEvent* event)
 {
+   /*This is probably where a lot of the drawing methods could go
+    * Tried to add, but my understading of the Q Graphics interactions isn't great
+    * So will let someone else add
+    * */
+    //QRectF rect(pos().x(), )
+    /*if(MousPessed){
+        QPainter paint(theImage);
+        paint.drawLine(startPos, event->pos());
 
+        pixImage = QPixmap::fromImage(*theImage);
+        pixImageZoomed = pixImage.scaled(275, 275,
+                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        pixMap->setPixmap(pixImageZoomed);
+
+    }*/
+
+
+
+    if(drawing)
+    {
+        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
 
     if(drawing)
     {
@@ -327,7 +349,6 @@ void SlideView::rotateLeftSlot()
     // this is the algorithm was a trial and error for rotating left.  Somehow the rotating left algorithm doesn't work
     for (int row = 0; row < IMAGE_SIZE; row++)
     {
-
         for (int col = IMAGE_SIZE-1, flipCol = 0; col >= 0; col--, flipCol++)
         {
             //QRgb pix = theImage.pixel(row, col);
@@ -336,24 +357,6 @@ void SlideView::rotateLeftSlot()
             flippedImage.setPixel(row, flipCol, pix);
         }
     }
-        // before drawing, save the current image for undo
-        undoStack.push(theImage.copy());
-
-        drawing = true;
-        //get the x and y coordinates of the pixel
-        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
-        //std::cout<<drawingX<<" "<<drawingY<<std::endl;
-        QPainter paint(&theImage);
-        QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-        paint.setPen(color);
-        paint.drawRect(pix);
-        //add Qimage to pix map
-        pixImage = QPixmap::fromImage(theImage);
-        //scale image
-        pixImageZoomed = pixImage.scaled(275, 275,
-                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
-        //add pixmap to scene
 
     theImage = flippedImage;
     updateScene();
@@ -434,10 +437,5 @@ void SlideView::flipVerticalSlot()
     theImage = flippedImage;
     updateScene();
 
-}
-
-
-
-   // qDebug() << event->pos();
 }
 

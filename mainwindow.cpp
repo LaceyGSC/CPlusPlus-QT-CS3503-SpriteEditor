@@ -94,5 +94,4 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
     if(arg1 == 2){
         theView->setFill(true);
     }
-
 }
