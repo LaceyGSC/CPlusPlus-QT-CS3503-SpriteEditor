@@ -178,17 +178,6 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
     //qDebug() << event->pos();
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of 7b13288... this sucks
-=======
-=======
->>>>>>> parent of 7b13288... this sucks
-
->>>>>>> parent of 7b13288... this sucks
 
 
 /*
@@ -403,27 +392,6 @@ void SlideView::rotateLeftSlot()
             flippedImage.setPixel(row, flipCol, pix);
         }
     }
-<<<<<<< HEAD
-=======
-        // before drawing, save the current image for undo
-        undoStack.push(theImage.copy());
-
-        drawing = true;
-        //get the x and y coordinates of the pixel
-        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
-        //std::cout<<drawingX<<" "<<drawingY<<std::endl;
-        QPainter paint(&theImage);
-        QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-        paint.setPen(color);
-        paint.drawRect(pix);
-        //add Qimage to pix map
-        pixImage = QPixmap::fromImage(theImage);
-        //scale image
-        pixImageZoomed = pixImage.scaled(275, 275,
-                                               Qt::IgnoreAspectRatio, Qt::FastTransformation);
-        //add pixmap to scene
->>>>>>> parent of 7b13288... this sucks
 
     theImage = flippedImage;
     updateScene();
@@ -528,9 +496,6 @@ void SlideView::drawCirle(int x1, int y1, int w, int h)
     paint.drawEllipse(x1, y1, w - x1, h - y1);
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 }
 
 void SlideView::drawSquare(int x1, int y1, int w, int h)
@@ -556,14 +521,4 @@ sets if the shpae needs to be filled or not
 */
 void SlideView::setFill(bool fill){
     fillShape = fill;
-=======
-   // qDebug() << event->pos();
->>>>>>> parent of 7b13288... this sucks
-=======
-   // qDebug() << event->pos();
->>>>>>> parent of 7b13288... this sucks
-=======
-   // qDebug() << event->pos();
->>>>>>> parent of 7b13288... this sucks
 }
-
