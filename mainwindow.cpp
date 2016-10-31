@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     theView = new SlideView(view);
 
+    theView->setFill(false);
+
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
 
@@ -82,4 +84,14 @@ void MainWindow::on_CircleButton_clicked()
 void MainWindow::on_SquareButton_clicked()
 {
     theView->setTool("rect");
+}
+
+void MainWindow::on_checkBox_stateChanged(int arg1)
+{
+    if(arg1 == 0){
+        theView->setFill(false);
+    }
+    if(arg1 == 2){
+        theView->setFill(true);
+    }
 }

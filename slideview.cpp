@@ -476,7 +476,8 @@ void SlideView::flipVerticalSlot()
 /*
  *draws a line to Qimage
 */
-void SlideView::drawLine(int x1, int y1, int x2, int y2){
+void SlideView::drawLine(int x1, int y1, int x2, int y2)
+{
     QPainter line(&theImage);
     QPen pen(color);
     pen.setWidthF(scaledPixelWidth);
@@ -485,21 +486,40 @@ void SlideView::drawLine(int x1, int y1, int x2, int y2){
     line.drawLine(drawLine);
 }
 
-void SlideView::drawCirle(int x1, int y1, int w, int h){
+void SlideView::drawCirle(int x1, int y1, int w, int h)
+{
     QPainter paint(&theImage);
     QPen pen(color);
     pen.setWidthF(scaledPixelWidth);
     paint.setPen(color);
-    //QRect circle(x1, y1, w, h);
+    //QRect circle(x1, y1, w - x1, h - y1);
     paint.drawEllipse(x1, y1, w - x1, h - y1);
+
+
 }
 
-void SlideView::drawSquare(int x1, int y1, int w, int h){
+void SlideView::drawSquare(int x1, int y1, int w, int h)
+{
     QPainter paint(&theImage);
     QPen pen(color);
     pen.setWidthF(scaledPixelWidth);
     paint.setPen(color);
-    //QRect circle(x1, y1, w, h);
-    paint.drawRect(x1, y1, w - x1, h - y1);
+    QRect rect(x1, y1, w - x1, h - y1);
+
+    if(fillShape)
+    {
+        paint.fillRect(rect, color);
+    }
+    else
+    {
+        paint.drawRect(x1, y1, w - x1, h - y1);
+    }
+
+}
+/*
+sets if the shpae needs to be filled or not
+*/
+void SlideView::setFill(bool fill){
+    fillShape = fill;
 }
 

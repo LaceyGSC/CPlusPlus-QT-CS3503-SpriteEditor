@@ -43,6 +43,8 @@ private slots:
 
     void on_SquareButton_clicked();
 
+    void on_checkBox_stateChanged(int arg1);
+
 signals:
     void undoSignal();
     void redoSignal();
