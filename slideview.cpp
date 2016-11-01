@@ -200,11 +200,11 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
     if (event->button() == Qt::LeftButton)
     {
+        // before drawing, save the current image for undo
+        undoStack.push(theImage.copy());
         drawing = true;
-        if(theTool == pen){
-            // before drawing, save the current image for undo
-            undoStack.push(theImage.copy());
 
+        if(theTool == pen){
 
             //get the x and y coordinates of the pixel
             drawingX = event->pos().x()/(theScene->width()/pixelWidth);
