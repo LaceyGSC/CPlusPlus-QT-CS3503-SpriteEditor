@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+
     //Creates and empty graphicsview to act as the parent for the SlideView
     view = new QGraphicsView();
 
@@ -19,6 +21,12 @@ MainWindow::MainWindow(QWidget *parent) :
     theView = new SlideView(view);
 
     theView->setFill(false);
+
+    //set spinboxes range
+    ui->shapeWidthSlide->setRange(1, theView->getImage().width());
+    ui->paintWidthSlide->setRange(1, theView->getImage().width());
+    ui->paintWidthSpin->setRange(1, theView->getImage().width());
+    ui->shapeWidthSpin->setRange(1, theView->getImage().width());
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);

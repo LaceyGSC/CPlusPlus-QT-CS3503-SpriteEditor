@@ -177,7 +177,6 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
     }
 
 
-    //qDebug() << event->pos();
 }
 
 

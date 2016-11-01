@@ -59,7 +59,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>101</width>
+      <width>131</width>
       <height>321</height>
      </rect>
     </property>
@@ -67,15 +67,15 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Draw">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>126</width>
-       <height>219</height>
+       <width>131</width>
+       <height>242</height>
       </rect>
      </property>
      <attribute name="label">
@@ -90,6 +90,9 @@
        </widget>
       </item>
       <item row="3" column="0">
+       <widget class="QSpinBox" name="paintWidthSpin"/>
+      </item>
+      <item row="6" column="0">
        <widget class="QPushButton" name="FillButton">
         <property name="text">
          <string>Fill</string>
@@ -103,10 +106,24 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
+      <item row="5" column="0">
        <widget class="QPushButton" name="EraseButton">
         <property name="text">
          <string>Erase</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QSlider" name="paintWidthSlide">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Paint Width</string>
         </property>
        </widget>
       </item>
@@ -117,7 +134,7 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>101</width>
+       <width>131</width>
        <height>219</height>
       </rect>
      </property>
@@ -176,11 +193,11 @@
        <string>Fill</string>
       </property>
      </widget>
-     <widget class="QSlider" name="horizontalSlider">
+     <widget class="QSlider" name="shapeWidthSlide">
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>160</y>
+        <y>180</y>
         <width>91</width>
         <height>22</height>
        </rect>
@@ -202,13 +219,23 @@
        <string>Pixel Width</string>
       </property>
      </widget>
+     <widget class="QSpinBox" name="shapeWidthSpin">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>160</y>
+        <width>51</width>
+        <height>24</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="page_3">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>101</width>
+       <width>131</width>
        <height>219</height>
       </rect>
      </property>
