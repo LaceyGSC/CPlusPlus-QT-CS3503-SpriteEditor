@@ -118,3 +118,23 @@ void MainWindow::on_PenButton_clicked()
 {
     theView->setTool("pen");
 }
+
+void MainWindow::on_paintWidthSpin_valueChanged(int arg1)
+{
+    ui->paintWidthSlide->setValue(arg1);
+}
+
+void MainWindow::on_paintWidthSlide_sliderMoved(int position)
+{
+    ui->paintWidthSpin->setValue(position);
+}
+
+void MainWindow::on_shapeWidthSpin_valueChanged(int arg1)
+{
+    ui->shapeWidthSlide->setValue(arg1);
+}
+
+void MainWindow::on_shapeWidthSlide_sliderMoved(int position)
+{
+    ui->shapeWidthSpin->setValue(position);
+}
