@@ -20,6 +20,8 @@ public:
     QImage getImage();
     void setTool(std::string tool);
     void setFill(bool fill);
+    void setShapeWidth(int w);
+    void setPaintWidth(int w);
 
 private:
     QImage theImage = QImage(32,32,QImage::Format_ARGB32);
@@ -41,6 +43,9 @@ private:
     tools theTool;
 
     bool fillShape;
+
+    int shapeWidth;
+    int paintWidth;
 
     const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
 

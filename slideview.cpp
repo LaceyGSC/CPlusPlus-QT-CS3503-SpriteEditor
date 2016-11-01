@@ -530,6 +530,27 @@ void SlideView::drawSquare(int x1, int y1, int w, int h)
 /*
 sets if the shpae needs to be filled or not
 */
-void SlideView::setFill(bool fill){
+void SlideView::setFill(bool fill)
+{
     fillShape = fill;
 }
+
+/*
+ * set width of shape pixel
+ *
+ */
+void SlideView::setShapeWidth(int w)
+{
+    shapeWidth = w;
+}
+
+/*
+ * set width of the paint PIxel
+ */
+
+void SlideView::setPaintWidth(int w)
+{
+    paintWidth = w;
+}
+
+
