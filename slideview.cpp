@@ -97,9 +97,10 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
     if(drawing)
     {
-        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+
         if(theTool == pen){
+            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
 
 
             QPainter paint(&theImage);
@@ -175,6 +176,8 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
         }
 
         if(theTool == paintBrush){
+            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
             brush(drawingX, drawingY);
 
             updateScene();
@@ -503,7 +506,7 @@ void SlideView::drawLine(int x1, int y1, int x2, int y2)
     QPainter line(&theImage);
     QPen pen(color);
     pen.setWidthF(shapeWidth);
-    line.setPen(pen);
+    line.setPen(color);
     //int width = scaledPixelWidth * shapeWidth;
     //line.pen().setWidth(width);
     QLineF drawLine(x1, y1, x2, y2);
