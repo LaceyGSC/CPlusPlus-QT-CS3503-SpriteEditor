@@ -27,7 +27,7 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
 
     //color for testing
 
-    color = qRgba(0, 255, 0, 0);
+    color = qRgba(0, 255, 0, 255);
 
 
     //Sets the value of global pixImage to the default image created above
@@ -123,7 +123,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                 itemToDraw = new QGraphicsLineItem;
                 theScene->addItem(itemToDraw);
                 QPen pen(color);
-                pen.setWidth(4);
+                pen.setWidth(8 * shapeWidth);
                 //pen.setWidth(10);
                 itemToDraw->setPen(pen);
                 //itemToDraw->setPos(origPoint);
@@ -141,7 +141,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                 circleToDraw = new QGraphicsEllipseItem;
                 theScene->addItem(circleToDraw);
                 QPen pen(color);
-                pen.setWidth(4);
+                pen.setWidth(4 * shapeWidth);
                 //pen.setWidth(10);
                 circleToDraw->setPen(pen);
                 //itemToDraw->setPos(origPoint);
@@ -161,7 +161,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                 SquareToDraw = new QGraphicsRectItem;
                 theScene->addItem(SquareToDraw);
                 QPen pen(color);
-                pen.setWidth(4);
+                pen.setWidth(4 * shapeWidth);
                 //pen.setWidth(10);
                 SquareToDraw->setPen(pen);
                 //itemToDraw->setPos(origPoint);
@@ -487,8 +487,10 @@ void SlideView::drawLine(int x1, int y1, int x2, int y2)
 {
     QPainter line(&theImage);
     QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    line.setPen(color);
+    pen.setWidthF(shapeWidth);
+    line.setPen(pen);
+    //int width = scaledPixelWidth * shapeWidth;
+    //line.pen().setWidth(width);
     QLineF drawLine(x1, y1, x2, y2);
     line.drawLine(drawLine);
 }
@@ -497,8 +499,8 @@ void SlideView::drawCirle(int x1, int y1, int w, int h)
 {
     QPainter paint(&theImage);
     QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    paint.setPen(color);
+    pen.setWidthF(shapeWidth);
+    paint.setPen(pen);
     //QRect circle(x1, y1, w - x1, h - y1);
     if(fillShape){
         QBrush brush (color);
@@ -513,8 +515,8 @@ void SlideView::drawSquare(int x1, int y1, int w, int h)
 {
     QPainter paint(&theImage);
     QPen pen(color);
-    pen.setWidthF(scaledPixelWidth);
-    paint.setPen(color);
+    pen.setWidthF(shapeWidth);
+    paint.setPen(pen);
     QRect rect(x1, y1, w - x1, h - y1);
 
     if(fillShape)
