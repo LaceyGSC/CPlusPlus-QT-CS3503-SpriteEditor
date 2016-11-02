@@ -57,6 +57,8 @@ private slots:
 
     void on_shapeWidthSlide_sliderMoved(int position);
 
+    void on_PaintBrushButton_clicked();
+
 signals:
     void undoSignal();
     void redoSignal();

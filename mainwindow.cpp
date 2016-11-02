@@ -142,3 +142,8 @@ void MainWindow::on_shapeWidthSlide_sliderMoved(int position)
     ui->shapeWidthSpin->setValue(position);
     theView->setShapeWidth(position);
 }
+
+void MainWindow::on_PaintBrushButton_clicked()
+{
+    theView->setTool("paintBrush");
+}

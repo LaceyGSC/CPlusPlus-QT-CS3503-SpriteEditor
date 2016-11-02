@@ -97,9 +97,10 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
     if(drawing)
     {
+        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
         if(theTool == pen){
-            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+
 
             QPainter paint(&theImage);
             QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
@@ -173,6 +174,13 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
         }
 
+        if(theTool == paintBrush){
+            brush(drawingX, drawingY);
+
+            updateScene();
+
+        }
+
 
     }
 
@@ -202,12 +210,13 @@ void SlideView::mousePressEvent( QMouseEvent* event)
         // before drawing, save the current image for undo
         undoStack.push(theImage.copy());
         drawing = true;
+        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+        origPoint = event->pos();
 
         if(theTool == pen){
 
             //get the x and y coordinates of the pixel
-            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
             //std::cout<<drawingX<<" "<<drawingY<<std::endl;
             QPainter paint(&theImage);
             QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
@@ -224,11 +233,12 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
             this->update();
         }
+        if(theTool == paintBrush){
+            brush(drawingX, drawingY);
 
-        std::cout<<"reached clicked"<<std::endl;
-        drawingX = event->pos().x()/(theScene->width()/pixelWidth);
-        drawingY = event->pos().y()/(theScene->height()/pixelHeight);
-        origPoint = event->pos();
+            updateScene();
+
+        }
 
     }
 }
@@ -322,6 +332,11 @@ void SlideView::setTool(std::string tool) {
     if(tool == "pen"){
         theTool = pen;
     }
+    if(tool == "paintBrush"){
+        theTool = paintBrush;
+    }
+
+
 }
 
 /**
@@ -553,6 +568,13 @@ void SlideView::setShapeWidth(int w)
 void SlideView::setPaintWidth(int w)
 {
     paintWidth = w;
+}
+
+void SlideView::brush(int x, int y){
+    QPainter paint(&theImage);
+    QRect rect(x, y, paintWidth, paintWidth);
+    paint.fillRect(rect, color);
+
 }
 
 
