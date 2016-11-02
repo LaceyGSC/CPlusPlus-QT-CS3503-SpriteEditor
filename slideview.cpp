@@ -506,7 +506,7 @@ void SlideView::drawLine(int x1, int y1, int x2, int y2)
     QPainter line(&theImage);
     QPen pen(color);
     pen.setWidthF(shapeWidth);
-    line.setPen(color);
+    line.setPen(pen);
     //int width = scaledPixelWidth * shapeWidth;
     //line.pen().setWidth(width);
     QLineF drawLine(x1, y1, x2, y2);
