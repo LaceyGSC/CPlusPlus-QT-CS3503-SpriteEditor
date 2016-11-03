@@ -185,7 +185,36 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
         }
 
+        if(theTool == erase) {
+            // Get coordinates
+            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+            // Erase the theImage
+            QPainter paint(&theImage);
+            //QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+            paint.eraseRect(drawingX, drawingY, paintWidth, paintWidth);
+            // Update what we see
+            pixImage = QPixmap::fromImage(theImage);
+            pixImageZoomed = pixImage.scaled(275, 275,
+                                                   Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            pixMap->setPixmap(pixImageZoomed);
+            this->update();
+        }
+        if(theTool == eyedropper) {
+            // Get coordinates
+            drawingX = event->pos().x()/(theScene->width()/pixelWidth);
+            drawingY = event->pos().y()/(theScene->height()/pixelHeight);
+            // Retrieve color
+            QColor pickedColor;
+            pickedColor.setRgba(theImage.pixel(drawingX, drawingY));
+            pickedColor.setRed(pickedColor.red());
+            pickedColor.setGreen(pickedColor.green());
+            pickedColor.setBlue(pickedColor.blue());
+            // Update color
+            QColor previewColor = qRgba(pickedColor.red(), pickedColor.green(), pickedColor.blue(), 255);
+            updatePalettePreview(previewColor);
 
+        }
     }
 
 
@@ -242,6 +271,28 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
             updateScene();
 
+        }
+        if(theTool == erase) {
+            // Erase the theImage
+            QPainter paint(&theImage);
+            //QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
+            paint.eraseRect(drawingX, drawingY, paintWidth, paintWidth);
+            // Update what we see
+            pixImage = QPixmap::fromImage(theImage);
+            pixImageZoomed = pixImage.scaled(275, 275,
+                                                   Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            pixMap->setPixmap(pixImageZoomed);
+            this->update();
+        }
+        if(theTool == eyedropper) {
+            QColor pickedColor;
+            pickedColor.setRgba(theImage.pixel(drawingX, drawingY));
+            pickedColor.setRed(pickedColor.red());
+            pickedColor.setGreen(pickedColor.green());
+            pickedColor.setBlue(pickedColor.blue());
+
+            color = qRgba(pickedColor.red(), pickedColor.green(), pickedColor.blue(), 255);
+            updatePalettePreview(color);
         }
 
     }
@@ -338,6 +389,14 @@ void SlideView::setTool(std::string tool) {
     }
     if(tool == "paintBrush"){
         theTool = paintBrush;
+    }
+    if(tool == "eyedropper"){
+        theTool = eyedropper;
+        std::cout<<"reached eyedropper"<<std::endl;
+    }
+    if(tool == "erase"){
+        theTool = erase;
+        std::cout<<"reached erase"<<std::endl;
     }
 
 
@@ -580,4 +639,12 @@ void SlideView::brush(int x, int y){
 
 }
 
+
+/**
+ * Updates the color palette while previewing colors with eyedropper tool
+ */
+void SlideView::updatePalettePreview(QColor previewColor)
+{
+    emit updatePalettePreviewSignal(previewColor);
+}
 
