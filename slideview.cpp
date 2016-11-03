@@ -122,7 +122,8 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             std::cout<<"reached move"<<std::endl;
 
             //this->update();
-            if(!itemToDraw){
+            if(!drawingLine){
+                drawingLine = true;
                 itemToDraw = new QGraphicsLineItem;
                 theScene->addItem(itemToDraw);
                 QPen pen(color);
@@ -140,7 +141,8 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             std::cout<<"reached move"<<std::endl;
 
             //this->update();
-            if(!circleToDraw){
+            if(!drawingCircle){
+                drawingCircle = true;
                 circleToDraw = new QGraphicsEllipseItem;
                 theScene->addItem(circleToDraw);
                 QPen pen(color);
@@ -160,7 +162,8 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             std::cout<<"reached move"<<std::endl;
 
             //this->update();
-            if(!SquareToDraw){
+            if(!drawingRect){
+                drawingRect = true;
                 SquareToDraw = new QGraphicsRectItem;
                 theScene->addItem(SquareToDraw);
                 QPen pen(color);
@@ -325,6 +328,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
             updateScene();
             itemToDraw->setPen(QColor(128, 128, 128, 0));
             itemToDraw = 0;
+            drawingLine = false;
 
 
         }
@@ -338,6 +342,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
             updateScene();
             circleToDraw->setPen(QColor(128, 128, 128, 0));
             circleToDraw = 0;
+            drawingCircle = false;
 
 
         }
@@ -351,6 +356,7 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
             SquareToDraw->setPen(QColor(128, 128, 128, 0));
 
             SquareToDraw->setPen(QColor(128, 128, 128, 0));
+            drawingRect = false;
             //SquareToDraw->setBrush(QColor(128, 128, 128, 255));
 
         }

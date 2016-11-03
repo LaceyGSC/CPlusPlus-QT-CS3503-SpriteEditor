@@ -57,6 +57,10 @@ private:
     int shapeWidth;
     int paintWidth;
 
+    bool drawingLine = false;
+    bool drawingCircle = false;
+    bool drawingRect = false;
+
     //Undo-redo features
     std::stack<QImage> undoStack;
     std::stack<QImage> redoStack;
