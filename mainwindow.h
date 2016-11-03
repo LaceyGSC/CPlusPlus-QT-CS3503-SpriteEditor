@@ -10,6 +10,7 @@
 #include <QImage>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QPalette>
 #include "slideview.h"
 
 namespace Ui {
@@ -19,6 +20,7 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -47,6 +49,12 @@ private slots:
     void on_shapeWidthSlide_sliderMoved(int position);
     void on_PaintBrushButton_clicked();
     void on_AddFrameButton_clicked();
+
+    // Receives Signal from UI EyeDropperButton
+    void on_EyeDropperButton_clicked();
+    void colorPaletteChangedSlot(QColor previewColor);
+
+    void on_EraseButton_clicked();
 
 signals:
     void undoSignal();

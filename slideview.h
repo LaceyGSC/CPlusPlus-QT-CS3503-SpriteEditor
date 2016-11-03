@@ -15,6 +15,7 @@
 class SlideView : public QGraphicsView
 {
     Q_OBJECT
+    Q_PROPERTY (QColor previewColor READ previewColor NOTIFY updatePalettePreviewSignal)
 public:
     explicit SlideView(QGraphicsView *parent, QImage image);
     QImage getImage();
@@ -23,6 +24,12 @@ public:
     void setShapeWidth(int w);
     void setPaintWidth(int w);
     void updateScene();
+    void updatePalettePreview(QColor previewColor);
+
+    QColor previewColor() const
+    {
+        return m_previewColor;
+    }
 
 private:
     QImage theImage;
@@ -44,7 +51,7 @@ private:
     int drawingX;
     double scaledPixelWidth;
     //the types of tool we use to edit pixels
-    enum tools {test, pen, paintBrush, erase, shapeLine, shapeCircle, shapeSquare};
+    enum tools {test, pen, paintBrush, erase, eyedropper, shapeLine, shapeCircle, shapeSquare};
     tools theTool;
     bool fillShape;
     int shapeWidth;
@@ -61,6 +68,8 @@ private:
     void drawSquare(int x1, int y1, int w, int h);
     void brush(int x, int y);
 
+    QColor m_previewColor;
+
 protected:
     virtual void mouseMoveEvent( QMouseEvent* event);
     virtual void mousePressEvent( QMouseEvent* event);
@@ -69,6 +78,7 @@ protected:
     //virtual void mouseDoubleClickEvent(QMouseEvent *event);
 
 signals:
+    void updatePalettePreviewSignal(QColor previewColor);
 
 public slots:
     void undoSlot();

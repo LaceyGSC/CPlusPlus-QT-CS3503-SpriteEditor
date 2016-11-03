@@ -5,6 +5,7 @@
 #include <slideview.h>
 
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -18,8 +19,13 @@ MainWindow::MainWindow(QWidget *parent) :
     view = new QGraphicsView();
 
     //Creates a slide view: extended qGraphicsView with view as its parent
+    QImage theImage = QImage(size, size, QImage::Format_ARGB32);
 
-    theView = new SlideView(view, QImage(size, size, QImage::Format_ARGB32));
+    // If we don't fill theImage before applying it. We get artifacts.
+    // I suggest the default background as white.
+    QColor defaultColor = qRgba(255, 255, 255, 0);
+    theImage.fill(defaultColor);
+    theView = new SlideView(view, theImage);
 
     theProject = new Project("", theView, this);
 
@@ -65,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
     connect(this, &MainWindow::addFrameSignal,theProject, &Project::addFrameSlot);
+
+    connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
 }
 
 MainWindow::~MainWindow()
@@ -236,4 +244,20 @@ void MainWindow::on_AddFrameButton_clicked()
     theView = theProject->getSlide(currentIndex);
 
     ui->drawingGridLayout->addWidget(theView);
+}
+
+void MainWindow::on_EyeDropperButton_clicked()
+{
+    theView->setTool("eyedropper");
+}
+
+void MainWindow::colorPaletteChangedSlot(QColor previewColor){
+    QPalette palette = ui->colorPaletteWidget->palette();
+    palette.setColor(QPalette::Window, previewColor);
+    ui->colorPaletteWidget->setPalette(palette);
+}
+
+void MainWindow::on_EraseButton_clicked()
+{
+    theView->setTool("erase");
 }
