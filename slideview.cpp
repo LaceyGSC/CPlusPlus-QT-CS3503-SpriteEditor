@@ -354,8 +354,9 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 
             updateScene();
             SquareToDraw->setPen(QColor(128, 128, 128, 0));
+            SquareToDraw = 0;
 
-            SquareToDraw->setPen(QColor(128, 128, 128, 0));
+            //SquareToDraw->setPen(QColor(128, 128, 128, 0));
             drawingRect = false;
             //SquareToDraw->setBrush(QColor(128, 128, 128, 255));
 
