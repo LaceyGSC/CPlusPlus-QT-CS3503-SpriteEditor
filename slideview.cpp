@@ -51,6 +51,7 @@ SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent
     //Sets the view size and background color for QGraphicScene
     theScene->setSceneRect(pixImageZoomed.rect());
     theScene->setBackgroundBrush(brush2);
+    //drawCheckerBoard();
 
 
     //Sets values for the QGraphicsView class
@@ -655,5 +656,24 @@ void SlideView::brush(int x, int y){
 void SlideView::updatePalettePreview(QColor previewColor)
 {
     emit updatePalettePreviewSignal(previewColor);
+}
+
+void SlideView::drawCheckerBoard(){
+    unsigned int cellSizeX = theScene->width()/pixelWidth;
+    unsigned int cellSizeY = theScene->height()/pixelHeight;
+    QBrush brush(QColor(0,0,0, 255));
+    theScene->setBackgroundBrush(brush);
+    QBrush brush2(QColor(128, 128, 128, 255));
+    //QPen pen(QColor(128, 128, 128, 255));
+    QPainter paint();
+    //paint.setBrush(brush2);
+
+
+        for(unsigned int j = 0; j < theScene->width(); j++)
+            for(unsigned int i = j % 2; i < theScene->height(); i+=2)
+                //QRectF rect(i * cellSizeX, j * cellSizeY, cellSizeX, cellSizeY);
+                theScene->drawBackground(piant, rect);
+                //theScene->addRect(i * cellSizeX, j * cellSizeY, cellSizeX, cellSizeY, pen, brush2);
+
 }
 

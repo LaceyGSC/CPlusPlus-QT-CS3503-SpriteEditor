@@ -72,6 +72,8 @@ private:
     void drawSquare(int x1, int y1, int w, int h);
     void brush(int x, int y);
 
+    void drawCheckerBoard();
+
     QColor m_previewColor;
 
 protected:

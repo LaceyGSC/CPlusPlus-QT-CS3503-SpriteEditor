@@ -34,10 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     theView->setFill(false);
 
     //set spinboxes range
-    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
+    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/5);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
+    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/5);
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
