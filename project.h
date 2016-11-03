@@ -4,24 +4,26 @@
 #include <stack>
 #include <list>
 #include "frame.h"
+#include "slideview.h"
 
 
-class Project
+class Project : public QObject
 {
     std::string fileName;
-
-    //if current implementation doesn't work use pointer or references
-    std::list<Frame> framesList;
-    //const int WIDTH;
-    //const int HEIGHT;
+    std::list<SlideView*> framesList;
     int width;
     int height;
 
-
-
 public:
-    Project(std::string name = "untitled", int width = 10, int height = 10);
-    Frame getFrame(int index);
+    Project();
+    Project(std::string name, SlideView* frame, QObject *parent);
+    SlideView* getSlide(int index);
+    void addSlideAt(int index, SlideView* frame);
+    void addSlide(SlideView* frame);
+    size_t getSizeList();
+
+public slots:
+    void addFrameSlot(SlideView* frame);
 };
 
 #endif // PROJECT_H

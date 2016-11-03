@@ -2,10 +2,11 @@
 #include <math.h>
 
 
-SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
+SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent)
 {
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
     //Failure to create new here causes fatal crash in mouse events
+    theImage = image.copy();
     theTool = pen;
     theScene  =  new QGraphicsScene(this);
     drawing = false;
@@ -74,7 +75,7 @@ SlideView::SlideView(QGraphicsView *parent ) : QGraphicsView(parent)
  * */
 QImage SlideView::getImage()
 {
-    return theImage;
+    return theImage.copy();
 }
 
 /*
@@ -384,7 +385,7 @@ void SlideView::redoSlot()
 void SlideView::updateScene()
 {
     // draw
-    pixImage = QPixmap::fromImage(theImage);
+    pixImage = QPixmap::fromImage(theImage.copy());
     //scale image
     pixImageZoomed = pixImage.scaled(275, 275,
                                            Qt::IgnoreAspectRatio, Qt::FastTransformation);
@@ -395,7 +396,6 @@ void SlideView::updateScene()
     //pixMap = theScene->addPixmap(pixImageZoomed);
     this->update();
 }
-
 
 
 /**

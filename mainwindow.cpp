@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    size = 32;
 
 
     //Creates and empty graphicsview to act as the parent for the SlideView
@@ -18,7 +19,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Creates a slide view: extended qGraphicsView with view as its parent
 
-    theView = new SlideView(view);
+    theView = new SlideView(view, QImage(size, size, QImage::Format_ARGB32));
+
+    theProject = new Project("", theView, this);
+
+    theView = theProject->getSlide(0);
 
     theView->setFill(false);
 
@@ -31,12 +36,35 @@ MainWindow::MainWindow(QWidget *parent) :
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
 
+    QPushButton* preButton = new QPushButton();
+    preButton->setObjectName(QString::number(currentIndex));
+    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+
+    QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QPixmap testMap = QPixmap::fromImage(theProject->getSlide(currentIndex)->getImage().copy());
+    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    QIcon buttonIcon(testMap);
+
+    preButton->setFixedSize(buttonSize);
+    preButton->setIconSize(buttonSize);
+    preButton->setIcon(buttonIcon);
+    preButton->setFlat(false);
+
+
+    testLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
+    testLayout->setContentsMargins(10,0,10,0);
+    ui->scrollAreaWidgetContents->setLayout(testLayout);
+
+     ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
+
     connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
     connect(this, &MainWindow::redoSignal, theView, &SlideView::redoSlot);
     connect(this, &MainWindow::rotateLeftSignal, theView, &SlideView::rotateLeftSlot);
     connect(this, &MainWindow::rotateRightSignal, theView, &SlideView::rotateRightSlot);
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
+    connect(this, &MainWindow::addFrameSignal,theProject, &Project::addFrameSlot);
 }
 
 MainWindow::~MainWindow()
@@ -49,6 +77,23 @@ void MainWindow::on_LineButton_clicked()
     std::string line = "line";
     theView->setTool(line);
     std::cout<<"reached"<<std::endl;
+
+}
+
+void MainWindow::changeFrame()
+{
+    QObject *senderObj = sender();
+    QString senderObjName = senderObj->objectName();
+
+    int index = senderObjName.toInt();
+
+    ui->drawingGridLayout->removeWidget(theView);
+
+    theView = theProject->getSlide(index);
+
+    ui->drawingGridLayout->addWidget(theView);
+
+    theView->updateScene();
 
 }
 
@@ -67,7 +112,6 @@ void MainWindow::on_RotateLeftButton_clicked()
 {
     emit rotateLeftSignal();
 }
-
 
 void MainWindow::on_RotateRightButton_clicked()
 {
@@ -146,4 +190,50 @@ void MainWindow::on_shapeWidthSlide_sliderMoved(int position)
 void MainWindow::on_PaintBrushButton_clicked()
 {
     theView->setTool("paintBrush");
+}
+
+void MainWindow::updateSlide(int i)
+{
+    delete theView;
+    theView = theProject->getSlide(i);
+    ui->drawingGridLayout->addWidget(theView);
+}
+
+void MainWindow::updatePreview()
+{
+    for(int j = 0; theProject->getSizeList(); j++)
+    {
+
+    }
+}
+
+void MainWindow::on_AddFrameButton_clicked()
+{
+    currentIndex = theProject->getSizeList();
+
+    QPushButton* preButton = new QPushButton();
+    preButton->setObjectName(QString::number(currentIndex));
+    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+
+    emit addFrameSignal(new SlideView(view, QImage(size, size, QImage::Format_ARGB32)));
+
+
+    QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QPixmap testMap = QPixmap::fromImage(theProject->getSlide(currentIndex)->getImage());
+    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    QIcon buttonIcon(testMap);
+
+    preButton->setFixedSize(buttonSize);
+    preButton->setIconSize(buttonSize);
+    preButton->setIcon(buttonIcon);
+    preButton->setFlat(false);
+
+    ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
+
+    ui->drawingGridLayout->removeWidget(theView);
+
+    theView = theProject->getSlide(currentIndex);
+
+    ui->drawingGridLayout->addWidget(theView);
 }

@@ -16,20 +16,25 @@ class SlideView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    explicit SlideView(QGraphicsView *parent = 0);
+    explicit SlideView(QGraphicsView *parent, QImage image);
     QImage getImage();
     void setTool(std::string tool);
     void setFill(bool fill);
     void setShapeWidth(int w);
     void setPaintWidth(int w);
+    void updateScene();
 
 private:
-    QImage theImage = QImage(32,32,QImage::Format_ARGB32);
+    QImage theImage;
     QPoint startPos;
     QGraphicsScene *theScene;
     QGraphicsPixmapItem *pixMap;
     QPixmap pixImage;
     QPixmap pixImageZoomed;
+    QPointF origPoint;
+    QGraphicsLineItem* itemToDraw;
+    QGraphicsEllipseItem* circleToDraw;
+    QGraphicsRectItem* SquareToDraw;
     int pixelHeight;
     int pixelWidth;
     bool drawing;
@@ -41,33 +46,20 @@ private:
     //the types of tool we use to edit pixels
     enum tools {test, pen, paintBrush, erase, shapeLine, shapeCircle, shapeSquare};
     tools theTool;
-
     bool fillShape;
-
     int shapeWidth;
     int paintWidth;
-
-    const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
 
     //Undo-redo features
     std::stack<QImage> undoStack;
     std::stack<QImage> redoStack;
-    void updateScene();
+
+    const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
 
     void drawLine(int x1, int y1, int x2, int y2);
     void drawCirle(int x1, int y1, int w, int h);
     void drawSquare(int x1, int y1, int w, int h);
     void brush(int x, int y);
-
-    QPointF origPoint;
-    QGraphicsLineItem* itemToDraw;
-    QGraphicsEllipseItem* circleToDraw;
-    QGraphicsRectItem* SquareToDraw;
-
-
-
-
-
 
 protected:
     virtual void mouseMoveEvent( QMouseEvent* event);

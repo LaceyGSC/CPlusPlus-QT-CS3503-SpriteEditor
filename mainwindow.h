@@ -8,6 +8,8 @@
 #include <project.h>
 #include <QGraphicsPixmapItem>
 #include <QImage>
+#include <QHBoxLayout>
+#include <QPushButton>
 #include "slideview.h"
 
 namespace Ui {
@@ -24,40 +26,27 @@ public:
 
 private slots:
     void on_LineButton_clicked();
+    void changeFrame();
 
 
     // for undo event
     void on_actionUndo_triggered();
-
     void on_actionRedo_triggered();
-
     void on_RotateLeftButton_clicked();
-
     void on_RotateRightButton_clicked();
-
     void on_FlipHorzButton_clicked();
-
     void on_FlipVertButton_clicked();
-
     void on_CircleButton_clicked();
-
     void on_SquareButton_clicked();
-
     void on_checkBox_stateChanged(int arg1);
-
     void on_checkBox_2_stateChanged(int arg1);
-
     void on_PenButton_clicked();
-
     void on_paintWidthSpin_valueChanged(int arg1);
-
     void on_paintWidthSlide_sliderMoved(int position);
-
     void on_shapeWidthSpin_valueChanged(int arg1);
-
     void on_shapeWidthSlide_sliderMoved(int position);
-
     void on_PaintBrushButton_clicked();
+    void on_AddFrameButton_clicked();
 
 signals:
     void undoSignal();
@@ -66,23 +55,24 @@ signals:
     void rotateRightSignal();
     void flipHorizontalSignal();
     void flipVerticalSignal();
+    void addFrameSignal(SlideView*);
 
 protected:
 
 private:
     Ui::MainWindow *ui;
+    int currentIndex = 0;
     Project project;
-    Frame firstFrame;
     SlideView* theView;
-
-    //QImage firstFrame(10, 10, QImage::Format_ARGB32);
-
-    //QImage firstFrame(10,10, QImage::Format_ARGB32);
-    //QImage f(10, 10, QImage::Format_ARGB32);
-
-
+    Project* theProject;
+    QHBoxLayout* testLayout;
     QGraphicsView* view;
     QGraphicsPixmapItem *pixMap;
+    int size;
+
+
+    void updatePreview();
+    void updateSlide(int i);
 
 };
 

@@ -1,16 +1,19 @@
 #include "project.h"
 
-Project::Project(std::string name, int width, int height) :
-    width(width), height(height), fileName(name)
+Project::Project()
 {
-    Frame firstFrame(width, height);
-    framesList.push_back(firstFrame);
+
 }
 
-Frame Project::getFrame(int index)
+Project::Project(std::string name, SlideView* frame, QObject *parent) : QObject(parent)
+{
+    framesList.push_back(frame);
+}
+
+SlideView* Project::getSlide(int index)
 {
     unsigned n = index;
-    std::list<Frame>::iterator it;
+    std::list<SlideView*>::iterator it;
 
     if(framesList.size() > n)
     {
@@ -19,4 +22,35 @@ Frame Project::getFrame(int index)
     }
 
     return *it;
+}
+
+void Project::addSlideAt(int index, SlideView* frame)
+{
+    unsigned n = index;
+    std::list<SlideView*>::iterator it;
+    if(framesList.size() > n)
+    {
+        it = framesList.begin();
+        std::advance(it, n);
+    }
+
+    framesList.insert(it, frame);
+
+}
+
+void Project::addSlide(SlideView* frame)
+{
+    framesList.push_back(frame);
+
+    qDebug()<< framesList.size();
+}
+
+void Project::addFrameSlot(SlideView* frame)
+{
+    Project::addSlide(frame);
+}
+
+size_t Project::getSizeList()
+{
+    return framesList.size();
 }
