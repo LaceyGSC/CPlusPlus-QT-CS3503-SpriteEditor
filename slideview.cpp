@@ -10,6 +10,8 @@ SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent
     theTool = pen;
     theScene  =  new QGraphicsScene(this);
     drawing = false;
+    shapeWidth = 1;
+    paintWidth = 1;
 
 
     //Creates the default opacity value and background color for the QGraphicScene

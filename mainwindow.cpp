@@ -217,6 +217,10 @@ void MainWindow::updatePreview()
 
 void MainWindow::on_AddFrameButton_clicked()
 {
+    ui->shapeWidthSlide->setValue(1);
+    ui->shapeWidthSpin->setValue(1);
+    ui->paintWidthSlide->setValue(1);
+    ui->paintWidthSpin->setValue(1);
     currentIndex = theProject->getSizeList();
 
     QPushButton* preButton = new QPushButton();
