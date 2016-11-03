@@ -67,15 +67,15 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="Draw">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>117</width>
-       <height>236</height>
+       <width>131</width>
+       <height>276</height>
       </rect>
      </property>
      <attribute name="label">
@@ -142,7 +142,7 @@
        <x>0</x>
        <y>0</y>
        <width>131</width>
-       <height>231</height>
+       <height>219</height>
       </rect>
      </property>
      <attribute name="label">
@@ -243,7 +243,7 @@
        <x>0</x>
        <y>0</y>
        <width>131</width>
-       <height>231</height>
+       <height>219</height>
       </rect>
      </property>
      <attribute name="label">
@@ -390,7 +390,7 @@
        <x>0</x>
        <y>0</y>
        <width>339</width>
-       <height>155</height>
+       <height>153</height>
       </rect>
      </property>
     </widget>
