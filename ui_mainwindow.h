@@ -131,7 +131,7 @@ public:
         ToolPages->setAutoFillBackground(false);
         Draw = new QWidget();
         Draw->setObjectName(QStringLiteral("Draw"));
-        Draw->setGeometry(QRect(0, 0, 131, 276));
+        Draw->setGeometry(QRect(0, 0, 131, 240));
         _2 = new QGridLayout(Draw);
         _2->setSpacing(6);
         _2->setContentsMargins(11, 11, 11, 11);
@@ -180,7 +180,7 @@ public:
         ToolPages->addItem(Draw, QStringLiteral("Page 1"));
         Shape = new QWidget();
         Shape->setObjectName(QStringLiteral("Shape"));
-        Shape->setGeometry(QRect(0, 0, 131, 219));
+        Shape->setGeometry(QRect(0, 0, 131, 240));
         LineButton = new QPushButton(Shape);
         LineButton->setObjectName(QStringLiteral("LineButton"));
         LineButton->setGeometry(QRect(10, 10, 81, 32));
@@ -206,7 +206,7 @@ public:
         ToolPages->addItem(Shape, QStringLiteral("Page 2"));
         page_3 = new QWidget();
         page_3->setObjectName(QStringLiteral("page_3"));
-        page_3->setGeometry(QRect(0, 0, 131, 219));
+        page_3->setGeometry(QRect(0, 0, 131, 240));
         RotateRightButton = new QPushButton(page_3);
         RotateRightButton->setObjectName(QStringLiteral("RotateRightButton"));
         RotateRightButton->setGeometry(QRect(10, 10, 81, 21));
@@ -254,7 +254,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 339, 153));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 339, 152));
         scrollArea->setWidget(scrollAreaWidgetContents);
         colorPaletteWidget = new QWidget(centralWidget);
         colorPaletteWidget->setObjectName(QStringLiteral("colorPaletteWidget"));
@@ -295,7 +295,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 879, 22));
+        menuBar->setGeometry(QRect(0, 0, 879, 21));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -320,7 +320,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        ToolPages->setCurrentIndex(1);
+        ToolPages->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -336,12 +336,14 @@ public:
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
         actionPixel_Size->setText(QApplication::translate("MainWindow", "Pixel Size", 0));
         actionUndo->setText(QApplication::translate("MainWindow", "Undo", 0));
+        actionUndo->setShortcut(QApplication::translate("MainWindow", "Ctrl+Z", 0));
         actionRedo->setText(QApplication::translate("MainWindow", "Redo", 0));
+        actionRedo->setShortcut(QApplication::translate("MainWindow", "Ctrl+Y", 0));
         actionAdd_Frame->setText(QApplication::translate("MainWindow", "Add Frame", 0));
         actionDelete_Frame->setText(QApplication::translate("MainWindow", "Delete Frame", 0));
         actionCopy_Fream->setText(QApplication::translate("MainWindow", "Copy Fream", 0));
         PaintBrushButton->setText(QApplication::translate("MainWindow", "Paint Brush", 0));
-        FillButton->setText(QApplication::translate("MainWindow", "Fill", 0));
+        FillButton->setText(QApplication::translate("MainWindow", "Paint Bucket", 0));
         PenButton->setText(QApplication::translate("MainWindow", "Pen", 0));
         EraseButton->setText(QApplication::translate("MainWindow", "Erase", 0));
         label_2->setText(QApplication::translate("MainWindow", "Paint Width", 0));

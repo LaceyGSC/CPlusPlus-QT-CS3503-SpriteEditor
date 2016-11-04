@@ -59,6 +59,9 @@ private slots:
 
     void on_actionExport_triggered();
 
+    void on_FillButton_clicked();
+
+
 signals:
     void undoSignal();
     void redoSignal();
@@ -67,6 +70,7 @@ signals:
     void flipHorizontalSignal();
     void flipVerticalSignal();
     void addFrameSignal(SlideView*);
+    void paintBucketSignal();
 
 protected:
 

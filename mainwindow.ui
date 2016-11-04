@@ -67,7 +67,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="Draw">
      <property name="geometry">
@@ -75,7 +75,7 @@
        <x>0</x>
        <y>0</y>
        <width>131</width>
-       <height>276</height>
+       <height>240</height>
       </rect>
      </property>
      <attribute name="label">
@@ -95,7 +95,7 @@
       <item row="8" column="0">
        <widget class="QPushButton" name="FillButton">
         <property name="text">
-         <string>Fill</string>
+         <string>Paint Bucket</string>
         </property>
        </widget>
       </item>
@@ -142,7 +142,7 @@
        <x>0</x>
        <y>0</y>
        <width>131</width>
-       <height>219</height>
+       <height>240</height>
       </rect>
      </property>
      <attribute name="label">
@@ -243,7 +243,7 @@
        <x>0</x>
        <y>0</y>
        <width>131</width>
-       <height>219</height>
+       <height>240</height>
       </rect>
      </property>
      <attribute name="label">
@@ -390,7 +390,7 @@
        <x>0</x>
        <y>0</y>
        <width>339</width>
-       <height>153</height>
+       <height>152</height>
       </rect>
      </property>
     </widget>
@@ -595,7 +595,7 @@
      <x>0</x>
      <y>0</y>
      <width>879</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -661,10 +661,16 @@
    <property name="text">
     <string>Undo</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
   </action>
   <action name="actionRedo">
    <property name="text">
     <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
    </property>
   </action>
   <action name="actionAdd_Frame">

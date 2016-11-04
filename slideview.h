@@ -61,11 +61,20 @@ private:
     bool drawingCircle = false;
     bool drawingRect = false;
 
-    //Undo-redo features
+    //Undo-redo fields
     std::stack<QImage> undoStack;
     std::stack<QImage> redoStack;
 
-    const int IMAGE_SIZE = 32; // an matrix of pixels should be a square matrix.
+
+    //Paint bucket fields
+    bool hasPaintBucket = false;
+    void fillInArea(int x, int y);
+    bool isValidPoint(int x, int y);
+    bool hasAreaColor(QColor areaColor, QColor neighborColor);
+    bool isFillableNeighbor(int x, int y, QColor areaColor);
+
+
+    const int NUMBER_OF_PIXEL = 32; // an matrix of pixels should be a square matrix.
 
     void drawLine(int x1, int y1, int x2, int y2);
     void drawCirle(int x1, int y1, int w, int h);
@@ -91,6 +100,7 @@ public slots:
     void rotateRightSlot();
     void flipHorizontalSlot();
     void flipVerticalSlot();
+    void paintBucketSlot();
 };
 
 #endif // SLIDEVIEW_H

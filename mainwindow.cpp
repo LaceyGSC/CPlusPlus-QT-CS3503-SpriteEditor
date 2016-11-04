@@ -71,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
     connect(this, &MainWindow::addFrameSignal,theProject, &Project::addFrameSlot);
-
+    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
 
     connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
@@ -276,4 +276,9 @@ void MainWindow::on_actionExport_triggered()
     gifPopupDialog.show();
 }
 
+
+void MainWindow::on_FillButton_clicked()
+{
+    emit paintBucketSignal();
+}
 
