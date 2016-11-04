@@ -5,7 +5,7 @@
 #include <list>
 #include "frame.h"
 #include "slideview.h"
-
+//#include "gif.h"
 
 class Project : public QObject
 {
@@ -21,9 +21,12 @@ public:
     void addSlideAt(int index, SlideView* frame);
     void addSlide(SlideView* frame);
     size_t getSizeList();
+    void deleteAllSlidesAndRefresh();
 
 public slots:
     void addFrameSlot(SlideView* frame);
+    void exportGifSlot(std::string name);
+//    void callGifNamePopup();
 };
 
 #endif // PROJECT_H

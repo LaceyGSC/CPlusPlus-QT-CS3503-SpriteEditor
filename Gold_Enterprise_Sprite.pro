@@ -16,11 +16,18 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     frame.cpp \
     project.cpp \
-    slideview.cpp
+    slideview.cpp \
+    gifpopup.cpp \
+    newprojectdialog.cpp
 
 HEADERS  += mainwindow.h \
     frame.h \
     project.h \
-    slideview.h
+    slideview.h \
+    gifpopup.h \
+    gif.h \
+    newprojectdialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    gifpopup.ui \
+    newprojectdialog.ui
