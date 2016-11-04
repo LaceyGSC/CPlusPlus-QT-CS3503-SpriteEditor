@@ -38,8 +38,8 @@ class Ui_MainWindow
 {
 public:
     QAction *actionNew;
+    QAction *actionOpen;
     QAction *actionSave;
-    QAction *actionSave_2;
     QAction *actionExport;
     QAction *actionExit;
     QAction *actionPixel_Size;
@@ -103,10 +103,10 @@ public:
         MainWindow->setAutoFillBackground(false);
         actionNew = new QAction(MainWindow);
         actionNew->setObjectName(QStringLiteral("actionNew"));
+        actionOpen = new QAction(MainWindow);
+        actionOpen->setObjectName(QStringLiteral("actionOpen"));
         actionSave = new QAction(MainWindow);
         actionSave->setObjectName(QStringLiteral("actionSave"));
-        actionSave_2 = new QAction(MainWindow);
-        actionSave_2->setObjectName(QStringLiteral("actionSave_2"));
         actionExport = new QAction(MainWindow);
         actionExport->setObjectName(QStringLiteral("actionExport"));
         actionExit = new QAction(MainWindow);
@@ -311,8 +311,8 @@ public:
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuEdit->menuAction());
         menuFile->addAction(actionNew);
+        menuFile->addAction(actionOpen);
         menuFile->addAction(actionSave);
-        menuFile->addAction(actionSave_2);
         menuFile->addAction(actionExport);
         menuFile->addAction(actionExit);
         menuEdit->addAction(actionUndo);
@@ -330,8 +330,8 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         actionNew->setText(QApplication::translate("MainWindow", "New", 0));
-        actionSave->setText(QApplication::translate("MainWindow", "Open", 0));
-        actionSave_2->setText(QApplication::translate("MainWindow", "Save", 0));
+        actionOpen->setText(QApplication::translate("MainWindow", "Open", 0));
+        actionSave->setText(QApplication::translate("MainWindow", "Save", 0));
         actionExport->setText(QApplication::translate("MainWindow", "Export", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
         actionPixel_Size->setText(QApplication::translate("MainWindow", "Pixel Size", 0));

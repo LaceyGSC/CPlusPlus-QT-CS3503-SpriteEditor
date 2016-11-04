@@ -69,6 +69,8 @@ private slots:
     // Receives signal to create a new project
     void createNewSpriteProject(int pixSize);
 
+    void on_actionOpen_triggered();
+
 signals:
     void undoSignal();
     void redoSignal();

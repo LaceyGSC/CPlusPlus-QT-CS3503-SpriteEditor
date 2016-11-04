@@ -5,7 +5,9 @@
 #include <slideview.h>
 #include "newprojectdialog.h"
 //#include "gif.h"
-#include <QList>
+//#include <QList>
+#include <QFileDialog>
+#include <QString>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -383,4 +385,54 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
 //    connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
 //    connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    QString filenamePicked = QFileDialog::getOpenFileName(
+                this,
+                tr("Open Sprite"),
+                "C:://",
+                "Sprite files (*.ssp);;Text Files (*.txt)");
+    std::cout<<filenamePicked.toStdString()<<std::endl;
+    QFile file(filenamePicked);
+    // If we can't read the file, return
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return;
+    }
+
+    QTextStream in(&file);
+    QString line = in.readLine();
+    QStringList list = line.split(QRegExp("\\s"));
+    int count = 0;
+    int spriteWidth = list.front().toInt();
+    int spriteHeight = list.back().toInt();
+    std::vector<QImage> loadedImages;
+    line = in.readLine();
+    int numFrames = line.toInt();
+    uchar* buffer = new uchar[spriteWidth * spriteHeight];
+    while(!in.atEnd())
+    {
+        // This reads the lines and puts them into QImages
+        QString line = in.readLine();
+        list = line.split(QRegExp("\\s"));
+        int pos = 0;
+        for(auto it = list.begin(); it != list.end(); it++) {
+            *(buffer + pos) = (*it).toInt();
+            pos++;
+        }
+        std::cout<<line.toStdString()<<std::endl;
+        count++;
+        // This initializes a new QImage every time we finish reading a frame
+        if(count % spriteHeight == 0)
+        {
+            std::cout<<"End of frame"<<std::endl;
+            QImage temp(buffer, spriteWidth, spriteHeight, QImage::Format_ARGB32);
+            loadedImages.push_back(temp.copy());
+            delete buffer;
+            buffer = new uchar[spriteHeight*spriteWidth];
+        }
+    }
+    std::cout<<loadedImages.size()<<std::endl;
 }
