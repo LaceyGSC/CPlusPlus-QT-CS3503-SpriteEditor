@@ -80,3 +80,9 @@ void Project::exportGifSlot(std::string name)
     }
     GifEnd(&gifWrt);
 }
+
+void Project::deleteAllSlidesAndRefresh()
+{
+    framesList.clear();
+
+}

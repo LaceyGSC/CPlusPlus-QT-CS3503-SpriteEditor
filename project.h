@@ -21,6 +21,7 @@ public:
     void addSlideAt(int index, SlideView* frame);
     void addSlide(SlideView* frame);
     size_t getSizeList();
+    void deleteAllSlidesAndRefresh();
 
 public slots:
     void addFrameSlot(SlideView* frame);

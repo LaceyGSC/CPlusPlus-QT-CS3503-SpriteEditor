@@ -13,6 +13,7 @@
 #include <QPalette>
 #include "slideview.h"
 #include "gifpopup.h"
+#include "newprojectdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -57,10 +58,16 @@ private slots:
 
     void on_EraseButton_clicked();
 
-    void on_actionExport_triggered();
+
 
     void on_FillButton_clicked();
 
+    // Receives signal to bring up export dialog
+    void on_actionExport_triggered();
+    // Receives signal to bring up new project dialog
+    void on_actionNew_triggered();
+    // Receives signal to create a new project
+    void createNewSpriteProject(int pixSize);
 
 signals:
     void undoSignal();
@@ -84,6 +91,7 @@ private:
     QGraphicsView* view;
     QGraphicsPixmapItem *pixMap;
     gifPopup gifPopupDialog;
+    NewProjectDialog newProjDialog;
     int size;
 
 
