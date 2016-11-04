@@ -38,10 +38,10 @@ MainWindow::MainWindow(QWidget *parent) :
     theView->setFill(false);
 
     //set spinboxes range
-    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
+    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/5);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
+    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/5);
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -303,22 +303,23 @@ void MainWindow::createNewSpriteProject(int pixSize)
     std::cout<<"slides to remove: "<<numSlidesToRemove<<std::endl;
     std::cout << "New sprite: "<< pixSize <<std::endl;
     size = pixSize;
-    // Remove all the frame preview buttons in the layout:
-// Here is where I try to remove the mini-frames from the scroll area. All it does is remove the layout
-    QObjectList qlst = ui->scrollAreaWidgetContents->children(); // This one gets the children. It gets 4 though
-    QObjectList::iterator i;
-    for (i = qlst.begin(); i != qlst.end(); ++i)
+
+    qDebug() << "layout count " << testLayout->count();
+
+//        for (int i = 0; i < testLayout->count(); i++)
+//        {
+//            delete testLayout->itemAt(i)->widget();
+//            testLayout->removeWidget(testLayout->itemAt(i)->widget());
+//        }
+
+    while(testLayout->count() > 0)
     {
-//        std::cout<<"Inside Loop"<<std::endl;
-//        std::cout<<*i<<std::endl;
-        QPushButton *qpb = qobject_cast<QPushButton*>(*i);
-        // This only seems to remove the layout from the widgets being displayed, not the actual widget
-        if(qpb)
-        {
-//            std::cout<<"qw valid"<<std::endl;
-            ui->scrollAreaWidgetContents->layout()->removeWidget(qpb);
-        }
+        QLayoutItem * item = testLayout->takeAt(0);
+        delete item->widget();
     }
+
+    testLayout->update();
+
     // Remove and replace the view with the new view
     ui->drawingGridLayout->removeWidget(theView);
 
