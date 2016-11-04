@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // If we don't fill theImage before applying it. We get artifacts.
     // I suggest the default background as white.
     QColor defaultColor = qRgba(255, 255, 255, 0);
-    //theImage.fill(defaultColor);
+    theImage.fill(defaultColor);
     theView = new SlideView(view, theImage);
 
     theProject = new Project("", theView, this);
