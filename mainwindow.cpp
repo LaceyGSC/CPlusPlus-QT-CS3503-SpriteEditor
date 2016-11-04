@@ -71,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
     connect(this, &MainWindow::addFrameSignal,theProject, &Project::addFrameSlot);
-
+    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
 }
 
@@ -267,4 +267,9 @@ void MainWindow::colorPaletteChangedSlot(QColor previewColor){
 void MainWindow::on_EraseButton_clicked()
 {
     theView->setTool("erase");
+}
+
+void MainWindow::on_FillButton_clicked()
+{
+    emit paintBucketSignal();
 }

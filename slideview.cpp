@@ -1,5 +1,15 @@
+/**
+    Programmer:     Thuy Nguyen, Steven Reese, Lacey <last name> , Tambra Smith, Andrew Tsai
+    Last updated:   November 1, 2016
+    Description:    Slide view provides the algorithm to modify the sprite editor canvas, enabling user to create pixel art.
+
+*/
+
 #include "slideview.h"
 #include <math.h>
+#include <queue>
+#include <iostream>
+using namespace std;
 
 
 SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent)
@@ -63,6 +73,7 @@ SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent
     //this->scale(.823, .823);
     this->setMouseTracking(true);
 }
+
 
 /*
  * getImage method:
@@ -252,7 +263,15 @@ void SlideView::mousePressEvent( QMouseEvent* event)
         drawingY = event->pos().y()/(theScene->height()/pixelHeight);
         origPoint = event->pos();
 
-        if(theTool == pen){
+        if (hasPaintBucket)
+             {
+
+                // fillInArea(event->pos().x(), event->pos().y());
+                 // hasPaintBucket changes with interaction with gui
+                fillInArea(drawingX, drawingY);
+             }
+
+        else if(theTool == pen){
 
             //get the x and y coordinates of the pixel
             //std::cout<<drawingX<<" "<<drawingY<<std::endl;
@@ -271,13 +290,13 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
             this->update();
         }
-        if(theTool == paintBrush){
+        else if(theTool == paintBrush){
             brush(drawingX, drawingY);
 
             updateScene();
 
         }
-        if(theTool == erase) {
+        else if(theTool == erase) {
             // Erase the theImage
             QPainter paint(&theImage);
             //QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
@@ -289,7 +308,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
             pixMap->setPixmap(pixImageZoomed);
             this->update();
         }
-        if(theTool == eyedropper) {
+        else if(theTool == eyedropper) {
             QColor pickedColor;
             pickedColor.setRgba(theImage.pixel(drawingX, drawingY));
             pickedColor.setRed(pickedColor.red());
@@ -363,13 +382,6 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
             //SquareToDraw->setBrush(QColor(128, 128, 128, 255));
 
         }
-
-
-
-
-
-        // save the current image for undo
-        //undoStack.push(theImage.copy());
 
     }
 
@@ -472,12 +484,12 @@ void SlideView::updateScene()
 void SlideView::rotateLeftSlot()
 {
     undoStack.push(theImage);
-    QImage flippedImage = QImage(IMAGE_SIZE,IMAGE_SIZE,QImage::Format_ARGB32);
+    QImage flippedImage = QImage(NUMBER_OF_PIXEL,NUMBER_OF_PIXEL,QImage::Format_ARGB32);
 
     // this is the algorithm was a trial and error for rotating left.  Somehow the rotating left algorithm doesn't work
-    for (int row = 0; row < IMAGE_SIZE; row++)
+    for (int row = 0; row < NUMBER_OF_PIXEL; row++)
     {
-        for (int col = IMAGE_SIZE-1, flipCol = 0; col >= 0; col--, flipCol++)
+        for (int col = NUMBER_OF_PIXEL-1, flipCol = 0; col >= 0; col--, flipCol++)
         {
             //QRgb pix = theImage.pixel(row, col);
             //flippedImage.setPixel(row, flipCol, pix);
@@ -498,13 +510,13 @@ void SlideView::rotateRightSlot()
 {
     undoStack.push(theImage);
 
-    QImage rotatedImage = QImage(IMAGE_SIZE,IMAGE_SIZE,QImage::Format_ARGB32);
+    QImage rotatedImage = QImage(NUMBER_OF_PIXEL,NUMBER_OF_PIXEL,QImage::Format_ARGB32);
 
     // this is the algorithm for rotating left, but somehow our picture comes out rotated right.
 
-    for (int row = 0; row < IMAGE_SIZE; row++)
+    for (int row = 0; row < NUMBER_OF_PIXEL; row++)
     {
-        for (int col = IMAGE_SIZE-1, leftRow = 0; col >= 0; col--, leftRow++)
+        for (int col = NUMBER_OF_PIXEL-1, leftRow = 0; col >= 0; col--, leftRow++)
         {
             QRgb pix = theImage.pixel(row,col);
             rotatedImage.setPixel(leftRow, row, pix);
@@ -525,13 +537,13 @@ void SlideView::rotateRightSlot()
 void SlideView::flipHorizontalSlot()
 {
     undoStack.push(theImage);
-    QImage rotatedImage = QImage(IMAGE_SIZE,IMAGE_SIZE,QImage::Format_ARGB32);
+    QImage rotatedImage = QImage(NUMBER_OF_PIXEL,NUMBER_OF_PIXEL,QImage::Format_ARGB32);
 
     // this algorithm is to rotate the image 90 degrees right, but somehow the image comes out flipped horizontal
 
-    for (int row = 0, rotateCol = IMAGE_SIZE-1; row < IMAGE_SIZE; row++, rotateCol--)
+    for (int row = 0, rotateCol = NUMBER_OF_PIXEL-1; row < NUMBER_OF_PIXEL; row++, rotateCol--)
     {
-        for (int col = 0; col < IMAGE_SIZE; col++)
+        for (int col = 0; col < NUMBER_OF_PIXEL; col++)
         {
             QRgb pix = theImage.pixel(row, col);
             rotatedImage.setPixel(rotateCol, col, pix);
@@ -550,12 +562,12 @@ void SlideView::flipHorizontalSlot()
 void SlideView::flipVerticalSlot()
 {
     undoStack.push(theImage);
-    QImage flippedImage = QImage(IMAGE_SIZE,IMAGE_SIZE,QImage::Format_ARGB32);
+    QImage flippedImage = QImage(NUMBER_OF_PIXEL,NUMBER_OF_PIXEL,QImage::Format_ARGB32);
 
     // this is the algorithm was for flipping horizontally, but somehow the image came out flipped vertically.
-    for (int row = 0; row < IMAGE_SIZE; row++)
+    for (int row = 0; row < NUMBER_OF_PIXEL; row++)
     {
-        for (int col = IMAGE_SIZE-1, flipCol = 0; col >= 0; col--, flipCol++)
+        for (int col = NUMBER_OF_PIXEL-1, flipCol = 0; col >= 0; col--, flipCol++)
         {
             QRgb pix = theImage.pixel(row, col);
             flippedImage.setPixel(row, flipCol, pix);
@@ -565,6 +577,129 @@ void SlideView::flipVerticalSlot()
     theImage = flippedImage.copy();
     updateScene();
 }
+
+
+//***************************************************START CODE FOR PAINT BUCKET*****************************************************************************
+
+/**
+ * Sets the SlideView into paint bucket mode or not into paint bucket mode depending on what the user wants
+ */
+void SlideView::paintBucketSlot()
+{
+    hasPaintBucket = !hasPaintBucket;  // every time the user clicks on fill button, paintbucket option is changed
+    cout << hasPaintBucket << endl;
+}
+
+/**
+ *  Does a paint bucket fill of the area selected by changing color of that area to the current color
+ */
+void SlideView::fillInArea(int pixelX, int pixelY)
+{
+    // problems:  If I click on a make shape first and paint bucket fill the shape, the program crashes
+    // why are there so many pixels on the canvas when the QImage is only 32 by 32?
+    // when filling in the whole canvas, the program crashes
+    //
+    // breadth first search to fill in area
+
+    // put in the first pixel at (x,y) into a queue
+    queue<QPoint> q;
+    QPoint current(pixelX, pixelY);
+    q.push(current);
+
+    // get the current pixel color and fill in all neighboring pixels sharing the same color.  Thus fill in the area of the same color.
+    QColor areaColor = theImage.pixelColor(pixelX, pixelY);
+    int count = 0;
+
+    // fill in the area user wants with paint-bucket color
+    while(!q.empty())
+    {
+
+        pixelX = q.front().x();
+        pixelY = q.front().y();
+                q.pop();
+
+
+    count++;
+    if (count == 10000000)
+    {
+        updateScene();
+        return;
+    }
+
+
+        theImage.setPixel(pixelX, pixelY, color);  // <---- color bleeding over
+
+
+        // right neighbor
+        if (isFillableNeighbor(pixelX + 1, pixelY, areaColor))
+        {
+            q.push(QPoint(pixelX + 1, pixelY));
+
+           // cout << "right" << endl;
+        }
+
+        // left neighbor
+        if(isFillableNeighbor(pixelX-1, pixelY, areaColor))
+        {
+            q.push(QPoint(pixelX - 1, pixelY));
+           // cout << "left" << endl;
+        }
+
+        // bottom neighbor
+        if(isFillableNeighbor(pixelX, pixelY + 1, areaColor))
+        {
+            q.push(QPoint(pixelX, pixelY + 1));
+           // cout << "bottom" << endl;
+        }
+
+        // top neighbor
+        if(isFillableNeighbor(pixelX, pixelY - 1, areaColor))
+        {
+            q.push(QPoint(pixelX, pixelY - 1));
+          //  cout << "top" << endl;
+        }
+
+
+    }
+
+    cout << "Done with paint bucket" << endl;
+    updateScene();
+
+}
+
+/**
+ * Checks to see if the x and y pass in fits within the sprite editor's canvas
+ */
+bool SlideView::isValidPoint(int pixelX, int pixelY)
+{
+
+    bool isvalid = (pixelX >= 0 && pixelX < NUMBER_OF_PIXEL && pixelY >= 0 && pixelY < NUMBER_OF_PIXEL);
+    return isvalid;
+
+}
+
+/**
+ * Checks whether the area color and the neighbor color matches.  Area color is what the user wants to fill in with paint bucket
+ */
+bool SlideView::hasAreaColor(QColor areaColor, QColor neighborColor)
+{
+    bool sameColor = (areaColor.red() == neighborColor.red() && areaColor.green() == neighborColor.green() && areaColor.blue() == neighborColor.blue());
+    return sameColor;
+}
+
+
+/**
+ * Returns true if the neighbor's x, y, and color are from the area that user wants to fill in with paint bucket
+ */
+bool SlideView::isFillableNeighbor(int pixelX, int pixelY, QColor areaColor)
+{
+    bool isFillable = (isValidPoint(pixelX, pixelY) && hasAreaColor(areaColor, theImage.pixelColor(pixelX, pixelY)));
+    return isFillable;
+}
+
+
+//***************************************************END CODE FOR PAINT BUCKET*****************************************************************************
+
 
 /*
  *draws a line to Qimage
