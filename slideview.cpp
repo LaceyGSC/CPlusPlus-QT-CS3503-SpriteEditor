@@ -620,7 +620,7 @@ void SlideView::fillInArea(int pixelX, int pixelY)
 
 
     count++;
-    if (count == 10000000)
+    if (count == 90000000)
     {
         updateScene();
         return;
