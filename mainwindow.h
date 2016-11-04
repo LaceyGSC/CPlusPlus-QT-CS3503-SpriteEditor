@@ -12,6 +12,7 @@
 #include <QPushButton>
 #include <QPalette>
 #include "slideview.h"
+#include "gifpopup.h"
 
 namespace Ui {
 class MainWindow;
@@ -56,6 +57,8 @@ private slots:
 
     void on_EraseButton_clicked();
 
+    void on_actionExport_triggered();
+
 signals:
     void undoSignal();
     void redoSignal();
@@ -76,6 +79,7 @@ private:
     QHBoxLayout* testLayout;
     QGraphicsView* view;
     QGraphicsPixmapItem *pixMap;
+    gifPopup gifPopupDialog;
     int size;
 
 

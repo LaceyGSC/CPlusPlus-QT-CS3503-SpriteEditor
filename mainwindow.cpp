@@ -3,7 +3,7 @@
 #include <iostream>
 #include <QDebug>
 #include <slideview.h>
-
+//#include "gif.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -73,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, &MainWindow::addFrameSignal,theProject, &Project::addFrameSlot);
 
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
+
+    connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
 }
 
 MainWindow::~MainWindow()
@@ -268,3 +270,10 @@ void MainWindow::on_EraseButton_clicked()
 {
     theView->setTool("erase");
 }
+
+void MainWindow::on_actionExport_triggered()
+{
+    gifPopupDialog.show();
+}
+
+
