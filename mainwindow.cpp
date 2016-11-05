@@ -72,7 +72,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
 
     buttons.push_back(preButton);
-    buttonsIndex = 0;
 
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
     testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
@@ -560,6 +559,8 @@ void MainWindow::on_AddFrameButton_clicked()
 
 
     testLayout->addWidget(preButton);
+
+    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
@@ -575,10 +576,43 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
     imageList.erase(imageList.begin() + spinValue);
 
-    for(int i = spinValue; i < buttons.size(); i++){
+    for(int i = spinValue; i < buttons.size(); i++)
+    {
         buttons.at(i)->setObjectName(QString::number(i));
     }
-    theView->setImage(imageList.at(spinValue));
+    if(buttons.size() == 0)
+    {
+        QPushButton* preButton = new QPushButton();
+        preButton->setObjectName(QString::number(0));
+        std::cout<<preButton->objectName().toInt()<<std::endl;
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+
+
+        QImage image(32, 32, QImage::Format_ARGB32);
+        imageList.push_back(image);
+        theView->setImage(image);
+
+        QPixmap testMap = QPixmap::fromImage(theView->getImage());
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon(testMap);
+        theProject->addImage(theView->getImage());
+
+        buttons.push_back(preButton);
+
+        preButton->setFixedSize(buttonSize);
+        preButton->setIconSize(buttonSize);
+        preButton->setIcon(buttonIcon);
+        preButton->setFlat(true);
+
+        testLayout->addWidget(preButton);
+
+    }
+    else
+    {
+        theView->setImage(imageList.at(spinValue));
+    }
+
 
 }
 
