@@ -17,6 +17,7 @@ SlideView::SlideView(QGraphicsView *parent, int size) : QGraphicsView(parent)
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
     //Failure to create new here causes fatal crash in mouse events
     theImage = QImage(size, size, QImage::Format_ARGB32);
+    theImage.fill(Qt::transparent);
     theTool = pen;
     theScene  =  new QGraphicsScene(this);
     drawing = false;
@@ -274,7 +275,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
         drawingY = event->pos().y()/(theScene->height()/pixelHeight);
         origPoint = event->pos();
 
-        if (hasPaintBucket)
+        if (theTool == paintBucket)
              {
 
                 // fillInArea(event->pos().x(), event->pos().y());
@@ -348,6 +349,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 void SlideView::mouseReleaseEvent( QMouseEvent* event)
 {
     emit updatePreview();
+    //std::count<<theTool<<std::endl;
     if(event->button() == Qt::LeftButton)
     {
         emit updatePreview();
@@ -410,11 +412,9 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 void SlideView::setTool(std::string tool) {
     if(tool == "line"){
         theTool = shapeLine;
-        //std::cout<<"reached setTool"<<std::endl;
     }
     if(tool == "circle"){
         theTool = shapeCircle;
-        //std::cout<<"reached setTool"<<std::endl;
     }
     if(tool == "rect"){
         theTool = shapeSquare;
@@ -427,11 +427,12 @@ void SlideView::setTool(std::string tool) {
     }
     if(tool == "eyedropper"){
         theTool = eyedropper;
-        std::cout<<"reached eyedropper"<<std::endl;
     }
     if(tool == "erase"){
         theTool = erase;
-        std::cout<<"reached erase"<<std::endl;
+    }
+    if(tool == "paintBucket"){
+        theTool = paintBucket;
     }
 
 

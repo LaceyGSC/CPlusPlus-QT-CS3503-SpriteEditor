@@ -111,8 +111,6 @@ private:
     std::vector<QPushButton*> buttons;
     std::vector<QImage> imageList;
 
-    void updateButtonNotSlot(int i);
-
     QGraphicsView* view;
     QGraphicsPixmapItem *pixMap;
 

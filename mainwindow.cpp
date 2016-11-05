@@ -30,6 +30,14 @@ MainWindow::MainWindow(QWidget *parent) :
     //QImage theImage = QImage(size, size, QImage::Format_ARGB32);
     //theImage.fill(defaultColor);
 
+    // If we don't fill theImage before applying it. We get artifacts.
+    // I suggest the default background as white.
+    //QColor defaultColor = qRgba(255, 255, 255, 0);
+    //this is filing the image with white and not alpha, Steve
+    //theImage.fill(defaultColor);
+    //does this work with Fill? Steve
+    //theImage.fill(Qt::transparent);
+
     theView = new SlideView(view, size);
 
     theProject = new Project("", theView, this);
@@ -64,7 +72,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
 
     buttons.push_back(preButton);
-    buttonsIndex = 0;
 
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
     testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
@@ -134,13 +141,13 @@ void MainWindow::on_FlipVertButton_clicked()
 void MainWindow::on_FillButton_clicked()
 {
     emit paintBucketSignal();
+    theView->setTool("paintBucket");
 }
 
 void MainWindow::on_LineButton_clicked()
 {
     std::string line = "line";
     theView->setTool(line);
-    std::cout<<"reached"<<std::endl;
 
 }
 
@@ -465,6 +472,7 @@ void MainWindow::on_actionOpen_triggered()
         preButton->setIconSize(buttonSize);
         preButton->setIcon(buttonIcon);
         preButton->setFlat(false);
+        //preButton->setObjectName(indexName);
         ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
 
         buttons.push_back(preButton);
@@ -489,7 +497,6 @@ void MainWindow::changeFrame()
 {
     QObject *senderObj = sender();
     QString senderObjName = senderObj->objectName();
-    qDebug() << senderObj->objectName();
     indexToSet = senderObjName.toInt();
     on_setFramePushButton_clicked();
 
@@ -509,6 +516,8 @@ void MainWindow::updateButton()
 
 void MainWindow::on_setFramePushButton_clicked()
 {
+
+    std::cout<<indexToSet<<std::endl;
     theView->setImage(imageList.at(indexToSet));
     currentFrameIndex = indexToSet;
 
@@ -523,20 +532,20 @@ void MainWindow::on_AddFrameButton_clicked()
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
 
-    buttonsIndex = buttons.size();
     currentIndex = theProject->getSizeList();
 
     QPushButton* preButton = new QPushButton();
-    preButton->setObjectName(QString::number(buttonsIndex));
+    preButton->setObjectName(QString::number(buttons.size()));
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     QImage image (size, size, QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
     theView->setImage(image);
     theProject->addImage(theView->getImage());
     imageList.push_back(theView->getImage());
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
-    currentFrameIndex = buttonsIndex;
+    currentFrameIndex = buttons.size();
 
     testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
     QIcon buttonIcon(testMap);
@@ -549,13 +558,15 @@ void MainWindow::on_AddFrameButton_clicked()
 
 
     testLayout->addWidget(preButton);
+
+    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
 {
     int spinValue = indexToSet;
+    std::cout<<spinValue<<std::endl;
 
-    //ui->scrollAreaWidgetContents->layout()->removeWidget(buttons.at(spinValue));
 
     QLayoutItem * item = testLayout->takeAt(indexToSet);
     delete item->widget();
@@ -564,11 +575,44 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
     imageList.erase(imageList.begin() + spinValue);
 
-
-    if(spinValue + 1 <= buttons.size())
+    for(int i = spinValue; i < buttons.size(); i++)
     {
-        updateButtonNotSlot(spinValue);
+        buttons.at(i)->setObjectName(QString::number(i));
     }
+    if(buttons.size() == 0)
+    {
+        QPushButton* preButton = new QPushButton();
+        preButton->setObjectName(QString::number(0));
+        std::cout<<preButton->objectName().toInt()<<std::endl;
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+
+
+        QImage image(32, 32, QImage::Format_ARGB32);
+        imageList.push_back(image);
+        theView->setImage(image);
+
+        QPixmap testMap = QPixmap::fromImage(theView->getImage());
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon(testMap);
+        theProject->addImage(theView->getImage());
+
+        preButton->setFixedSize(buttonSize);
+        preButton->setIconSize(buttonSize);
+        preButton->setIcon(buttonIcon);
+        preButton->setFlat(true);
+
+        buttons.push_back(preButton);
+
+        testLayout->addWidget(preButton);
+
+    }
+    else
+    {
+        theView->setImage(imageList.at(spinValue - 1));
+    }
+
+
 }
 
 void MainWindow::on_CopyFrameButton_clicked()
@@ -702,21 +746,68 @@ void MainWindow::on_MergeFrameButton_clicked()
 
 void MainWindow::on_IncreaseIndexButton_clicked()
 {
+    int index = indexToSet;
+    if(buttons.size() - 1 == index)
+    {
 
+    }
+    else
+    {
+        std::iter_swap(imageList.begin() + index, imageList.begin() + (index + 1));
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QPixmap testMap = QPixmap::fromImage(imageList.at(index));
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon(testMap);
+
+
+        buttons.at(index)->setIcon(buttonIcon);
+
+        QPixmap testMap2 = QPixmap::fromImage(imageList.at(index + 1));
+        testMap2 = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon2(testMap2);
+
+        buttons.at(index + 1)->setIcon(buttonIcon2);
+        indexToSet = index + 1;
+    }
+
+    for(int i = 0; i < buttons.size(); i++)
+    {
+
+        qDebug() << "Button with new index finalized: " << buttons[i];
+
+    }
+    indexToSet = startIndex;
 }
 
 void MainWindow::on_DecreaseIndexButton_clicked()
 {
+    int index = indexToSet;
+    if(0 == index)
+    {
+
+    }
+    else
+    {
+        std::iter_swap(imageList.begin() + (index - 1), imageList.begin() + index);
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QPixmap testMap = QPixmap::fromImage(imageList.at(index - 1));
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon(testMap);
+
+
+        buttons.at(index - 1)->setIcon(buttonIcon);
+
+        QPixmap testMap2 = QPixmap::fromImage(imageList.at(index));
+        testMap2 = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon2(testMap2);
+
+        buttons.at(index)->setIcon(buttonIcon2);
+        indexToSet = index - 1;
+    }
 
 }
 
-void MainWindow::updateButtonNotSlot(int i){
-     QPixmap testMap = QPixmap::fromImage(imageList.at(i));
-     imageList.at(i) = theView->getImage();
-
-     QSize buttonSize((ui->scrollArea->height())-10,(ui->scrollArea->height())-10);
-     testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
-     QIcon buttonIcon(testMap);
-     buttons.at(i)->setIcon(buttonIcon);
-
-}
