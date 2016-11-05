@@ -550,7 +550,7 @@ void MainWindow::on_AddFrameButton_clicked()
     testLayout->addWidget(preButton);
 }
 
-void MainWindow::on_removePushButton_clicked()
+void MainWindow::on_RemoveFrameButton_clicked()
 {
     int spinValue = indexToSet;
 
@@ -563,10 +563,31 @@ void MainWindow::on_removePushButton_clicked()
 
     imageList.erase(imageList.begin() + spinValue);
 
+
     if(spinValue + 1 <= buttons.size())
     {
         updateButtonNotSlot(spinValue);
     }
+}
+
+void MainWindow::on_CopyFrameButton_clicked()
+{
+
+}
+
+void MainWindow::on_MergeFrameButton_clicked()
+{
+
+}
+
+void MainWindow::on_IncreaseIndexButton_clicked()
+{
+
+}
+
+void MainWindow::on_DecreaseIndexButton_clicked()
+{
+
 }
 
 void MainWindow::updateButtonNotSlot(int i){

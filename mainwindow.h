@@ -33,7 +33,6 @@ private slots:
     void changeFrame();
     void updateButton();
     void on_AddFrameButton_clicked();
-    void on_removePushButton_clicked();
     void on_setFramePushButton_clicked();
 
     // for undo/redo events and frame flipping
@@ -75,6 +74,16 @@ private slots:
     // Receives signal to create a new project
     void createNewSpriteProject(int pixSize);
     void on_actionOpen_triggered();
+
+    void on_CopyFrameButton_clicked();
+
+    void on_MergeFrameButton_clicked();
+
+    void on_RemoveFrameButton_clicked();
+
+    void on_IncreaseIndexButton_clicked();
+
+    void on_DecreaseIndexButton_clicked();
 
 signals:
     void undoSignal();

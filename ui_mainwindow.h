@@ -78,6 +78,11 @@ public:
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QWidget *colorPaletteWidget;
+    QPushButton *RemoveFrameButton;
+    QPushButton *IncreaseIndexButton;
+    QPushButton *DecreaseIndexButton;
+    QPushButton *CopyFrameButton;
+    QPushButton *MergeFrameButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -227,7 +232,7 @@ public:
         drawingGridLayout->setObjectName(QStringLiteral("drawingGridLayout"));
         AddFrameButton = new QPushButton(centralWidget);
         AddFrameButton->setObjectName(QStringLiteral("AddFrameButton"));
-        AddFrameButton->setGeometry(QRect(510, 480, 31, 32));
+        AddFrameButton->setGeometry(QRect(510, 340, 31, 32));
         scrollArea = new QScrollArea(centralWidget);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
         scrollArea->setGeometry(QRect(160, 340, 341, 171));
@@ -275,6 +280,21 @@ public:
         colorPaletteWidget->setFont(font);
         colorPaletteWidget->setMouseTracking(false);
         colorPaletteWidget->setAutoFillBackground(true);
+        RemoveFrameButton = new QPushButton(centralWidget);
+        RemoveFrameButton->setObjectName(QStringLiteral("RemoveFrameButton"));
+        RemoveFrameButton->setGeometry(QRect(510, 380, 31, 31));
+        IncreaseIndexButton = new QPushButton(centralWidget);
+        IncreaseIndexButton->setObjectName(QStringLiteral("IncreaseIndexButton"));
+        IncreaseIndexButton->setGeometry(QRect(510, 420, 31, 31));
+        DecreaseIndexButton = new QPushButton(centralWidget);
+        DecreaseIndexButton->setObjectName(QStringLiteral("DecreaseIndexButton"));
+        DecreaseIndexButton->setGeometry(QRect(510, 460, 31, 31));
+        CopyFrameButton = new QPushButton(centralWidget);
+        CopyFrameButton->setObjectName(QStringLiteral("CopyFrameButton"));
+        CopyFrameButton->setGeometry(QRect(180, 520, 80, 25));
+        MergeFrameButton = new QPushButton(centralWidget);
+        MergeFrameButton->setObjectName(QStringLiteral("MergeFrameButton"));
+        MergeFrameButton->setGeometry(QRect(270, 520, 80, 25));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -303,7 +323,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        ToolPages->setCurrentIndex(0);
+        ToolPages->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -344,6 +364,11 @@ public:
         FlipVertButton->setText(QApplication::translate("MainWindow", "Flip Vertical", 0));
         ToolPages->setItemText(ToolPages->indexOf(page_3), QApplication::translate("MainWindow", "Page", 0));
         AddFrameButton->setText(QApplication::translate("MainWindow", "+", 0));
+        RemoveFrameButton->setText(QApplication::translate("MainWindow", "-", 0));
+        IncreaseIndexButton->setText(QApplication::translate("MainWindow", "Up", 0));
+        DecreaseIndexButton->setText(QApplication::translate("MainWindow", "Down", 0));
+        CopyFrameButton->setText(QApplication::translate("MainWindow", "Copy Frame", 0));
+        MergeFrameButton->setText(QApplication::translate("MainWindow", "Merge Frame", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0));
     } // retranslateUi

@@ -67,7 +67,7 @@
      <bool>false</bool>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Draw">
      <property name="geometry">
@@ -324,7 +324,7 @@
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>480</y>
+      <y>340</y>
       <width>31</width>
       <height>32</height>
      </rect>
@@ -556,6 +556,71 @@
     </property>
     <property name="autoFillBackground">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="RemoveFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>380</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="IncreaseIndexButton">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>420</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Up</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="DecreaseIndexButton">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>460</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Down</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="CopyFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>520</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Copy Frame</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="MergeFrameButton">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>520</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Merge Frame</string>
     </property>
    </widget>
   </widget>
