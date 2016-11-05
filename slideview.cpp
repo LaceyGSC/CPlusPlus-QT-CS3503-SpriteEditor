@@ -607,9 +607,12 @@ void SlideView::fillInArea(int pixelX, int pixelY)
     QPoint current(pixelX, pixelY);
     q.push(current);
 
+
     // get the current pixel color and fill in all neighboring pixels sharing the same color.  Thus fill in the area of the same color.
     QColor areaColor = theImage.pixelColor(pixelX, pixelY);
-    int count = 0;
+
+    theImage.setPixel(pixelX, pixelY, color);
+
 
     // fill in the area user wants with paint-bucket color
     while(!q.empty())
@@ -617,53 +620,53 @@ void SlideView::fillInArea(int pixelX, int pixelY)
 
         pixelX = q.front().x();
         pixelY = q.front().y();
-                q.pop();
-
-
-    count++;
-    if (count == 90000000)
-    {
-        updateScene();
-        return;
-    }
-
-
-        theImage.setPixel(pixelX, pixelY, color);  // <---- color bleeding over
+        q.pop();
 
 
         // right neighbor
         if (isFillableNeighbor(pixelX + 1, pixelY, areaColor))
         {
+            //cout << "right" << endl;
             q.push(QPoint(pixelX + 1, pixelY));
+            theImage.setPixel(pixelX+1, pixelY, color);
 
-           // cout << "right" << endl;
+
         }
 
         // left neighbor
         if(isFillableNeighbor(pixelX-1, pixelY, areaColor))
         {
+            //cout << "left" << endl;
             q.push(QPoint(pixelX - 1, pixelY));
-           // cout << "left" << endl;
+            theImage.setPixel(pixelX-1, pixelY, color);
+
         }
 
         // bottom neighbor
         if(isFillableNeighbor(pixelX, pixelY + 1, areaColor))
         {
+            //cout << "bottom" << endl;
             q.push(QPoint(pixelX, pixelY + 1));
-           // cout << "bottom" << endl;
+
+            theImage.setPixel(pixelX, pixelY+1, color);
         }
 
         // top neighbor
         if(isFillableNeighbor(pixelX, pixelY - 1, areaColor))
         {
+            //cout << "top" << endl;
             q.push(QPoint(pixelX, pixelY - 1));
-          //  cout << "top" << endl;
+            theImage.setPixel(pixelX, pixelY-1, color);
+
         }
+
+
+        cout << endl;
 
 
     }
 
-    cout << "Done with paint bucket" << endl;
+    //cout << "Done with paint bucket" << endl;
     updateScene();
 
 }
@@ -793,6 +796,7 @@ void SlideView::updatePalettePreview(QColor previewColor)
     emit updatePalettePreviewSignal(previewColor);
 }
 
+
 void SlideView::drawCheckerBoard(){
     unsigned int cellSizeX = theScene->width()/pixelWidth;
     unsigned int cellSizeY = theScene->height()/pixelHeight;
@@ -803,14 +807,16 @@ void SlideView::drawCheckerBoard(){
     QPainter paint();
     //paint.setBrush(brush2);
 
+    /*
 
-        for(unsigned int j = 0; j < theScene->width(); j++)
-            for(unsigned int i = j % 2; i < theScene->height(); i+=2)
-            {
+        //for(unsigned int j = 0; j < theScene->width(); j++)
+            //for(unsigned int i = j % 2; i < theScene->height(); i+=2)
                 //QRectF rect(i * cellSizeX, j * cellSizeY, cellSizeX, cellSizeY);
-//                theScene->drawBackground(paint, rect);
-            }
+                //theScene->drawBackground(piant, rect);
+
                 //theScene->addRect(i * cellSizeX, j * cellSizeY, cellSizeX, cellSizeY, pen, brush2);
+                */
 
 }
+
 
