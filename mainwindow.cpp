@@ -141,6 +141,7 @@ void MainWindow::on_FlipVertButton_clicked()
 void MainWindow::on_FillButton_clicked()
 {
     emit paintBucketSignal();
+    theView->setTool("paintBucket");
 }
 
 void MainWindow::on_LineButton_clicked()
@@ -539,6 +540,7 @@ void MainWindow::on_AddFrameButton_clicked()
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     QImage image (size, size, QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
     theView->setImage(image);
     theProject->addImage(theView->getImage());
     imageList.push_back(theView->getImage());

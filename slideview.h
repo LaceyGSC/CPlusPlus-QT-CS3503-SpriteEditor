@@ -69,7 +69,7 @@ private:
 
 
     //the types of tool we use to edit pixels
-    enum tools {test, pen, paintBrush, erase, eyedropper, shapeLine, shapeCircle, shapeSquare};
+    enum tools {test, pen, paintBrush, erase, eyedropper, shapeLine, shapeCircle, shapeSquare, paintBucket};
     tools theTool;
 
     //Undo-redo fields
