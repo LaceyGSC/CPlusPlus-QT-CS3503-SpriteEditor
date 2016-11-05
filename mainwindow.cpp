@@ -237,233 +237,249 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::createNewSpriteProject(int pixSize)
 {
-//    currentIndex = 0;
+    currentIndex = 0;
 
-//    size = pixSize;
+    size = pixSize;
 
-//    while(testLayout->count() > 0)
-//    {
-//        QLayoutItem * item = testLayout->takeAt(0);
-//        delete item->widget();
-//    }
+    while(testLayout->count() > 0)
+    {
+        QLayoutItem * item = testLayout->takeAt(0);
+        delete item->widget();
+    }
 
-//    testLayout->update();
+    testLayout->update();
 
-//    // Remove and replace the view with the new view
-//    ui->drawingGridLayout->removeWidget(theView);
-
-
-//   // --------------------------The rest seems to work great for creating new projects -----------------------
-//    // Create new objects and reconnect the slots
-//    //Create an empty graphicsview to act as the parent for the SlideView
-//    view = new QGraphicsView();
-//    //Creates a slide view: extended qGraphicsView with view as its parent
-//    QImage theImage = QImage(size, size, QImage::Format_ARGB32);
-//    // If we don't fill theImage before applying it, we get artifacts.
-//    // I suggest the default background be white.
-//    QColor defaultColor = qRgba(255, 255, 255, 0);
-//    //theImage.fill(defaultColor);
-//    theView = new SlideView(view, theImage);
-//    // This makes it so we only use the new slides
-//    theProject->deleteAllSlidesAndRefresh();
-//    delete theProject;
-//    theProject = new Project("", theView, this);
-//    theView = theProject->getSlide(0);
-//    theView->setFill(false);
-
-//    //set spinboxes range
-//    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
-//    ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
-//    ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-//    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
-
-//    //Adds a the extended slideview to the layout for frame_2
-//    ui->drawingGridLayout->addWidget(theView);
-
-//    // Set up the mini-slide previews so we can see how many slides we have
-//    QPushButton* preButton = new QPushButton();
-//    preButton->setObjectName(QString::number(currentIndex));
-//    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
-
-//    QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
-//    QPixmap testMap = QPixmap::fromImage(theProject->getSlide(currentIndex)->getImage().copy());
-//    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
-
-//    QIcon buttonIcon(testMap);
-
-//    preButton->setFixedSize(buttonSize);
-//    preButton->setIconSize(buttonSize);
-//    preButton->setIcon(buttonIcon);
-//    preButton->setFlat(false);
+    // Remove and replace the view with the new view
+    ui->drawingGridLayout->removeWidget(theView);
 
 
-////    testLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
-////    testLayout->setContentsMargins(10,0,10,0);
-////    ui->scrollAreaWidgetContents->setLayout(testLayout);
+   // --------------------------The rest seems to work great for creating new projects -----------------------
+    // Create new objects and reconnect the slots
+    //Create an empty graphicsview to act as the parent for the SlideView
+    view = new QGraphicsView();
+    //Creates a slide view: extended qGraphicsView with view as its parent
 
-//    ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
+    // If we don't fill theImage before applying it, we get artifacts.
+    // I suggest the default background be white.
+    QColor defaultColor = qRgba(255, 255, 255, 0);
 
-//    // Reset the connections
-//    connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
-//    connect(this, &MainWindow::redoSignal, theView, &SlideView::redoSlot);
-//    connect(this, &MainWindow::rotateLeftSignal, theView, &SlideView::rotateLeftSlot);
-//    connect(this, &MainWindow::rotateRightSignal, theView, &SlideView::rotateRightSlot);
-//    connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
-//    connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
-//    connect(this, &MainWindow::addFrameSignal,theProject, &Project::addFrameSlot);
-//    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
-//    connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
+     theView = new SlideView(view, size);
+    // This makes it so we only use the new slides
+    theProject->deleteAllSlidesAndRefresh();
+    delete theProject;
 
-////    connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
-////    connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
+    imageList.clear();
+    buttons.clear();
+
+    theProject = new Project("", theView, this);
+
+    theView = theProject->getSlide(0);
+    theView->setFill(false);
+
+    //set spinboxes range
+    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
+    ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
+    ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
+    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
+
+   //Adds a the extended slideview to the layout for frame_2
+    ui->drawingGridLayout->addWidget(theView);
+
+    // Set up the mini-slide previews so we can see how many slides we have
+    QPushButton* preButton = new QPushButton();
+    QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    preButton->setObjectName(QString::number(currentIndex));
+
+    buttons.push_back(preButton);
+    buttonsIndex = 0;
+    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+
+    QPixmap testMap = QPixmap::fromImage(theProject->getSlide(currentIndex)->getImage().copy());
+    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    QIcon buttonIcon(testMap);
+
+    preButton->setFixedSize(buttonSize);
+    preButton->setIconSize(buttonSize);
+    preButton->setIcon(buttonIcon);
+    preButton->setFlat(true);
+
+
+//    testLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
+//    testLayout->setContentsMargins(10,0,10,0);
+//    ui->scrollAreaWidgetContents->setLayout(testLayout);
+
+    ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
+
+    // Reset the connections
+    connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
+    connect(this, &MainWindow::redoSignal, theView, &SlideView::redoSlot);
+    connect(this, &MainWindow::rotateLeftSignal, theView, &SlideView::rotateLeftSlot);
+    connect(this, &MainWindow::rotateRightSignal, theView, &SlideView::rotateRightSlot);
+    connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
+    connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
+    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
+    connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
+
+    connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
+    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+
+    //connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
+    //connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
-//    // Open the file and read the data
-//    // -------------------------------------------------------------------------
-//    QString filenamePicked = QFileDialog::getOpenFileName(
-//                this,
-//                tr("Open Sprite"),
-//                "C:://",
-//                "Sprite files (*.ssp);;Text Files (*.txt)");
+    // Open the file and read the data
+    // -------------------------------------------------------------------------
+    QString filenamePicked = QFileDialog::getOpenFileName(
+                this,
+                tr("Open Sprite"),
+                "C:://",
+                "Sprite files (*.ssp);;Text Files (*.txt)");
 
-//    QFile file(filenamePicked);
+    QFile file(filenamePicked);
 
-//    // If we can't read the file, return
-//    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
-//    {
-//        return;
-//    }
+    // If we can't read the file, return
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        return;
+    }
 
-//    QTextStream in(&file);
-//    QString line = in.readLine();
-//    QStringList list = line.split(QRegExp("\\s"));
-//    int count = 0;
-//    int spriteWidth = list.back().toInt();
-//    int spriteHeight = list.front().toInt();
-//    std::vector<QImage> loadedImages;
-//    line = in.readLine();
-//    int numFrames = line.toInt();
-//    uchar* buffer = new uchar[spriteWidth * spriteHeight * 4];
-//    int pos = 0;
-//    while(!in.atEnd())
-//    {
-//        // This reads the lines and puts them into QImages
-//        QString line = in.readLine();
-//        list = line.split(QRegExp("\\s"));
-//        for(auto it = list.begin(); it != list.end(); it++) {
-//            *(buffer + pos) = (*it).toInt();
-//            pos++;
-//            count++;
-//        }
-//        std::cout<<line.toStdString()<<std::endl;
-//        std::cout<<"count : "<<count<<" pos: "<<pos<<std::endl;
-//        count++;
-//        // This initializes a new QImage every time we finish reading a frame
-//        if(count % spriteHeight == 0)
-//        {
-//            std::cout<<"End of frame"<<std::endl;
-//            QImage temp(buffer, spriteWidth, spriteHeight, QImage::Format_ARGB32);
-//            loadedImages.push_back(temp.copy());
-//            delete buffer;
-//            if(count + 1 != numFrames)
-//            {
-//                std::cout<<"Create new buffer. count : "<<count<<" pos: "<<pos<<std::endl;
-//                // Be sure to give it enough room for the RGBA parts
-//                buffer = new uchar[spriteHeight * spriteWidth * 4];
-//                pos = 0;
-//            }
-//        }
-//    }
-//    std::cout<<loadedImages.size()<<std::endl;
+    QTextStream in(&file);
+    QString line = in.readLine();
+    QStringList list = line.split(QRegExp("\\s"));
+    int count = 0;
+    int spriteWidth = list.back().toInt();
+    int spriteHeight = list.front().toInt();
+    std::vector<QImage> loadedImages;
+    line = in.readLine();
+    int numFrames = line.toInt();
+    uchar* buffer = new uchar[spriteWidth * spriteHeight * 4];
+    int pos = 0;
+    while(!in.atEnd())
+    {
+        // This reads the lines and puts them into QImages
+        QString line = in.readLine();
+        list = line.split(QRegExp("\\s"));
+        for(auto it = list.begin(); it != list.end(); it++) {
+            *(buffer + pos) = (*it).toInt();
+            pos++;
+            count++;
+        }
+        std::cout<<line.toStdString()<<std::endl;
+        std::cout<<"count : "<<count<<" pos: "<<pos<<std::endl;
+        count++;
+        // This initializes a new QImage every time we finish reading a frame
+        if(count % spriteHeight == 0)
+        {
+            std::cout<<"End of frame"<<std::endl;
+            QImage temp(buffer, spriteWidth, spriteHeight, QImage::Format_ARGB32);
+            loadedImages.push_back(temp.copy());
+            delete buffer;
+            if(count + 1 != numFrames)
+            {
+                std::cout<<"Create new buffer. count : "<<count<<" pos: "<<pos<<std::endl;
+                // Be sure to give it enough room for the RGBA parts
+                buffer = new uchar[spriteHeight * spriteWidth * 4];
+                pos = 0;
+            }
+        }
+    }
+    std::cout<<loadedImages.size()<<std::endl;
 
-//    // -------------------------------------------------------------
-//    // Use the data to initialize the view and signals
-//    // -------------------------------------------------------------
-//    currentIndex = 0;
-//    int numSlidesToRemove = theProject->getSizeList();
-////    theProject->
-//    std::cout<<"slides to remove: "<<numSlidesToRemove<<std::endl;
-//    std::cout << "Loaded sprite: "<<spriteWidth<<" "<<spriteHeight <<std::endl;
+    // -------------------------------------------------------------
+    // Use the data to initialize the view and signals
+    // -------------------------------------------------------------
+    currentIndex = 0;
+    int numSlidesToRemove = theProject->getSizeList();
+//    theProject->
+    std::cout<<"slides to remove: "<<numSlidesToRemove<<std::endl;
+    std::cout << "Loaded sprite: "<<spriteWidth<<" "<<spriteHeight <<std::endl;
 
-//    size = spriteWidth;
-//    qDebug() << "layout count " << testLayout->count();
-//    while(testLayout->count() > 0)
-//    {
-//        QLayoutItem * item = testLayout->takeAt(0);
-//        delete item->widget();
-//    }
+    size = spriteWidth;
 
-//    testLayout->update();
+    while(testLayout->count() > 0)
+    {
+        QLayoutItem * item = testLayout->takeAt(0);
+        delete item->widget();
+    }
 
-//    // Remove and replace the view with the new view
-//    ui->drawingGridLayout->removeWidget(theView);
+    testLayout->update();
 
-//    // Create new objects and reconnect the slots
-//    //Create an empty graphicsview to act as the parent for the SlideView
-//    view = new QGraphicsView();
-//    //Creates a slide view: extended qGraphicsView with view as its parent
-//    QImage theImage = loadedImages.front();
-//    // If we don't fill theImage before applying it, we get artifacts.
-//    // I suggest the default background be white.
-////    QColor defaultColor = qRgba(255, 255, 255, 0);
-//    //theImage.fill(defaultColor);
-//    theView = new SlideView(view, theImage);
-//    // This makes it so we only use the new slides
-//    theProject->deleteAllSlidesAndRefresh();
-//    delete theProject;
-//    theProject = new Project("", theView, this);
-//    int idx = 0;
-//    for(auto it = loadedImages.begin(); it != loadedImages.end(); it++)
-//    {
-//        if(idx != 0)
-//        {
-//           theProject->addSlide(new SlideView(view, *it));
-//           std::cout<<"Added slide"<<std::endl;
-//        }
-//        idx++;
-//    }
-//    std::cout<<"totSlides: "<<theProject->getSizeList()<<std::endl;
-//    theView = theProject->getSlide(0);
-//    theView->setFill(false);
+    // Remove and replace the view with the new view
+    ui->drawingGridLayout->removeWidget(theView);
+
+    // Create new objects and reconnect the slots
+    //Create an empty graphicsview to act as the parent for the SlideView
+    view = new QGraphicsView();
+    //Creates a slide view: extended qGraphicsView with view as its parent
+    QImage theImage = loadedImages.front();
+    // If we don't fill theImage before applying it, we get artifacts.
+    // I suggest the default background be white.
+//    QColor defaultColor = qRgba(255, 255, 255, 0);
+
+    theView = new SlideView(view, size);
+    // This makes it so we only use the new slides
+    theProject->deleteAllSlidesAndRefresh();
+    delete theProject;
+    theProject = new Project("", theView, this);
+
+    int idx = 0;
+    for(auto it = loadedImages.begin(); it != loadedImages.end(); it++)
+    {
+        if(idx != 0)
+        {
+           theProject->addSlide(new SlideView(view, size));
+           theProject->addImage(*it);
+
+           std::cout<<"Added slide"<<std::endl;
+        }
+        idx++;
+    }
+    std::cout<<"totSlides: "<<theProject->getSizeList()<<std::endl;
+
+    theView = theProject->getSlide(0);
+    theView->setFill(false);
 
 
-//    //set spinboxes range
-//    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
-//    ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
-//    ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-//    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
+    //set spinboxes range
+    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
+    ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
+    ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
+    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
 
-//    //Adds a the extended slideview to the layout for frame_2
-//    ui->drawingGridLayout->addWidget(theView);
-//    for(int i = 0; i < loadedImages.size(); i++) {
-//    // Set up the mini-slide previews so we can see how many slides we have
-//        QPushButton* preButton = new QPushButton();
-//        preButton->setObjectName(QString::number(i));
-//        connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
-//        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
-//        QPixmap testMap = QPixmap::fromImage(theProject->getSlide(i)->getImage().copy());
-//        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
-//        QIcon buttonIcon(testMap);
-//        preButton->setFixedSize(buttonSize);
-//        preButton->setIconSize(buttonSize);
-//        preButton->setIcon(buttonIcon);
-//        preButton->setFlat(false);
-//        ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
-//    }
-//    // Reset the connections
-//    connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
-//    connect(this, &MainWindow::redoSignal, theView, &SlideView::redoSlot);
-//    connect(this, &MainWindow::rotateLeftSignal, theView, &SlideView::rotateLeftSlot);
-//    connect(this, &MainWindow::rotateRightSignal, theView, &SlideView::rotateRightSlot);
-//    connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
-//    connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
-//    connect(this, &MainWindow::addFrameSignal,theProject, &Project::addFrameSlot);
-//    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
-//    connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
-//    connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
-////    connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
+    //Adds a the extended slideview to the layout for frame_2
+    ui->drawingGridLayout->addWidget(theView);
+
+    for(int i = 0; i < loadedImages.size(); i++) {
+    // Set up the mini-slide previews so we can see how many slides we have
+        QPushButton* preButton = new QPushButton();
+        preButton->setObjectName(QString::number(i));
+        connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QPixmap testMap = QPixmap::fromImage(theProject->getSlide(i)->getImage());
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        QIcon buttonIcon(testMap);
+        preButton->setFixedSize(buttonSize);
+        preButton->setIconSize(buttonSize);
+        preButton->setIcon(buttonIcon);
+        preButton->setFlat(false);
+        ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
+    }
+    // Reset the connections
+    connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
+    connect(this, &MainWindow::redoSignal, theView, &SlideView::redoSlot);
+    connect(this, &MainWindow::rotateLeftSignal, theView, &SlideView::rotateLeftSlot);
+    connect(this, &MainWindow::rotateRightSignal, theView, &SlideView::rotateRightSlot);
+    connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
+    connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
+    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
+    connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
+
+    connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
+
+//    connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
 
 }
 

@@ -94,5 +94,5 @@ void Project::exportGifSlot(std::string name)
 void Project::deleteAllSlidesAndRefresh()
 {
     framesList.clear();
-
+    imageList.clear();
 }
