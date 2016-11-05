@@ -12,16 +12,21 @@
 using namespace std;
 
 
-SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent)
+SlideView::SlideView(QGraphicsView *parent, int size) : QGraphicsView(parent)
 {
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
     //Failure to create new here causes fatal crash in mouse events
-    theImage = image.copy();
+    theImage = QImage(size, size, QImage::Format_ARGB32);
     theTool = pen;
     theScene  =  new QGraphicsScene(this);
     drawing = false;
     shapeWidth = 1;
     paintWidth = 1;
+
+    //get height and width of Qimage
+    pixelHeight = theImage.height();
+    pixelWidth = theImage.width();
+
 
 
     //Creates the default opacity value and background color for the QGraphicScene
@@ -30,18 +35,11 @@ SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent
     QBrush brush2(QColor(128, 128, 128, 255));
     QBrush brush(QColor(0, 0, 0, 0));
     QPainter painty(&theImage);
-    //Make alpha channel
-    //QRgb value = qRgba(0, 0, 0, 0);
+
     painty.fillRect(0,0, pixelWidth, pixelHeight, brush);
 
-    //get height and width of Qimage
-    pixelHeight = theImage.height();
-    pixelWidth = theImage.width();
-
     //color for testing
-
     color = qRgba(0, 255, 0, 255);
-
 
     //Sets the value of global pixImage to the default image created above
     //Fills with solid red for testing
@@ -51,9 +49,7 @@ SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent
     //Scales image
     //CURRENT BUG: incorrect vaules coming from parent geometry
     //              Hardcoded size values for testing, change at later date
-    pixImageZoomed = pixImage.scaled(275, 275,
-                                       Qt::IgnoreAspectRatio, Qt::FastTransformation);
-
+    pixImageZoomed = pixImage.scaled(275, 275,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
     //Adds zoomed pixel map of image to the QGraphicsScene
     pixMap = theScene->addPixmap(pixImageZoomed);
@@ -61,6 +57,7 @@ SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent
     //Sets the view size and background color for QGraphicScene
     theScene->setSceneRect(pixImageZoomed.rect());
     theScene->setBackgroundBrush(brush2);
+
     //drawCheckerBoard();
 
 
@@ -89,7 +86,12 @@ SlideView::SlideView(QGraphicsView *parent, QImage image) : QGraphicsView(parent
  * */
 QImage SlideView::getImage()
 {
-    return theImage.copy();
+    return theImage;
+}
+
+QPixmap SlideView::getPixMap()
+{
+    return pixImageZoomed;
 }
 
 /*
@@ -109,11 +111,14 @@ QImage SlideView::getImage()
  * */
 void SlideView::mouseMoveEvent( QMouseEvent* event)
 {
+    emit updatePreview();
 
     if(drawing)
     {
 
         if(theTool == pen){
+            emit updatePreview();
+
             drawingX = event->pos().x()/(theScene->width()/pixelWidth);
             drawingY = event->pos().y()/(theScene->height()/pixelHeight);
 
@@ -131,6 +136,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
             pixMap->setPixmap(pixImageZoomed);
             this->update();
+            emit updatePreview();
         }
         if(theTool == shapeLine){
             std::cout<<"reached move"<<std::endl;
@@ -147,6 +153,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                 //itemToDraw->setPos(origPoint);
             }
             itemToDraw->setLine(event->pos().x(), event->pos().y(), origPoint.x(), origPoint.y());
+            emit updatePreview();
 
 
         }
@@ -168,6 +175,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             circleToDraw->
                     setRect(origPoint.x(), origPoint.y(), event->pos().x() - origPoint.x(),
                             event->pos().y() - origPoint.y());
+            emit updatePreview();
 
 
         }
@@ -189,6 +197,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             SquareToDraw->
                     setRect(origPoint.x(), origPoint.y(), event->pos().x() - origPoint.x(),
                             event->pos().y() - origPoint.y());
+            emit updatePreview();
 
 
         }
@@ -199,6 +208,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             brush(drawingX, drawingY);
 
             updateScene();
+            emit updatePreview();
 
         }
 
@@ -216,6 +226,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                                                    Qt::IgnoreAspectRatio, Qt::FastTransformation);
             pixMap->setPixmap(pixImageZoomed);
             this->update();
+            emit updatePreview();
         }
         if(theTool == eyedropper) {
             // Get coordinates
@@ -230,13 +241,10 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             // Update color
             QColor previewColor = qRgba(pickedColor.red(), pickedColor.green(), pickedColor.blue(), 255);
             updatePalettePreview(previewColor);
-
+            emit updatePreview();
         }
     }
-
-
 }
-
 
 /*
  * mousePressEvent method:
@@ -257,6 +265,8 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
     if (event->button() == Qt::LeftButton)
     {
+        emit updatePreview();
+
         // before drawing, save the current image for undo
         undoStack.push(theImage.copy());
         drawing = true;
@@ -324,7 +334,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 }
 
 /*
- * mousePressEvent method:
+ * mouseReleaseEvent method:
  * ----------------
  * Parameters:
  *      -QMouseEvent*
@@ -337,8 +347,11 @@ void SlideView::mousePressEvent( QMouseEvent* event)
  * */
 void SlideView::mouseReleaseEvent( QMouseEvent* event)
 {
+    emit updatePreview();
     if(event->button() == Qt::LeftButton)
     {
+        emit updatePreview();
+
         drawing = false;
 
         if(theTool == shapeLine){
@@ -439,6 +452,7 @@ void SlideView::undoSlot()
    undoStack.pop();
 
     updateScene();
+    emit updatePreview();
 
 }
 
@@ -457,8 +471,8 @@ void SlideView::redoSlot()
     redoStack.pop();
 
     updateScene();
+    emit updatePreview();
 }
-
 
 /**
  * Updates the pixel art canvas
@@ -466,10 +480,9 @@ void SlideView::redoSlot()
 void SlideView::updateScene()
 {
     // draw
-    pixImage = QPixmap::fromImage(theImage.copy());
+    pixImage = QPixmap::fromImage(theImage);
     //scale image
-    pixImageZoomed = pixImage.scaled(275, 275,
-                                           Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    pixImageZoomed = pixImage.scaled(275, 275,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
     //add pixmap to scene
     //Adds zoomed pixel map of image to the QGraphicsScene
@@ -477,7 +490,6 @@ void SlideView::updateScene()
     //pixMap = theScene->addPixmap(pixImageZoomed);
     this->update();
 }
-
 
 /**
  * Rotates the image to the left 90 degrees
@@ -501,8 +513,8 @@ void SlideView::rotateLeftSlot()
 
     theImage = flippedImage.copy();
     updateScene();
+    emit updatePreview();
 }
-
 
 /**
  * Rotates the image to the right 90 degrees
@@ -529,8 +541,8 @@ void SlideView::rotateRightSlot()
     theImage = rotatedImage.copy();
 
     updateScene();
+    emit updatePreview();
 }
-
 
 /**
  * Flips the image horizontally
@@ -554,8 +566,8 @@ void SlideView::flipHorizontalSlot()
     theImage = rotatedImage.copy();
 
     updateScene();
+    emit updatePreview();
 }
-
 
 /**
  * Flips the image vertically
@@ -577,6 +589,7 @@ void SlideView::flipVerticalSlot()
 
     theImage = flippedImage.copy();
     updateScene();
+    emit updatePreview();
 }
 
 
@@ -691,7 +704,6 @@ bool SlideView::hasAreaColor(QColor areaColor, QColor neighborColor)
     return sameColor;
 }
 
-
 /**
  * Returns true if the neighbor's x, y, and color are from the area that user wants to fill in with paint bucket
  */
@@ -754,6 +766,7 @@ void SlideView::drawSquare(int x1, int y1, int w, int h)
     }
 
 }
+
 /*
 sets if the shpae needs to be filled or not
 */
@@ -774,7 +787,6 @@ void SlideView::setShapeWidth(int w)
 /*
  * set width of the paint PIxel
  */
-
 void SlideView::setPaintWidth(int w)
 {
     paintWidth = w;
@@ -796,7 +808,6 @@ void SlideView::updatePalettePreview(QColor previewColor)
     emit updatePalettePreviewSignal(previewColor);
 }
 
-
 void SlideView::drawCheckerBoard(){
     unsigned int cellSizeX = theScene->width()/pixelWidth;
     unsigned int cellSizeY = theScene->height()/pixelHeight;
@@ -813,9 +824,14 @@ void SlideView::drawCheckerBoard(){
             //for(unsigned int i = j % 2; i < theScene->height(); i+=2)
                 //QRectF rect(i * cellSizeX, j * cellSizeY, cellSizeX, cellSizeY);
                 //theScene->drawBackground(piant, rect);
+
                 //theScene->addRect(i * cellSizeX, j * cellSizeY, cellSizeX, cellSizeY, pen, brush2);
                 */
 
 }
 
-
+void SlideView::setImage(QImage image)
+{
+    theImage = image.copy();
+    this->updateScene();
+}

@@ -1,9 +1,15 @@
 #ifndef PROJECT_H
 #define PROJECT_H
+#include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsLineItem>
+#include <QAction>
+#include <QGraphicsView>
+#include <QKeyEvent>
+#include <QImage>
 #include <string>
 #include <stack>
 #include <list>
-#include "frame.h"
 #include "slideview.h"
 //#include "gif.h"
 
@@ -11,6 +17,8 @@ class Project : public QObject
 {
     std::string fileName;
     std::list<SlideView*> framesList;
+    std::vector<QImage> imageList;
+
     int width;
     int height;
 
@@ -20,13 +28,18 @@ public:
     SlideView* getSlide(int index);
     void addSlideAt(int index, SlideView* frame);
     void addSlide(SlideView* frame);
-    size_t getSizeList();
+    int getSizeList();
+
     void deleteAllSlidesAndRefresh();
+
+    QImage getImage(int index);
+    void addImage(QImage image);
 
 public slots:
     void addFrameSlot(SlideView* frame);
+    void addImageToButton();
     void exportGifSlot(std::string name);
-//    void callGifNamePopup();
+//  void callGifNamePopup();
 };
 
 #endif // PROJECT_H

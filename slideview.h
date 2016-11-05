@@ -17,13 +17,14 @@ class SlideView : public QGraphicsView
     Q_OBJECT
     Q_PROPERTY (QColor previewColor READ previewColor NOTIFY updatePalettePreviewSignal)
 public:
-    explicit SlideView(QGraphicsView *parent, QImage image);
+    explicit SlideView(QGraphicsView *parent, int size = 10);
     QImage getImage();
     void setTool(std::string tool);
     void setFill(bool fill);
     void setShapeWidth(int w);
     void setPaintWidth(int w);
     void updateScene();
+    void setImage(QImage image);
     void updatePalettePreview(QColor previewColor);
 
     QColor previewColor() const
@@ -31,9 +32,17 @@ public:
         return m_previewColor;
     }
 
+signals:
+    void updatePreview();
+    void updatePalettePreviewSignal(QColor previewColor);
+
 private:
     QImage theImage;
+    QRgb color;
+
     QPoint startPos;
+    QPoint lastPoint;
+
     QGraphicsScene *theScene;
     QGraphicsPixmapItem *pixMap;
     QPixmap pixImage;
@@ -42,29 +51,32 @@ private:
     QGraphicsLineItem* itemToDraw;
     QGraphicsEllipseItem* circleToDraw;
     QGraphicsRectItem* SquareToDraw;
-    int pixelHeight;
-    int pixelWidth;
-    bool drawing;
-    QPoint lastPoint;
-    QRgb color;
-    int drawingY;
-    int drawingX;
-    double scaledPixelWidth;
-    //the types of tool we use to edit pixels
-    enum tools {test, pen, paintBrush, erase, eyedropper, shapeLine, shapeCircle, shapeSquare};
-    tools theTool;
-    bool fillShape;
+
     int shapeWidth;
     int paintWidth;
+    int pixelHeight;
+    int pixelWidth;
+    int drawingY;
+    int drawingX;
 
+    double scaledPixelWidth;
+
+    bool fillShape;
+    bool drawing;
     bool drawingLine = false;
     bool drawingCircle = false;
     bool drawingRect = false;
+
+
+    //the types of tool we use to edit pixels
+    enum tools {test, pen, paintBrush, erase, eyedropper, shapeLine, shapeCircle, shapeSquare};
+    tools theTool;
 
     //Undo-redo fields
     std::stack<QImage> undoStack;
     std::stack<QImage> redoStack;
 
+    QPixmap getPixMap();
 
     //Paint bucket fields
     bool hasPaintBucket = false;
@@ -72,7 +84,6 @@ private:
     bool isValidPoint(int x, int y);
     bool hasAreaColor(QColor areaColor, QColor neighborColor);
     bool isFillableNeighbor(int x, int y, QColor areaColor);
-
 
     const int NUMBER_OF_PIXEL = 32; // an matrix of pixels should be a square matrix.
 
@@ -91,9 +102,6 @@ protected:
     virtual void mouseReleaseEvent( QMouseEvent* event);
 
     //virtual void mouseDoubleClickEvent(QMouseEvent *event);
-
-signals:
-    void updatePalettePreviewSignal(QColor previewColor);
 
 public slots:
     void undoSlot();
