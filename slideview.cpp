@@ -111,10 +111,14 @@ QPixmap SlideView::getPixMap()
  * */
 void SlideView::mouseMoveEvent( QMouseEvent* event)
 {
+    emit updatePreview();
+
     if(drawing)
     {
 
         if(theTool == pen){
+            emit updatePreview();
+
             drawingX = event->pos().x()/(theScene->width()/pixelWidth);
             drawingY = event->pos().y()/(theScene->height()/pixelHeight);
 
@@ -132,6 +136,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
             pixMap->setPixmap(pixImageZoomed);
             this->update();
+            emit updatePreview();
         }
         if(theTool == shapeLine){
             std::cout<<"reached move"<<std::endl;
@@ -148,6 +153,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                 //itemToDraw->setPos(origPoint);
             }
             itemToDraw->setLine(event->pos().x(), event->pos().y(), origPoint.x(), origPoint.y());
+            emit updatePreview();
 
 
         }
@@ -169,6 +175,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             circleToDraw->
                     setRect(origPoint.x(), origPoint.y(), event->pos().x() - origPoint.x(),
                             event->pos().y() - origPoint.y());
+            emit updatePreview();
 
 
         }
@@ -190,6 +197,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             SquareToDraw->
                     setRect(origPoint.x(), origPoint.y(), event->pos().x() - origPoint.x(),
                             event->pos().y() - origPoint.y());
+            emit updatePreview();
 
 
         }
@@ -200,6 +208,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             brush(drawingX, drawingY);
 
             updateScene();
+            emit updatePreview();
 
         }
 
@@ -217,6 +226,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                                                    Qt::IgnoreAspectRatio, Qt::FastTransformation);
             pixMap->setPixmap(pixImageZoomed);
             this->update();
+            emit updatePreview();
         }
         if(theTool == eyedropper) {
             // Get coordinates
@@ -231,11 +241,9 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             // Update color
             QColor previewColor = qRgba(pickedColor.red(), pickedColor.green(), pickedColor.blue(), 255);
             updatePalettePreview(previewColor);
-
+            emit updatePreview();
         }
     }
-
-
 }
 
 /*
@@ -257,6 +265,8 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 
     if (event->button() == Qt::LeftButton)
     {
+        emit updatePreview();
+
         // before drawing, save the current image for undo
         undoStack.push(theImage.copy());
         drawing = true;
@@ -324,7 +334,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 }
 
 /*
- * mousePressEvent method:
+ * mouseReleaseEvent method:
  * ----------------
  * Parameters:
  *      -QMouseEvent*
@@ -337,8 +347,11 @@ void SlideView::mousePressEvent( QMouseEvent* event)
  * */
 void SlideView::mouseReleaseEvent( QMouseEvent* event)
 {
+    emit updatePreview();
     if(event->button() == Qt::LeftButton)
     {
+        emit updatePreview();
+
         drawing = false;
 
         if(theTool == shapeLine){
@@ -439,6 +452,7 @@ void SlideView::undoSlot()
    undoStack.pop();
 
     updateScene();
+    emit updatePreview();
 
 }
 
@@ -457,6 +471,7 @@ void SlideView::redoSlot()
     redoStack.pop();
 
     updateScene();
+    emit updatePreview();
 }
 
 /**
@@ -498,6 +513,7 @@ void SlideView::rotateLeftSlot()
 
     theImage = flippedImage.copy();
     updateScene();
+    emit updatePreview();
 }
 
 /**
@@ -525,6 +541,7 @@ void SlideView::rotateRightSlot()
     theImage = rotatedImage.copy();
 
     updateScene();
+    emit updatePreview();
 }
 
 /**
@@ -549,6 +566,7 @@ void SlideView::flipHorizontalSlot()
     theImage = rotatedImage.copy();
 
     updateScene();
+    emit updatePreview();
 }
 
 /**
@@ -571,6 +589,7 @@ void SlideView::flipVerticalSlot()
 
     theImage = flippedImage.copy();
     updateScene();
+    emit updatePreview();
 }
 
 

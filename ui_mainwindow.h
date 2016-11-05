@@ -16,7 +16,6 @@
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLayout>
@@ -73,9 +72,6 @@ public:
     QPushButton *RotateLeftButton;
     QPushButton *FlipHorzButton;
     QPushButton *FlipVertButton;
-    QSlider *scrubSlider;
-    QFrame *frame;
-    QHBoxLayout *horizontalLayout;
     QFrame *frame_2;
     QGridLayout *drawingGridLayout;
     QPushButton *AddFrameButton;
@@ -92,7 +88,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(879, 649);
+        MainWindow->resize(583, 615);
         QPalette palette;
         QBrush brush(QColor(170, 170, 255, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -127,11 +123,11 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         ToolPages = new QToolBox(centralWidget);
         ToolPages->setObjectName(QStringLiteral("ToolPages"));
-        ToolPages->setGeometry(QRect(10, 10, 131, 321));
+        ToolPages->setGeometry(QRect(10, 10, 131, 431));
         ToolPages->setAutoFillBackground(false);
         Draw = new QWidget();
         Draw->setObjectName(QStringLiteral("Draw"));
-        Draw->setGeometry(QRect(0, 0, 131, 240));
+        Draw->setGeometry(QRect(0, 0, 131, 350));
         _2 = new QGridLayout(Draw);
         _2->setSpacing(6);
         _2->setContentsMargins(11, 11, 11, 11);
@@ -180,7 +176,7 @@ public:
         ToolPages->addItem(Draw, QStringLiteral("Page 1"));
         Shape = new QWidget();
         Shape->setObjectName(QStringLiteral("Shape"));
-        Shape->setGeometry(QRect(0, 0, 131, 240));
+        Shape->setGeometry(QRect(0, 0, 131, 350));
         LineButton = new QPushButton(Shape);
         LineButton->setObjectName(QStringLiteral("LineButton"));
         LineButton->setGeometry(QRect(10, 10, 81, 32));
@@ -206,7 +202,7 @@ public:
         ToolPages->addItem(Shape, QStringLiteral("Page 2"));
         page_3 = new QWidget();
         page_3->setObjectName(QStringLiteral("page_3"));
-        page_3->setGeometry(QRect(0, 0, 131, 240));
+        page_3->setGeometry(QRect(0, 0, 131, 350));
         RotateRightButton = new QPushButton(page_3);
         RotateRightButton->setObjectName(QStringLiteral("RotateRightButton"));
         RotateRightButton->setGeometry(QRect(10, 10, 81, 21));
@@ -220,19 +216,6 @@ public:
         FlipVertButton->setObjectName(QStringLiteral("FlipVertButton"));
         FlipVertButton->setGeometry(QRect(0, 90, 101, 32));
         ToolPages->addItem(page_3, QStringLiteral("Page"));
-        scrubSlider = new QSlider(centralWidget);
-        scrubSlider->setObjectName(QStringLiteral("scrubSlider"));
-        scrubSlider->setGeometry(QRect(140, 390, 191, 21));
-        scrubSlider->setOrientation(Qt::Horizontal);
-        frame = new QFrame(centralWidget);
-        frame->setObjectName(QStringLiteral("frame"));
-        frame->setGeometry(QRect(150, 320, 191, 61));
-        frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
-        horizontalLayout = new QHBoxLayout(frame);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         frame_2 = new QFrame(centralWidget);
         frame_2->setObjectName(QStringLiteral("frame_2"));
         frame_2->setGeometry(QRect(160, 10, 301, 301));
@@ -244,10 +227,10 @@ public:
         drawingGridLayout->setObjectName(QStringLiteral("drawingGridLayout"));
         AddFrameButton = new QPushButton(centralWidget);
         AddFrameButton->setObjectName(QStringLiteral("AddFrameButton"));
-        AddFrameButton->setGeometry(QRect(460, 350, 31, 32));
+        AddFrameButton->setGeometry(QRect(510, 480, 31, 32));
         scrollArea = new QScrollArea(centralWidget);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setGeometry(QRect(150, 420, 341, 171));
+        scrollArea->setGeometry(QRect(160, 340, 341, 171));
         scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         scrollArea->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
@@ -258,7 +241,7 @@ public:
         scrollArea->setWidget(scrollAreaWidgetContents);
         colorPaletteWidget = new QWidget(centralWidget);
         colorPaletteWidget->setObjectName(QStringLiteral("colorPaletteWidget"));
-        colorPaletteWidget->setGeometry(QRect(10, 420, 120, 80));
+        colorPaletteWidget->setGeometry(QRect(10, 460, 120, 80));
         QPalette palette1;
         QBrush brush1(QColor(208, 208, 208, 255));
         brush1.setStyle(Qt::SolidPattern);
@@ -295,7 +278,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 879, 21));
+        menuBar->setGeometry(QRect(0, 0, 583, 20));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);

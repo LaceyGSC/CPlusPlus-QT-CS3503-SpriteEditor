@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("GoldEn Sprite Editor");
 
     size = 32;
 
@@ -470,16 +471,8 @@ void MainWindow::changeFrame()
 {
     QObject *senderObj = sender();
     QString senderObjName = senderObj->objectName();
-
-    int index = senderObjName.toInt();
-
-    ui->drawingGridLayout->removeWidget(theView);
-
-    theView = theProject->getSlide(index);
-
-    ui->drawingGridLayout->addWidget(theView);
-
-    theView->updateScene();
+    indexToSet = senderObjName.toInt();
+    on_setFramePushButton_clicked();
 
 }
 
