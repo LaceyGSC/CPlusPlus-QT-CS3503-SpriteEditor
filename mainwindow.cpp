@@ -626,22 +626,30 @@ void MainWindow::on_MergeFrameButton_clicked()
 void MainWindow::on_IncreaseIndexButton_clicked()
 {
     int index = indexToSet;
-    std::iter_swap(imageList.begin() + index, imageList.begin() + (index + 1));
-    QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
-    QPixmap testMap = QPixmap::fromImage(imageList.at(index));
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    if(buttons.size() - 1 == index)
+    {
 
-    QIcon buttonIcon(testMap);
+    }
+    else
+    {
+        std::iter_swap(imageList.begin() + index, imageList.begin() + (index + 1));
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QPixmap testMap = QPixmap::fromImage(imageList.at(index));
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon(testMap);
 
 
-    buttons.at(index)->setIcon(buttonIcon);
+        buttons.at(index)->setIcon(buttonIcon);
 
-    QPixmap testMap2 = QPixmap::fromImage(imageList.at(index + 1));
-    testMap = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        QPixmap testMap2 = QPixmap::fromImage(imageList.at(index + 1));
+        testMap2 = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
-    QIcon buttonIcon2(testMap2);
+        QIcon buttonIcon2(testMap2);
 
-    buttons.at(index + 1)->setIcon(buttonIcon2);
+        buttons.at(index + 1)->setIcon(buttonIcon2);
+        indexToSet = index + 1;
+    }
 
 
 
@@ -651,6 +659,31 @@ void MainWindow::on_IncreaseIndexButton_clicked()
 
 void MainWindow::on_DecreaseIndexButton_clicked()
 {
+    int index = indexToSet;
+    if(0 == index)
+    {
+
+    }
+    else
+    {
+        std::iter_swap(imageList.begin() + (index - 1), imageList.begin() + index);
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QPixmap testMap = QPixmap::fromImage(imageList.at(index - 1));
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon(testMap);
+
+
+        buttons.at(index - 1)->setIcon(buttonIcon);
+
+        QPixmap testMap2 = QPixmap::fromImage(imageList.at(index));
+        testMap2 = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon2(testMap2);
+
+        buttons.at(index)->setIcon(buttonIcon2);
+        indexToSet = index - 1;
+    }
 
 }
 
