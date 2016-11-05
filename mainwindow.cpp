@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //does this work with Fill? Steve
     //theImage.fill(Qt::transparent);
 
-    theView = new SlideView(view, size);r\
+    theView = new SlideView(view, size);
 
     theProject = new Project("", theView, this);
 
@@ -148,7 +148,6 @@ void MainWindow::on_LineButton_clicked()
 {
     std::string line = "line";
     theView->setTool(line);
-    std::cout<<"reached"<<std::endl;
 
 }
 
@@ -516,6 +515,8 @@ void MainWindow::updateButton()
 
 void MainWindow::on_setFramePushButton_clicked()
 {
+
+    std::cout<<indexToSet<<std::endl;
     theView->setImage(imageList.at(indexToSet));
     currentFrameIndex = indexToSet;
 
@@ -562,7 +563,6 @@ void MainWindow::on_RemoveFrameButton_clicked()
 {
     int spinValue = indexToSet;
 
-    //ui->scrollAreaWidgetContents->layout()->removeWidget(buttons.at(spinValue));
 
     QLayoutItem * item = testLayout->takeAt(indexToSet);
     delete item->widget();
@@ -571,11 +571,10 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
     imageList.erase(imageList.begin() + spinValue);
 
-
-    if(spinValue + 1 <= buttons.size())
-    {
-        updateButtonNotSlot(spinValue);
+    for(int i = spinValue; i < buttons.size(); i++){
+        buttons.at(i)->setObjectName(i + "");
     }
+
 }
 
 void MainWindow::on_CopyFrameButton_clicked()
@@ -598,13 +597,3 @@ void MainWindow::on_DecreaseIndexButton_clicked()
 
 }
 
-void MainWindow::updateButtonNotSlot(int i){
-     QPixmap testMap = QPixmap::fromImage(imageList.at(i));
-     imageList.at(i) = theView->getImage();
-
-     QSize buttonSize((ui->scrollArea->height())-10,(ui->scrollArea->height())-10);
-     testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
-     QIcon buttonIcon(testMap);
-     buttons.at(i)->setIcon(buttonIcon);
-
-}
