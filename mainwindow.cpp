@@ -466,6 +466,8 @@ void MainWindow::on_actionOpen_triggered()
         preButton->setIcon(buttonIcon);
         preButton->setFlat(false);
         ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
+
+        buttons.push_back(preButton);
     }
     // Reset the connections
     connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
