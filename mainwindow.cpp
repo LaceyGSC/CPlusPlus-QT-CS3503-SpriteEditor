@@ -460,9 +460,6 @@ void MainWindow::on_actionOpen_triggered()
 
     for(int i = 0; i < loadedImages.size(); i++) {
     // Set up the mini-slide previews so we can see how many slides we have
-        QString indexName = i + "";
-        std::string test = indexName.toStdString();
-        std::cout << test << std::endl;
         QPushButton* preButton = new QPushButton();
         preButton->setObjectName(QString::number(i));
         connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
@@ -474,7 +471,7 @@ void MainWindow::on_actionOpen_triggered()
         preButton->setIconSize(buttonSize);
         preButton->setIcon(buttonIcon);
         preButton->setFlat(false);
-        preButton->setObjectName(indexName);
+        //preButton->setObjectName(indexName);
         ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
 
         buttons.push_back(preButton);
@@ -598,19 +595,19 @@ void MainWindow::on_RemoveFrameButton_clicked()
         QIcon buttonIcon(testMap);
         theProject->addImage(theView->getImage());
 
-        buttons.push_back(preButton);
-
         preButton->setFixedSize(buttonSize);
         preButton->setIconSize(buttonSize);
         preButton->setIcon(buttonIcon);
         preButton->setFlat(true);
+
+        buttons.push_back(preButton);
 
         testLayout->addWidget(preButton);
 
     }
     else
     {
-        theView->setImage(imageList.at(spinValue));
+        theView->setImage(imageList.at(spinValue - 1));
     }
 
 
@@ -628,6 +625,27 @@ void MainWindow::on_MergeFrameButton_clicked()
 
 void MainWindow::on_IncreaseIndexButton_clicked()
 {
+    int index = indexToSet;
+    std::iter_swap(imageList.begin() + index, imageList.begin() + (index + 1));
+    QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QPixmap testMap = QPixmap::fromImage(imageList.at(index));
+    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    QIcon buttonIcon(testMap);
+
+
+    buttons.at(index)->setIcon(buttonIcon);
+
+    QPixmap testMap2 = QPixmap::fromImage(imageList.at(index + 1));
+    testMap = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+    QIcon buttonIcon2(testMap2);
+
+    buttons.at(index + 1)->setIcon(buttonIcon2);
+
+
+
+
 
 }
 
