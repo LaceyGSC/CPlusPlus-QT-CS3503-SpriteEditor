@@ -806,8 +806,10 @@ void SlideView::drawCheckerBoard(){
 
         for(unsigned int j = 0; j < theScene->width(); j++)
             for(unsigned int i = j % 2; i < theScene->height(); i+=2)
+            {
                 //QRectF rect(i * cellSizeX, j * cellSizeY, cellSizeX, cellSizeY);
-                theScene->drawBackground(piant, rect);
+//                theScene->drawBackground(paint, rect);
+            }
                 //theScene->addRect(i * cellSizeX, j * cellSizeY, cellSizeX, cellSizeY, pen, brush2);
 
 }
