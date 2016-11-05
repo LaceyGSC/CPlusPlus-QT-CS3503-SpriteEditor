@@ -489,6 +489,7 @@ void MainWindow::changeFrame()
 {
     QObject *senderObj = sender();
     QString senderObjName = senderObj->objectName();
+    qDebug() << senderObj->objectName();
     indexToSet = senderObjName.toInt();
     on_setFramePushButton_clicked();
 
@@ -522,7 +523,7 @@ void MainWindow::on_AddFrameButton_clicked()
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
 
-    buttonsIndex++;
+    buttonsIndex = buttons.size();
     currentIndex = theProject->getSizeList();
 
     QPushButton* preButton = new QPushButton();
@@ -572,12 +573,131 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
 void MainWindow::on_CopyFrameButton_clicked()
 {
+    QImage firstImage = imageList.at(indexToSet);
+    int startIndex = indexToSet + 1;
 
+    //set to inital state
+    ui->shapeWidthSlide->setValue(1);
+    ui->shapeWidthSpin->setValue(1);
+    ui->paintWidthSlide->setValue(1);
+    ui->paintWidthSpin->setValue(1);
+    ui->checkBox_2->setChecked(false);
+
+    QPushButton* preButton = new QPushButton();
+    preButton->setObjectName(QString::number(startIndex));
+    QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+
+    theView->setImage(firstImage.copy());
+    theProject->addImage(theView->getImage());
+    imageList.insert(imageList.begin()+startIndex, theView->getImage());
+
+    QPixmap testMap = QPixmap::fromImage(theView->getImage());
+    currentFrameIndex = startIndex;
+
+    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    QIcon buttonIcon(testMap);
+    buttons.insert(buttons.begin() + startIndex, preButton);
+
+    preButton->setFixedSize(buttonSize);
+    preButton->setIconSize(buttonSize);
+    preButton->setIcon(buttonIcon);
+    preButton->setFlat(true);
+
+
+    testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
+
+    for(int i = startIndex+1; i < buttons.size(); i++)
+    {
+
+        qDebug() << "Button with old index: " << buttons[i];
+
+        QPushButton* temp = buttons[i];
+        QString s = temp->objectName();
+        int nextIndex = s.toInt()+1;
+        temp->setObjectName(QString::number(nextIndex));
+
+        qDebug() << "Button with new index: " << buttons[i];
+
+    }
+
+    for(int i = 0; i < buttons.size(); i++)
+    {
+
+        qDebug() << "Button with new index finalized: " << buttons[i];
+
+    }
+    indexToSet = startIndex;
 }
 
 void MainWindow::on_MergeFrameButton_clicked()
 {
+    int startIndex;
 
+    if(indexToSet != 0)
+    {
+        QImage mergedImage;
+        QImage topImage = imageList.at(indexToSet).copy();
+        QImage bottomImage = imageList.at(indexToSet-1).copy();
+
+        QPixmap mergedMap(bottomImage.size());
+        QPainter p (&mergedMap);
+        p.drawImage(QPoint(0,0), bottomImage);
+        p.drawImage(QPoint(0,0), topImage);
+        p.end();
+
+        mergedImage = mergedMap.toImage();
+
+        startIndex = indexToSet + 1;
+
+        //set to inital state
+        ui->shapeWidthSlide->setValue(1);
+        ui->shapeWidthSpin->setValue(1);
+        ui->paintWidthSlide->setValue(1);
+        ui->paintWidthSpin->setValue(1);
+        ui->checkBox_2->setChecked(false);
+
+        QPushButton* preButton = new QPushButton();
+        preButton->setObjectName(QString::number(startIndex));
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+
+        theView->setImage(mergedImage);
+        theProject->addImage(theView->getImage());
+        imageList.insert(imageList.begin()+startIndex, theView->getImage());
+
+        QPixmap testMap = QPixmap::fromImage(theView->getImage());
+        currentFrameIndex = startIndex;
+
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        QIcon buttonIcon(testMap);
+        buttons.insert(buttons.begin() + startIndex, preButton);
+
+        preButton->setFixedSize(buttonSize);
+        preButton->setIconSize(buttonSize);
+        preButton->setIcon(buttonIcon);
+        preButton->setFlat(true);
+
+        testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
+
+        for(int i = startIndex+1; i < buttons.size(); i++)
+        {
+
+
+            QPushButton* temp = buttons[i];
+            QString s = temp->objectName();
+            int nextIndex = s.toInt()+1;
+            temp->setObjectName(QString::number(nextIndex));
+
+
+        }
+    }
+    else
+    {
+        on_CopyFrameButton_clicked();
+    }
+
+    indexToSet = startIndex;
 }
 
 void MainWindow::on_IncreaseIndexButton_clicked()
