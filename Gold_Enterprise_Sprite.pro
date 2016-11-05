@@ -14,14 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    frame.cpp \
     project.cpp \
     slideview.cpp \
     gifpopup.cpp \
     newprojectdialog.cpp
 
 HEADERS  += mainwindow.h \
-    frame.h \
     project.h \
     slideview.h \
     gifpopup.h \

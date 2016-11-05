@@ -25,6 +25,11 @@ SlideView* Project::getSlide(int index)
     return *it;
 }
 
+QImage Project::getImage(int index)
+{
+   return imageList.at(index);
+}
+
 void Project::addSlideAt(int index, SlideView* frame)
 {
     unsigned n = index;
@@ -46,12 +51,17 @@ void Project::addSlide(SlideView* frame)
     qDebug()<< framesList.size();
 }
 
+void Project::addImage(QImage image)
+{
+    imageList.push_back(image);
+}
+
 void Project::addFrameSlot(SlideView* frame)
 {
     Project::addSlide(frame);
 }
 
-size_t Project::getSizeList()
+int Project::getSizeList()
 {
     return framesList.size();
 }
