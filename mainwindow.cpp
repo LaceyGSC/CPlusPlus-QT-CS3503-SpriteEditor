@@ -461,6 +461,9 @@ void MainWindow::on_actionOpen_triggered()
 
     for(int i = 0; i < loadedImages.size(); i++) {
     // Set up the mini-slide previews so we can see how many slides we have
+        QString indexName = i + "";
+        std::string test = indexName.toStdString();
+        std::cout << test << std::endl;
         QPushButton* preButton = new QPushButton();
         preButton->setObjectName(QString::number(i));
         connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
@@ -472,6 +475,7 @@ void MainWindow::on_actionOpen_triggered()
         preButton->setIconSize(buttonSize);
         preButton->setIcon(buttonIcon);
         preButton->setFlat(false);
+        preButton->setObjectName(indexName);
         ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
 
         buttons.push_back(preButton);
@@ -531,11 +535,10 @@ void MainWindow::on_AddFrameButton_clicked()
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
 
-    buttonsIndex++;
     currentIndex = theProject->getSizeList();
 
     QPushButton* preButton = new QPushButton();
-    preButton->setObjectName(QString::number(buttonsIndex));
+    preButton->setObjectName(QString::number(buttons.size()));
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
@@ -544,7 +547,7 @@ void MainWindow::on_AddFrameButton_clicked()
     theProject->addImage(theView->getImage());
     imageList.push_back(theView->getImage());
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
-    currentFrameIndex = buttonsIndex;
+    currentFrameIndex = buttons.size();
 
     testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
     QIcon buttonIcon(testMap);
@@ -562,6 +565,7 @@ void MainWindow::on_AddFrameButton_clicked()
 void MainWindow::on_RemoveFrameButton_clicked()
 {
     int spinValue = indexToSet;
+    std::cout<<spinValue<<std::endl;
 
 
     QLayoutItem * item = testLayout->takeAt(indexToSet);
@@ -572,8 +576,9 @@ void MainWindow::on_RemoveFrameButton_clicked()
     imageList.erase(imageList.begin() + spinValue);
 
     for(int i = spinValue; i < buttons.size(); i++){
-        buttons.at(i)->setObjectName(i + "");
+        buttons.at(i)->setObjectName(QString::number(i));
     }
+    theView->setImage(imageList.at(spinValue));
 
 }
 
