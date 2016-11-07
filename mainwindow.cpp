@@ -700,9 +700,7 @@ void MainWindow::on_MergeFrameButton_clicked()
 
         startIndex = indexToSet + 1;
 
-        //set to inital state
-        //ui->shapeWidthSlide->setValue(1);
-        //ui->shapeWidthSpin->setValue(1);
+        //set to inital state;
         ui->paintWidthSlide->setValue(1);
         ui->paintWidthSpin->setValue(1);
         ui->checkBox_2->setChecked(false);
