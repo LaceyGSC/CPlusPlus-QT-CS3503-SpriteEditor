@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_SlideView_t {
-    QByteArrayData data[12];
-    char stringdata0[166];
+    QByteArrayData data[14];
+    char stringdata0[189];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -40,14 +40,17 @@ QT_MOC_LITERAL(7, 83, 14), // "rotateLeftSlot"
 QT_MOC_LITERAL(8, 98, 15), // "rotateRightSlot"
 QT_MOC_LITERAL(9, 114, 18), // "flipHorizontalSlot"
 QT_MOC_LITERAL(10, 133, 16), // "flipVerticalSlot"
-QT_MOC_LITERAL(11, 150, 15) // "paintBucketSlot"
+QT_MOC_LITERAL(11, 150, 15), // "paintBucketSlot"
+QT_MOC_LITERAL(12, 166, 15), // "colorPickerSlot"
+QT_MOC_LITERAL(13, 182, 6) // "_color"
 
     },
     "SlideView\0updatePreview\0\0"
     "updatePalettePreviewSignal\0previewColor\0"
     "undoSlot\0redoSlot\0rotateLeftSlot\0"
     "rotateRightSlot\0flipHorizontalSlot\0"
-    "flipVerticalSlot\0paintBucketSlot"
+    "flipVerticalSlot\0paintBucketSlot\0"
+    "colorPickerSlot\0_color"
 };
 #undef QT_MOC_LITERAL
 
@@ -57,25 +60,26 @@ static const uint qt_meta_data_SlideView[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
-       1,   70, // properties
+      10,   14, // methods
+       1,   78, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   59,    2, 0x06 /* Public */,
-       3,    1,   60,    2, 0x06 /* Public */,
+       1,    0,   64,    2, 0x06 /* Public */,
+       3,    1,   65,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    0,   63,    2, 0x0a /* Public */,
-       6,    0,   64,    2, 0x0a /* Public */,
-       7,    0,   65,    2, 0x0a /* Public */,
-       8,    0,   66,    2, 0x0a /* Public */,
-       9,    0,   67,    2, 0x0a /* Public */,
-      10,    0,   68,    2, 0x0a /* Public */,
-      11,    0,   69,    2, 0x0a /* Public */,
+       5,    0,   68,    2, 0x0a /* Public */,
+       6,    0,   69,    2, 0x0a /* Public */,
+       7,    0,   70,    2, 0x0a /* Public */,
+       8,    0,   71,    2, 0x0a /* Public */,
+       9,    0,   72,    2, 0x0a /* Public */,
+      10,    0,   73,    2, 0x0a /* Public */,
+      11,    0,   74,    2, 0x0a /* Public */,
+      12,    1,   75,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -89,6 +93,7 @@ static const uint qt_meta_data_SlideView[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QColor,   13,
 
  // properties: name, type, flags
        4, QMetaType::QColor, 0x00495001,
@@ -114,6 +119,7 @@ void SlideView::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 6: _t->flipHorizontalSlot(); break;
         case 7: _t->flipVerticalSlot(); break;
         case 8: _t->paintBucketSlot(); break;
+        case 9: _t->colorPickerSlot((*reinterpret_cast< QColor(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -174,13 +180,13 @@ int SlideView::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 10)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 10;
     }
 #ifndef QT_NO_PROPERTIES
    else if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
