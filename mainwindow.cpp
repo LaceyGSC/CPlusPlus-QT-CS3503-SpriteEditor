@@ -33,14 +33,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //QImage theImage = QImage(size, size, QImage::Format_ARGB32);
     //theImage.fill(defaultColor);
 
-    // If we don't fill theImage before applying it. We get artifacts.
-    // I suggest the default background as white.
-    //QColor defaultColor = qRgba(255, 255, 255, 0);
-    //this is filing the image with white and not alpha, Steve
-    //theImage.fill(defaultColor);
-    //does this work with Fill? Steve
-    //theImage.fill(Qt::transparent);
-
     theView = new SlideView(view, size);
 
     theProject = new Project("", theView, this);
@@ -53,10 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
     imageList.push_back(theView->getImage());
 
     //set spinboxes range
-    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/5);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/5);
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -73,16 +63,17 @@ MainWindow::MainWindow(QWidget *parent) :
     QPushButton* preButton = new QPushButton();
     preButton->setObjectName(QString::number(0));
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
 
     buttons.push_back(preButton);
 
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
     QIcon buttonIcon(testMap);
 
     preButton->setFixedSize(buttonSize);
-    preButton->setIconSize(buttonSize);
+    preButton->setIconSize(imageSize);
     preButton->setIcon(buttonIcon);
     preButton->setFlat(false);
 
@@ -188,16 +179,8 @@ void MainWindow::on_EraseButton_clicked()
     theView->setTool("erase");
 }
 
-//DO NOT DELETE CODE BREAKS IF DELETED
-
-void MainWindow::on_checkBox_stateChanged(int arg1)
-{
-
-}
-
 void MainWindow::on_checkBox_2_stateChanged(int arg1)
 {
-    std::cout<<"here"<<std::endl;
     if(arg1 == 0){
         theView->setFill(false);
     }
@@ -211,23 +194,13 @@ void MainWindow::on_paintWidthSpin_valueChanged(int arg1)
 {
     ui->paintWidthSlide->setValue(arg1);
     theView->setPaintWidth(arg1);
+    theView->setShapeWidth(arg1);
 }
 
 void MainWindow::on_paintWidthSlide_sliderMoved(int position)
 {
     ui->paintWidthSpin->setValue(position);
     theView->setPaintWidth(position);
-}
-
-void MainWindow::on_shapeWidthSpin_valueChanged(int arg1)
-{
-    ui->shapeWidthSlide->setValue(arg1);
-    theView->setShapeWidth(arg1);
-}
-
-void MainWindow::on_shapeWidthSlide_sliderMoved(int position)
-{
-    ui->shapeWidthSpin->setValue(position);
     theView->setShapeWidth(position);
 }
 
@@ -290,10 +263,8 @@ void MainWindow::createNewSpriteProject(int pixSize)
     theView->setFill(false);
 
     //set spinboxes range
-    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
 
    //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -301,6 +272,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     // Set up the mini-slide previews so we can see how many slides we have
     QPushButton* preButton = new QPushButton();
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
     preButton->setObjectName(QString::number(currentIndex));
 
     buttons.push_back(preButton);
@@ -308,12 +280,12 @@ void MainWindow::createNewSpriteProject(int pixSize)
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     QPixmap testMap = QPixmap::fromImage(theProject->getSlide(currentIndex)->getImage().copy());
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
     QIcon buttonIcon(testMap);
 
     preButton->setFixedSize(buttonSize);
-    preButton->setIconSize(buttonSize);
+    preButton->setIconSize(imageSize);
     preButton->setIcon(buttonIcon);
     preButton->setFlat(false);
 
@@ -340,6 +312,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
 void MainWindow::on_actionOpen_triggered()
 {
+    std::cout<<"open"<<std::endl;
     // Open the file and read the data
     // -------------------------------------------------------------------------
     QString filenamePicked = QFileDialog::getOpenFileName(
@@ -438,28 +411,26 @@ void MainWindow::on_actionOpen_triggered()
     int idx = 0;
     for(auto it = loadedImages.begin(); it != loadedImages.end(); it++)
     {
-        if(idx != 0)
+        /*if(idx != 0)
         {
            theProject->addSlide(new SlideView(view, size));
-           theProject->addImage(*it);
-
-
+//           theProject->addImage(*it);
            std::cout<<"Added slide"<<std::endl;
-        }
-//        imageList.push_back(*it);
+        }*/
+        imageList.push_back(*it);
         idx++;
     }
-    std::cout<<"totSlides: "<<theProject->getSizeList()<<std::endl;
+    std::cout<<"totSlides: "<<imageList.size()<<std::endl;
 
-    theView = theProject->getSlide(0);
+//    theView = theProject->getSlide(0);
     theView->setFill(false);
 
 
     //set spinboxes range
-    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
+    //ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
+    //ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -470,11 +441,12 @@ void MainWindow::on_actionOpen_triggered()
         preButton->setObjectName(QString::number(i));
         connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
         QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
-        QPixmap testMap = QPixmap::fromImage(theProject->getSlide(i)->getImage());
-        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        QPixmap testMap = QPixmap::fromImage(imageList.at(i));   //theProject->getSlide(i)->getImage()
+        QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
+        testMap = testMap.scaled(imageSize, Qt::IgnoreAspectRatio, Qt::FastTransformation);
         QIcon buttonIcon(testMap);
         preButton->setFixedSize(buttonSize);
-        preButton->setIconSize(buttonSize);
+        preButton->setIconSize(imageSize);
         preButton->setIcon(buttonIcon);
         preButton->setFlat(false);
         //preButton->setObjectName(indexName);
@@ -533,8 +505,6 @@ void MainWindow::on_setFramePushButton_clicked()
 void MainWindow::on_AddFrameButton_clicked()
 {
     //set to inital state
-    ui->shapeWidthSlide->setValue(1);
-    ui->shapeWidthSpin->setValue(1);
     ui->paintWidthSlide->setValue(1);
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
@@ -544,6 +514,7 @@ void MainWindow::on_AddFrameButton_clicked()
     QPushButton* preButton = new QPushButton();
     preButton->setObjectName(QString::number(buttons.size()));
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     QImage image (size, size, QImage::Format_ARGB32);
@@ -554,12 +525,12 @@ void MainWindow::on_AddFrameButton_clicked()
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
     currentFrameIndex = buttons.size();
 
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
     QIcon buttonIcon(testMap);
     buttons.push_back(preButton);
 
     preButton->setFixedSize(buttonSize);
-    preButton->setIconSize(buttonSize);
+    preButton->setIconSize(imageSize);
     preButton->setIcon(buttonIcon);
     preButton->setFlat(false);
 
@@ -571,9 +542,15 @@ void MainWindow::on_AddFrameButton_clicked()
 
 void MainWindow::on_RemoveFrameButton_clicked()
 {
+    ui->paintWidthSlide->setValue(1);
+    ui->paintWidthSpin->setValue(1);
+    ui->checkBox_2->setChecked(false);
+    theView->setPaintWidth(1);
+    theView->setShapeWidth(1);
+
     int spinValue = indexToSet;
 
-    if( spinValue != 0)
+    if( spinValue > 0)
     {
         QLayoutItem * item = testLayout->takeAt(indexToSet);
         delete item->widget();
@@ -589,6 +566,9 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
         theView->setImage(imageList.at(spinValue-1));
 
+        indexToSet = spinValue - 1;
+
+
     }
     else
     {
@@ -598,10 +578,12 @@ void MainWindow::on_RemoveFrameButton_clicked()
             theProject->deleteAllSlidesAndRefresh();
 
             QImage image(32, 32, QImage::Format_ARGB32);
+            image.fill(Qt::transparent);
 
             imageList.push_back(image);
             theView->setImage(image);
             theProject->addImage(theView->getImage());
+            indexToSet = 0;
 
 
         }
@@ -620,12 +602,14 @@ void MainWindow::on_RemoveFrameButton_clicked()
             imageList.erase(imageList.begin() + spinValue);
 
             theView->setImage(imageList.at(spinValue));
+            indexToSet = 0;
 
         }
 
     }
+    std::cout<<indexToSet<<std::endl;
 
-    indexToSet = spinValue -1;
+
 
 }
 
@@ -635,8 +619,6 @@ void MainWindow::on_CopyFrameButton_clicked()
     int startIndex = indexToSet + 1;
 
     //set to inital state
-    ui->shapeWidthSlide->setValue(1);
-    ui->shapeWidthSpin->setValue(1);
     ui->paintWidthSlide->setValue(1);
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
@@ -644,6 +626,7 @@ void MainWindow::on_CopyFrameButton_clicked()
     QPushButton* preButton = new QPushButton();
     preButton->setObjectName(QString::number(startIndex));
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     theView->setImage(firstImage.copy());
@@ -653,12 +636,12 @@ void MainWindow::on_CopyFrameButton_clicked()
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
     currentFrameIndex = startIndex;
 
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
     QIcon buttonIcon(testMap);
     buttons.insert(buttons.begin() + startIndex, preButton);
 
     preButton->setFixedSize(buttonSize);
-    preButton->setIconSize(buttonSize);
+    preButton->setIconSize(imageSize);
     preButton->setIcon(buttonIcon);
     preButton->setFlat(false);
 
@@ -699,9 +682,7 @@ void MainWindow::on_MergeFrameButton_clicked()
 
         startIndex = indexToSet + 1;
 
-        //set to inital state
-        ui->shapeWidthSlide->setValue(1);
-        ui->shapeWidthSpin->setValue(1);
+        //set to inital state;
         ui->paintWidthSlide->setValue(1);
         ui->paintWidthSpin->setValue(1);
         ui->checkBox_2->setChecked(false);
@@ -709,6 +690,7 @@ void MainWindow::on_MergeFrameButton_clicked()
         QPushButton* preButton = new QPushButton();
         preButton->setObjectName(QString::number(startIndex));
         QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
         connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
         theView->setImage(mergedImage);
@@ -718,12 +700,12 @@ void MainWindow::on_MergeFrameButton_clicked()
         QPixmap testMap = QPixmap::fromImage(theView->getImage());
         currentFrameIndex = startIndex;
 
-        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
         QIcon buttonIcon(testMap);
         buttons.insert(buttons.begin() + startIndex, preButton);
 
         preButton->setFixedSize(buttonSize);
-        preButton->setIconSize(buttonSize);
+        preButton->setIconSize(imageSize);
         preButton->setIcon(buttonIcon);
         preButton->setFlat(false);
 

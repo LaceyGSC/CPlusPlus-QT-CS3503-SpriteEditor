@@ -56,14 +56,11 @@ private slots:
     void on_EyeDropperButton_clicked();
 
     //Slots for the checkboxes used for the tools
-    void on_checkBox_stateChanged(int arg1);
     void on_checkBox_2_stateChanged(int arg1);
 
     //Slots for the width and size changers
     void on_paintWidthSpin_valueChanged(int arg1);
     void on_paintWidthSlide_sliderMoved(int position);
-    void on_shapeWidthSpin_valueChanged(int arg1);
-    void on_shapeWidthSlide_sliderMoved(int position);
 
     // Receives Signal from UI EyeDropperButton
     void colorPaletteChangedSlot(QColor previewColor);
@@ -136,6 +133,7 @@ private:
     NewProjectDialog newProjDialog;
 
     PreviewDialog previewDialog;
+
 
     //QColorDialog *colorDialog;
 
