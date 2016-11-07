@@ -16,6 +16,7 @@
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
@@ -49,17 +50,10 @@ public:
     QWidget *centralWidget;
     QFrame *frame_2;
     QGridLayout *drawingGridLayout;
-    QPushButton *AddFrameButton;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QWidget *colorPaletteWidget;
-    QPushButton *RemoveFrameButton;
-    QPushButton *IncreaseIndexButton;
-    QPushButton *DecreaseIndexButton;
     QSlider *frameSlider;
-    QSpinBox *fpsBox;
-    QLabel *label_3;
-    QPushButton *pushButton;
     QFrame *toolFrame;
     QVBoxLayout *verticalLayout;
     QPushButton *PenButton;
@@ -79,8 +73,18 @@ public:
     QSlider *paintWidthSlide;
     QLabel *label;
     QFrame *frameCM;
+    QHBoxLayout *horizontalLayout;
     QPushButton *MergeFrameButton;
     QPushButton *CopyFrameButton;
+    QLabel *label_3;
+    QSpinBox *fpsBox;
+    QPushButton *pushButton;
+    QFrame *frameMove;
+    QVBoxLayout *verticalLayout_2;
+    QPushButton *AddFrameButton;
+    QPushButton *RemoveFrameButton;
+    QPushButton *IncreaseIndexButton;
+    QPushButton *DecreaseIndexButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -113,17 +117,31 @@ public:
 "border-width: 1px;\n"
 "border-color: #384A5C;\n"
 "border-style: solid;\n"
-"border-radius: 7;\n"
-"padding: 3px;\n"
+"\n"
+"\n"
 "}\n"
 "\n"
 "#frameCM\n"
 "{\n"
-"border-width: 1px;\n"
 "border-color: #222930;\n"
+"border-width: 1px;\n"
 "border-style: solid;\n"
-"border-radius: 7;\n"
-"padding: 3px;\n"
+"}\n"
+"\n"
+"#framePre\n"
+"{\n"
+"border-color: #222930;\n"
+"border-width: 1px;\n"
+"border-style: solid;\n"
+"}\n"
+"\n"
+"\n"
+"\n"
+"#frameMove\n"
+"{\n"
+"border-color: #222930;\n"
+"border-width: 1px;\n"
+"border-style: solid;\n"
 "}\n"
 "\n"
 "#scrollArea\n"
@@ -150,6 +168,33 @@ public:
 "#label\n"
 "{\n"
 " color: white;\n"
+"}\n"
+"\n"
+"#pushButton\n"
+"{\n"
+"color: white;\n"
+"/*background"
+                        "-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);*/\n"
+"background-color: #4EB1BA;\n"
+"border-width: 1px;\n"
+"border-color: #4EB1BA;\n"
+"border-style: solid;\n"
+"border-radius: 7;\n"
+"padding: 3px;\n"
+"font-size: 10px;\n"
+"\n"
+"padding-left: 5px;\n"
+"padding-right: 5px;\n"
+"min-width: 70px;\n"
+"max-width: 70px;\n"
+"min-height: 20px;\n"
+"max-height: 20px;\n"
+"\n"
+"}\n"
+"\n"
+"QLabel\n"
+"{\n"
+"	color: white;\n"
 "}\n"
 "\n"
 "\n"
@@ -187,9 +232,6 @@ public:
         drawingGridLayout->setSpacing(6);
         drawingGridLayout->setContentsMargins(11, 11, 11, 11);
         drawingGridLayout->setObjectName(QStringLiteral("drawingGridLayout"));
-        AddFrameButton = new QPushButton(centralWidget);
-        AddFrameButton->setObjectName(QStringLiteral("AddFrameButton"));
-        AddFrameButton->setGeometry(QRect(510, 340, 82, 28));
         scrollArea = new QScrollArea(centralWidget);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
         scrollArea->setGeometry(QRect(160, 340, 341, 171));
@@ -238,30 +280,10 @@ public:
         colorPaletteWidget->setFont(font);
         colorPaletteWidget->setMouseTracking(false);
         colorPaletteWidget->setAutoFillBackground(true);
-        RemoveFrameButton = new QPushButton(centralWidget);
-        RemoveFrameButton->setObjectName(QStringLiteral("RemoveFrameButton"));
-        RemoveFrameButton->setGeometry(QRect(510, 380, 82, 28));
-        IncreaseIndexButton = new QPushButton(centralWidget);
-        IncreaseIndexButton->setObjectName(QStringLiteral("IncreaseIndexButton"));
-        IncreaseIndexButton->setGeometry(QRect(510, 420, 82, 28));
-        DecreaseIndexButton = new QPushButton(centralWidget);
-        DecreaseIndexButton->setObjectName(QStringLiteral("DecreaseIndexButton"));
-        DecreaseIndexButton->setGeometry(QRect(510, 460, 82, 28));
         frameSlider = new QSlider(centralWidget);
         frameSlider->setObjectName(QStringLiteral("frameSlider"));
         frameSlider->setGeometry(QRect(160, 320, 341, 16));
         frameSlider->setOrientation(Qt::Horizontal);
-        fpsBox = new QSpinBox(centralWidget);
-        fpsBox->setObjectName(QStringLiteral("fpsBox"));
-        fpsBox->setGeometry(QRect(440, 520, 48, 25));
-        fpsBox->setMinimum(10);
-        fpsBox->setMaximum(1000);
-        label_3 = new QLabel(centralWidget);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setGeometry(QRect(390, 520, 60, 16));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(500, 520, 82, 28));
         toolFrame = new QFrame(centralWidget);
         toolFrame->setObjectName(QStringLiteral("toolFrame"));
         toolFrame->setGeometry(QRect(20, 10, 111, 447));
@@ -371,7 +393,7 @@ public:
         label->setGeometry(QRect(30, 470, 71, 16));
         frameCM = new QFrame(centralWidget);
         frameCM->setObjectName(QStringLiteral("frameCM"));
-        frameCM->setGeometry(QRect(180, 520, 201, 31));
+        frameCM->setGeometry(QRect(160, 520, 414, 54));
         frameCM->setStyleSheet(QLatin1String("QPushButton {\n"
 "color: white;\n"
 "/*background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);*/\n"
@@ -392,13 +414,96 @@ public:
 "}"));
         frameCM->setFrameShape(QFrame::StyledPanel);
         frameCM->setFrameShadow(QFrame::Raised);
+        horizontalLayout = new QHBoxLayout(frameCM);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         MergeFrameButton = new QPushButton(frameCM);
         MergeFrameButton->setObjectName(QStringLiteral("MergeFrameButton"));
-        MergeFrameButton->setGeometry(QRect(110, 0, 82, 28));
+
+        horizontalLayout->addWidget(MergeFrameButton);
+
         CopyFrameButton = new QPushButton(frameCM);
         CopyFrameButton->setObjectName(QStringLiteral("CopyFrameButton"));
-        CopyFrameButton->setGeometry(QRect(10, 0, 82, 28));
+
+        horizontalLayout->addWidget(CopyFrameButton);
+
+        label_3 = new QLabel(frameCM);
+        label_3->setObjectName(QStringLiteral("label_3"));
+
+        horizontalLayout->addWidget(label_3);
+
+        fpsBox = new QSpinBox(frameCM);
+        fpsBox->setObjectName(QStringLiteral("fpsBox"));
+        fpsBox->setMinimum(10);
+        fpsBox->setMaximum(1000);
+
+        horizontalLayout->addWidget(fpsBox);
+
+        pushButton = new QPushButton(frameCM);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+
+        horizontalLayout->addWidget(pushButton);
+
+        frameMove = new QFrame(centralWidget);
+        frameMove->setObjectName(QStringLiteral("frameMove"));
+        frameMove->setGeometry(QRect(510, 350, 111, 148));
+        frameMove->setStyleSheet(QLatin1String("QPushButton {\n"
+"color: white;\n"
+"/*background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);*/\n"
+"background-color: #4EB1BA;\n"
+"border-width: 1px;\n"
+"border-color: #4EB1BA;\n"
+"border-style: solid;\n"
+"border-radius: 7;\n"
+"padding: 3px;\n"
+"font-size: 10px;\n"
+"\n"
+"padding-left: 5px;\n"
+"padding-right: 5px;\n"
+"min-width: 70px;\n"
+"max-width: 70px;\n"
+"min-height: 20px;\n"
+"max-height: 20px;\n"
+"}"));
+        frameMove->setFrameShape(QFrame::StyledPanel);
+        frameMove->setFrameShadow(QFrame::Raised);
+        verticalLayout_2 = new QVBoxLayout(frameMove);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        AddFrameButton = new QPushButton(frameMove);
+        AddFrameButton->setObjectName(QStringLiteral("AddFrameButton"));
+
+        verticalLayout_2->addWidget(AddFrameButton);
+
+        RemoveFrameButton = new QPushButton(frameMove);
+        RemoveFrameButton->setObjectName(QStringLiteral("RemoveFrameButton"));
+
+        verticalLayout_2->addWidget(RemoveFrameButton);
+
+        IncreaseIndexButton = new QPushButton(frameMove);
+        IncreaseIndexButton->setObjectName(QStringLiteral("IncreaseIndexButton"));
+
+        verticalLayout_2->addWidget(IncreaseIndexButton);
+
+        DecreaseIndexButton = new QPushButton(frameMove);
+        DecreaseIndexButton->setObjectName(QStringLiteral("DecreaseIndexButton"));
+
+        verticalLayout_2->addWidget(DecreaseIndexButton);
+
         MainWindow->setCentralWidget(centralWidget);
+        frame_2->raise();
+        scrollArea->raise();
+        colorPaletteWidget->raise();
+        frameSlider->raise();
+        toolFrame->raise();
+        paintWidthSpin->raise();
+        paintWidthSlide->raise();
+        label->raise();
+        frameCM->raise();
+        frameMove->raise();
+        AddFrameButton->raise();
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 688, 22));
@@ -445,12 +550,6 @@ public:
         actionAdd_Frame->setText(QApplication::translate("MainWindow", "Add Frame", 0));
         actionDelete_Frame->setText(QApplication::translate("MainWindow", "Delete Frame", 0));
         actionCopy_Fream->setText(QApplication::translate("MainWindow", "Copy Fream", 0));
-        AddFrameButton->setText(QApplication::translate("MainWindow", "+", 0));
-        RemoveFrameButton->setText(QApplication::translate("MainWindow", "-", 0));
-        IncreaseIndexButton->setText(QApplication::translate("MainWindow", "Up", 0));
-        DecreaseIndexButton->setText(QApplication::translate("MainWindow", "Down", 0));
-        label_3->setText(QApplication::translate("MainWindow", "FPS:", 0));
-        pushButton->setText(QApplication::translate("MainWindow", "Preview", 0));
         PenButton->setText(QApplication::translate("MainWindow", "Pen", 0));
         PaintBrushButton->setText(QApplication::translate("MainWindow", "Paint Brush", 0));
         EraseButton->setText(QApplication::translate("MainWindow", "Erase", 0));
@@ -467,6 +566,12 @@ public:
         label->setText(QApplication::translate("MainWindow", "Pixel Width", 0));
         MergeFrameButton->setText(QApplication::translate("MainWindow", "Merge Frame", 0));
         CopyFrameButton->setText(QApplication::translate("MainWindow", "Copy Frame", 0));
+        label_3->setText(QApplication::translate("MainWindow", "FPS:", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "Preview", 0));
+        AddFrameButton->setText(QApplication::translate("MainWindow", "+", 0));
+        RemoveFrameButton->setText(QApplication::translate("MainWindow", "-", 0));
+        IncreaseIndexButton->setText(QApplication::translate("MainWindow", "Up", 0));
+        DecreaseIndexButton->setText(QApplication::translate("MainWindow", "Down", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0));
     } // retranslateUi
