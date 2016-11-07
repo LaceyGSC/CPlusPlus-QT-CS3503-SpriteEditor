@@ -293,7 +293,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     theView->setFill(false);
 
     //set spinboxes range
-    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
+    //ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
     //ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
@@ -701,8 +701,8 @@ void MainWindow::on_MergeFrameButton_clicked()
         startIndex = indexToSet + 1;
 
         //set to inital state
-        ui->shapeWidthSlide->setValue(1);
-        ui->shapeWidthSpin->setValue(1);
+        //ui->shapeWidthSlide->setValue(1);
+        //ui->shapeWidthSpin->setValue(1);
         ui->paintWidthSlide->setValue(1);
         ui->paintWidthSpin->setValue(1);
         ui->checkBox_2->setChecked(false);

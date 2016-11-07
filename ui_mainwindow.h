@@ -18,7 +18,6 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -28,7 +27,7 @@
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QToolBox>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -48,30 +47,6 @@ public:
     QAction *actionDelete_Frame;
     QAction *actionCopy_Fream;
     QWidget *centralWidget;
-    QToolBox *ToolPages;
-    QWidget *Draw;
-    QGridLayout *_2;
-    QPushButton *PaintBrushButton;
-    QSpinBox *paintWidthSpin;
-    QPushButton *FillButton;
-    QPushButton *PenButton;
-    QPushButton *EraseButton;
-    QSlider *paintWidthSlide;
-    QLabel *label_2;
-    QPushButton *EyeDropperButton;
-    QWidget *Shape;
-    QPushButton *LineButton;
-    QPushButton *CircleButton;
-    QPushButton *SquareButton;
-    QCheckBox *checkBox_2;
-    QSlider *shapeWidthSlide;
-    QLabel *label;
-    QSpinBox *shapeWidthSpin;
-    QWidget *page_3;
-    QPushButton *RotateRightButton;
-    QPushButton *RotateLeftButton;
-    QPushButton *FlipHorzButton;
-    QPushButton *FlipVertButton;
     QFrame *frame_2;
     QGridLayout *drawingGridLayout;
     QPushButton *AddFrameButton;
@@ -81,12 +56,31 @@ public:
     QPushButton *RemoveFrameButton;
     QPushButton *IncreaseIndexButton;
     QPushButton *DecreaseIndexButton;
-    QPushButton *CopyFrameButton;
-    QPushButton *MergeFrameButton;
     QSlider *frameSlider;
     QSpinBox *fpsBox;
     QLabel *label_3;
     QPushButton *pushButton;
+    QFrame *toolFrame;
+    QVBoxLayout *verticalLayout;
+    QPushButton *PenButton;
+    QPushButton *PaintBrushButton;
+    QPushButton *EraseButton;
+    QPushButton *EyeDropperButton;
+    QPushButton *FillButton;
+    QPushButton *LineButton;
+    QPushButton *CircleButton;
+    QPushButton *SquareButton;
+    QCheckBox *checkBox_2;
+    QPushButton *RotateRightButton;
+    QPushButton *RotateLeftButton;
+    QPushButton *FlipHorzButton;
+    QPushButton *FlipVertButton;
+    QSpinBox *paintWidthSpin;
+    QSlider *paintWidthSlide;
+    QLabel *label;
+    QFrame *frameCM;
+    QPushButton *MergeFrameButton;
+    QPushButton *CopyFrameButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -97,7 +91,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(583, 615);
+        MainWindow->resize(688, 621);
         QPalette palette;
         QBrush brush(QColor(170, 170, 255, 255));
         brush.setStyle(Qt::SolidPattern);
@@ -106,6 +100,60 @@ public:
         palette.setBrush(QPalette::Disabled, QPalette::Button, brush);
         MainWindow->setPalette(palette);
         MainWindow->setAutoFillBackground(false);
+        MainWindow->setStyleSheet(QLatin1String("MainWindow\n"
+"{\n"
+"\n"
+"background-color: #222930;\n"
+"\n"
+"}\n"
+"\n"
+"#toolFrame\n"
+"{\n"
+"background-color: #384A5C;\n"
+"border-width: 1px;\n"
+"border-color: #384A5C;\n"
+"border-style: solid;\n"
+"border-radius: 7;\n"
+"padding: 3px;\n"
+"}\n"
+"\n"
+"#frameCM\n"
+"{\n"
+"border-width: 1px;\n"
+"border-color: #222930;\n"
+"border-style: solid;\n"
+"border-radius: 7;\n"
+"padding: 3px;\n"
+"}\n"
+"\n"
+"#scrollArea\n"
+"{\n"
+"background-color: #384A5C;\n"
+"border-width: 1px;\n"
+"border-color: #384A5C;\n"
+"border-style: solid;\n"
+"border-radius: 7;\n"
+"padding: 3px;\n"
+"}\n"
+"\n"
+"#scrollAreaWidgetContents\n"
+"{\n"
+"background-color: #384A5C;\n"
+"border-width: 1px;\n"
+"border-color: #384A5C;\n"
+"border-style: solid;\n"
+"border-radius: 7;\n"
+"padding: 3px;\n"
+"}\n"
+"\n"
+"\n"
+"#label\n"
+"{\n"
+" color: white;\n"
+"}\n"
+"\n"
+"\n"
+""));
         actionNew = new QAction(MainWindow);
         actionNew->setObjectName(QStringLiteral("actionNew"));
         actionOpen = new QAction(MainWindow);
@@ -130,101 +178,6 @@ public:
         actionCopy_Fream->setObjectName(QStringLiteral("actionCopy_Fream"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        ToolPages = new QToolBox(centralWidget);
-        ToolPages->setObjectName(QStringLiteral("ToolPages"));
-        ToolPages->setGeometry(QRect(10, 10, 131, 431));
-        ToolPages->setAutoFillBackground(false);
-        Draw = new QWidget();
-        Draw->setObjectName(QStringLiteral("Draw"));
-        Draw->setGeometry(QRect(0, 0, 131, 341));
-        _2 = new QGridLayout(Draw);
-        _2->setSpacing(6);
-        _2->setContentsMargins(11, 11, 11, 11);
-        _2->setObjectName(QStringLiteral("_2"));
-        PaintBrushButton = new QPushButton(Draw);
-        PaintBrushButton->setObjectName(QStringLiteral("PaintBrushButton"));
-
-        _2->addWidget(PaintBrushButton, 1, 0, 1, 1);
-
-        paintWidthSpin = new QSpinBox(Draw);
-        paintWidthSpin->setObjectName(QStringLiteral("paintWidthSpin"));
-
-        _2->addWidget(paintWidthSpin, 4, 0, 1, 1);
-
-        FillButton = new QPushButton(Draw);
-        FillButton->setObjectName(QStringLiteral("FillButton"));
-
-        _2->addWidget(FillButton, 8, 0, 1, 1);
-
-        PenButton = new QPushButton(Draw);
-        PenButton->setObjectName(QStringLiteral("PenButton"));
-
-        _2->addWidget(PenButton, 0, 0, 1, 1);
-
-        EraseButton = new QPushButton(Draw);
-        EraseButton->setObjectName(QStringLiteral("EraseButton"));
-
-        _2->addWidget(EraseButton, 6, 0, 1, 1);
-
-        paintWidthSlide = new QSlider(Draw);
-        paintWidthSlide->setObjectName(QStringLiteral("paintWidthSlide"));
-        paintWidthSlide->setOrientation(Qt::Horizontal);
-
-        _2->addWidget(paintWidthSlide, 5, 0, 1, 1);
-
-        label_2 = new QLabel(Draw);
-        label_2->setObjectName(QStringLiteral("label_2"));
-
-        _2->addWidget(label_2, 3, 0, 1, 1);
-
-        EyeDropperButton = new QPushButton(Draw);
-        EyeDropperButton->setObjectName(QStringLiteral("EyeDropperButton"));
-
-        _2->addWidget(EyeDropperButton, 7, 0, 1, 1);
-
-        ToolPages->addItem(Draw, QStringLiteral("Page 1"));
-        Shape = new QWidget();
-        Shape->setObjectName(QStringLiteral("Shape"));
-        Shape->setGeometry(QRect(0, 0, 131, 341));
-        LineButton = new QPushButton(Shape);
-        LineButton->setObjectName(QStringLiteral("LineButton"));
-        LineButton->setGeometry(QRect(10, 10, 81, 32));
-        CircleButton = new QPushButton(Shape);
-        CircleButton->setObjectName(QStringLiteral("CircleButton"));
-        CircleButton->setGeometry(QRect(10, 40, 81, 32));
-        SquareButton = new QPushButton(Shape);
-        SquareButton->setObjectName(QStringLiteral("SquareButton"));
-        SquareButton->setGeometry(QRect(10, 70, 81, 32));
-        checkBox_2 = new QCheckBox(Shape);
-        checkBox_2->setObjectName(QStringLiteral("checkBox_2"));
-        checkBox_2->setGeometry(QRect(0, 110, 89, 20));
-        shapeWidthSlide = new QSlider(Shape);
-        shapeWidthSlide->setObjectName(QStringLiteral("shapeWidthSlide"));
-        shapeWidthSlide->setGeometry(QRect(0, 180, 111, 22));
-        shapeWidthSlide->setOrientation(Qt::Horizontal);
-        label = new QLabel(Shape);
-        label->setObjectName(QStringLiteral("label"));
-        label->setGeometry(QRect(10, 140, 71, 16));
-        shapeWidthSpin = new QSpinBox(Shape);
-        shapeWidthSpin->setObjectName(QStringLiteral("shapeWidthSpin"));
-        shapeWidthSpin->setGeometry(QRect(20, 160, 51, 24));
-        ToolPages->addItem(Shape, QStringLiteral("Page 2"));
-        page_3 = new QWidget();
-        page_3->setObjectName(QStringLiteral("page_3"));
-        page_3->setGeometry(QRect(0, 0, 131, 341));
-        RotateRightButton = new QPushButton(page_3);
-        RotateRightButton->setObjectName(QStringLiteral("RotateRightButton"));
-        RotateRightButton->setGeometry(QRect(10, 10, 81, 21));
-        RotateLeftButton = new QPushButton(page_3);
-        RotateLeftButton->setObjectName(QStringLiteral("RotateLeftButton"));
-        RotateLeftButton->setGeometry(QRect(0, 30, 101, 32));
-        FlipHorzButton = new QPushButton(page_3);
-        FlipHorzButton->setObjectName(QStringLiteral("FlipHorzButton"));
-        FlipHorzButton->setGeometry(QRect(0, 60, 111, 32));
-        FlipVertButton = new QPushButton(page_3);
-        FlipVertButton->setObjectName(QStringLiteral("FlipVertButton"));
-        FlipVertButton->setGeometry(QRect(0, 90, 101, 32));
-        ToolPages->addItem(page_3, QStringLiteral("Page"));
         frame_2 = new QFrame(centralWidget);
         frame_2->setObjectName(QStringLiteral("frame_2"));
         frame_2->setGeometry(QRect(160, 10, 301, 301));
@@ -236,21 +189,22 @@ public:
         drawingGridLayout->setObjectName(QStringLiteral("drawingGridLayout"));
         AddFrameButton = new QPushButton(centralWidget);
         AddFrameButton->setObjectName(QStringLiteral("AddFrameButton"));
-        AddFrameButton->setGeometry(QRect(510, 340, 31, 32));
+        AddFrameButton->setGeometry(QRect(510, 340, 82, 28));
         scrollArea = new QScrollArea(centralWidget);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
         scrollArea->setGeometry(QRect(160, 340, 341, 171));
+        scrollArea->setStyleSheet(QStringLiteral(""));
         scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         scrollArea->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 339, 155));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 333, 147));
         scrollArea->setWidget(scrollAreaWidgetContents);
         colorPaletteWidget = new QWidget(centralWidget);
         colorPaletteWidget->setObjectName(QStringLiteral("colorPaletteWidget"));
-        colorPaletteWidget->setGeometry(QRect(10, 460, 120, 80));
+        colorPaletteWidget->setGeometry(QRect(490, 30, 120, 80));
         QPalette palette1;
         QBrush brush1(QColor(208, 208, 208, 255));
         brush1.setStyle(Qt::SolidPattern);
@@ -286,19 +240,13 @@ public:
         colorPaletteWidget->setAutoFillBackground(true);
         RemoveFrameButton = new QPushButton(centralWidget);
         RemoveFrameButton->setObjectName(QStringLiteral("RemoveFrameButton"));
-        RemoveFrameButton->setGeometry(QRect(510, 380, 31, 31));
+        RemoveFrameButton->setGeometry(QRect(510, 380, 82, 28));
         IncreaseIndexButton = new QPushButton(centralWidget);
         IncreaseIndexButton->setObjectName(QStringLiteral("IncreaseIndexButton"));
-        IncreaseIndexButton->setGeometry(QRect(510, 420, 31, 31));
+        IncreaseIndexButton->setGeometry(QRect(510, 420, 82, 28));
         DecreaseIndexButton = new QPushButton(centralWidget);
         DecreaseIndexButton->setObjectName(QStringLiteral("DecreaseIndexButton"));
-        DecreaseIndexButton->setGeometry(QRect(510, 460, 31, 31));
-        CopyFrameButton = new QPushButton(centralWidget);
-        CopyFrameButton->setObjectName(QStringLiteral("CopyFrameButton"));
-        CopyFrameButton->setGeometry(QRect(180, 520, 80, 25));
-        MergeFrameButton = new QPushButton(centralWidget);
-        MergeFrameButton->setObjectName(QStringLiteral("MergeFrameButton"));
-        MergeFrameButton->setGeometry(QRect(270, 520, 80, 25));
+        DecreaseIndexButton->setGeometry(QRect(510, 460, 82, 28));
         frameSlider = new QSlider(centralWidget);
         frameSlider->setObjectName(QStringLiteral("frameSlider"));
         frameSlider->setGeometry(QRect(160, 320, 341, 16));
@@ -313,11 +261,147 @@ public:
         label_3->setGeometry(QRect(390, 520, 60, 16));
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(500, 520, 80, 24));
+        pushButton->setGeometry(QRect(500, 520, 82, 28));
+        toolFrame = new QFrame(centralWidget);
+        toolFrame->setObjectName(QStringLiteral("toolFrame"));
+        toolFrame->setGeometry(QRect(20, 10, 111, 447));
+        toolFrame->setStyleSheet(QLatin1String("QPushButton {\n"
+"color: white;\n"
+"/*background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);*/\n"
+"background-color: #4EB1BA;\n"
+"border-width: 1px;\n"
+"border-color: #4EB1BA;\n"
+"border-style: solid;\n"
+"border-radius: 7;\n"
+"padding: 3px;\n"
+"font-size: 10px;\n"
+"\n"
+"padding-left: 5px;\n"
+"padding-right: 5px;\n"
+"min-width: 70px;\n"
+"max-width: 70px;\n"
+"min-height: 20px;\n"
+"max-height: 20px;\n"
+"}\n"
+"\n"
+"#checkBox_2\n"
+"{\n"
+"color: white;\n"
+"}"));
+        toolFrame->setFrameShape(QFrame::StyledPanel);
+        toolFrame->setFrameShadow(QFrame::Raised);
+        verticalLayout = new QVBoxLayout(toolFrame);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        PenButton = new QPushButton(toolFrame);
+        PenButton->setObjectName(QStringLiteral("PenButton"));
+
+        verticalLayout->addWidget(PenButton);
+
+        PaintBrushButton = new QPushButton(toolFrame);
+        PaintBrushButton->setObjectName(QStringLiteral("PaintBrushButton"));
+
+        verticalLayout->addWidget(PaintBrushButton);
+
+        EraseButton = new QPushButton(toolFrame);
+        EraseButton->setObjectName(QStringLiteral("EraseButton"));
+
+        verticalLayout->addWidget(EraseButton);
+
+        EyeDropperButton = new QPushButton(toolFrame);
+        EyeDropperButton->setObjectName(QStringLiteral("EyeDropperButton"));
+
+        verticalLayout->addWidget(EyeDropperButton);
+
+        FillButton = new QPushButton(toolFrame);
+        FillButton->setObjectName(QStringLiteral("FillButton"));
+
+        verticalLayout->addWidget(FillButton);
+
+        LineButton = new QPushButton(toolFrame);
+        LineButton->setObjectName(QStringLiteral("LineButton"));
+
+        verticalLayout->addWidget(LineButton);
+
+        CircleButton = new QPushButton(toolFrame);
+        CircleButton->setObjectName(QStringLiteral("CircleButton"));
+
+        verticalLayout->addWidget(CircleButton);
+
+        SquareButton = new QPushButton(toolFrame);
+        SquareButton->setObjectName(QStringLiteral("SquareButton"));
+
+        verticalLayout->addWidget(SquareButton);
+
+        checkBox_2 = new QCheckBox(toolFrame);
+        checkBox_2->setObjectName(QStringLiteral("checkBox_2"));
+
+        verticalLayout->addWidget(checkBox_2);
+
+        RotateRightButton = new QPushButton(toolFrame);
+        RotateRightButton->setObjectName(QStringLiteral("RotateRightButton"));
+
+        verticalLayout->addWidget(RotateRightButton);
+
+        RotateLeftButton = new QPushButton(toolFrame);
+        RotateLeftButton->setObjectName(QStringLiteral("RotateLeftButton"));
+
+        verticalLayout->addWidget(RotateLeftButton);
+
+        FlipHorzButton = new QPushButton(toolFrame);
+        FlipHorzButton->setObjectName(QStringLiteral("FlipHorzButton"));
+
+        verticalLayout->addWidget(FlipHorzButton);
+
+        FlipVertButton = new QPushButton(toolFrame);
+        FlipVertButton->setObjectName(QStringLiteral("FlipVertButton"));
+
+        verticalLayout->addWidget(FlipVertButton);
+
+        paintWidthSpin = new QSpinBox(centralWidget);
+        paintWidthSpin->setObjectName(QStringLiteral("paintWidthSpin"));
+        paintWidthSpin->setGeometry(QRect(20, 490, 107, 24));
+        paintWidthSlide = new QSlider(centralWidget);
+        paintWidthSlide->setObjectName(QStringLiteral("paintWidthSlide"));
+        paintWidthSlide->setGeometry(QRect(20, 520, 114, 22));
+        paintWidthSlide->setOrientation(Qt::Horizontal);
+        label = new QLabel(centralWidget);
+        label->setObjectName(QStringLiteral("label"));
+        label->setGeometry(QRect(30, 470, 71, 16));
+        frameCM = new QFrame(centralWidget);
+        frameCM->setObjectName(QStringLiteral("frameCM"));
+        frameCM->setGeometry(QRect(180, 520, 201, 31));
+        frameCM->setStyleSheet(QLatin1String("QPushButton {\n"
+"color: white;\n"
+"/*background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #88d, stop: 0.1 #99e, stop: 0.49 #77c, stop: 0.5 #66b, stop: 1 #77c);*/\n"
+"background-color: #4EB1BA;\n"
+"border-width: 1px;\n"
+"border-color: #4EB1BA;\n"
+"border-style: solid;\n"
+"border-radius: 7;\n"
+"padding: 3px;\n"
+"font-size: 10px;\n"
+"\n"
+"padding-left: 5px;\n"
+"padding-right: 5px;\n"
+"min-width: 70px;\n"
+"max-width: 70px;\n"
+"min-height: 20px;\n"
+"max-height: 20px;\n"
+"}"));
+        frameCM->setFrameShape(QFrame::StyledPanel);
+        frameCM->setFrameShadow(QFrame::Raised);
+        MergeFrameButton = new QPushButton(frameCM);
+        MergeFrameButton->setObjectName(QStringLiteral("MergeFrameButton"));
+        MergeFrameButton->setGeometry(QRect(110, 0, 82, 28));
+        CopyFrameButton = new QPushButton(frameCM);
+        CopyFrameButton->setObjectName(QStringLiteral("CopyFrameButton"));
+        CopyFrameButton->setGeometry(QRect(10, 0, 82, 28));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 583, 22));
+        menuBar->setGeometry(QRect(0, 0, 688, 22));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -342,9 +426,6 @@ public:
 
         retranslateUi(MainWindow);
 
-        ToolPages->setCurrentIndex(2);
-
-
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
 
@@ -364,32 +445,28 @@ public:
         actionAdd_Frame->setText(QApplication::translate("MainWindow", "Add Frame", 0));
         actionDelete_Frame->setText(QApplication::translate("MainWindow", "Delete Frame", 0));
         actionCopy_Fream->setText(QApplication::translate("MainWindow", "Copy Fream", 0));
-        PaintBrushButton->setText(QApplication::translate("MainWindow", "Paint Brush", 0));
-        FillButton->setText(QApplication::translate("MainWindow", "Paint Bucket", 0));
-        PenButton->setText(QApplication::translate("MainWindow", "Pen", 0));
-        EraseButton->setText(QApplication::translate("MainWindow", "Erase", 0));
-        label_2->setText(QApplication::translate("MainWindow", "Paint Width", 0));
-        EyeDropperButton->setText(QApplication::translate("MainWindow", "Eyedropper", 0));
-        ToolPages->setItemText(ToolPages->indexOf(Draw), QApplication::translate("MainWindow", "Page 1", 0));
-        LineButton->setText(QApplication::translate("MainWindow", "Line", 0));
-        CircleButton->setText(QApplication::translate("MainWindow", "Ellipse", 0));
-        SquareButton->setText(QApplication::translate("MainWindow", "Rectangle", 0));
-        checkBox_2->setText(QApplication::translate("MainWindow", "Fill", 0));
-        label->setText(QApplication::translate("MainWindow", "Pixel Width", 0));
-        ToolPages->setItemText(ToolPages->indexOf(Shape), QApplication::translate("MainWindow", "Page 2", 0));
-        RotateRightButton->setText(QApplication::translate("MainWindow", "Rotate Right", 0));
-        RotateLeftButton->setText(QApplication::translate("MainWindow", "Rotate Left", 0));
-        FlipHorzButton->setText(QApplication::translate("MainWindow", "Flip Horizontal", 0));
-        FlipVertButton->setText(QApplication::translate("MainWindow", "Flip Vertical", 0));
-        ToolPages->setItemText(ToolPages->indexOf(page_3), QApplication::translate("MainWindow", "Page", 0));
         AddFrameButton->setText(QApplication::translate("MainWindow", "+", 0));
         RemoveFrameButton->setText(QApplication::translate("MainWindow", "-", 0));
         IncreaseIndexButton->setText(QApplication::translate("MainWindow", "Up", 0));
         DecreaseIndexButton->setText(QApplication::translate("MainWindow", "Down", 0));
-        CopyFrameButton->setText(QApplication::translate("MainWindow", "Copy Frame", 0));
-        MergeFrameButton->setText(QApplication::translate("MainWindow", "Merge Frame", 0));
         label_3->setText(QApplication::translate("MainWindow", "FPS:", 0));
         pushButton->setText(QApplication::translate("MainWindow", "Preview", 0));
+        PenButton->setText(QApplication::translate("MainWindow", "Pen", 0));
+        PaintBrushButton->setText(QApplication::translate("MainWindow", "Paint Brush", 0));
+        EraseButton->setText(QApplication::translate("MainWindow", "Erase", 0));
+        EyeDropperButton->setText(QApplication::translate("MainWindow", "Eyedropper", 0));
+        FillButton->setText(QApplication::translate("MainWindow", "Paint Bucket", 0));
+        LineButton->setText(QApplication::translate("MainWindow", "Line", 0));
+        CircleButton->setText(QApplication::translate("MainWindow", "Ellipse", 0));
+        SquareButton->setText(QApplication::translate("MainWindow", "Rectangle", 0));
+        checkBox_2->setText(QApplication::translate("MainWindow", "Fill Shape", 0));
+        RotateRightButton->setText(QApplication::translate("MainWindow", "Rotate Right", 0));
+        RotateLeftButton->setText(QApplication::translate("MainWindow", "Rotate Left", 0));
+        FlipHorzButton->setText(QApplication::translate("MainWindow", "Flip Horizontal", 0));
+        FlipVertButton->setText(QApplication::translate("MainWindow", "Flip Vertical", 0));
+        label->setText(QApplication::translate("MainWindow", "Pixel Width", 0));
+        MergeFrameButton->setText(QApplication::translate("MainWindow", "Merge Frame", 0));
+        CopyFrameButton->setText(QApplication::translate("MainWindow", "Copy Frame", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0));
     } // retranslateUi
