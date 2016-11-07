@@ -15,7 +15,7 @@
 #include "gifpopup.h"
 #include "newprojectdialog.h"
 #include <QColorDialog>
-#include <previewdialog.h>
+#include "previewdialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -84,6 +84,9 @@ private slots:
 
     void on_DecreaseIndexButton_clicked();
 
+    void exportGifSlot(std::string name);
+
+
     void on_frameSlider_valueChanged(int value);
 
     void on_horizontalSlider_valueChanged(int value);
@@ -92,8 +95,6 @@ private slots:
 
     void on_pushButton_clicked();
 
-
-    
 signals:
     void undoSignal();
     void redoSignal();

@@ -4,10 +4,11 @@
 #include <QDebug>
 #include <slideview.h>
 #include "newprojectdialog.h"
-//#include "gif.h"
+#include "gif.h"
 //#include <QList>
 #include <QFileDialog>
 #include <QString>
+#include "previewdialog.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -91,7 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
-    connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
+    connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, this, &MainWindow::exportGifSlot);
     connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
 
     connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
@@ -312,6 +313,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
 void MainWindow::on_actionOpen_triggered()
 {
+    std::cout<<"open"<<std::endl;
     // Open the file and read the data
     // -------------------------------------------------------------------------
     QString filenamePicked = QFileDialog::getOpenFileName(
@@ -406,22 +408,22 @@ void MainWindow::on_actionOpen_triggered()
     theProject->deleteAllSlidesAndRefresh();
     delete theProject;
     theProject = new Project("", theView, this);
-
+    imageList.clear();
     int idx = 0;
     for(auto it = loadedImages.begin(); it != loadedImages.end(); it++)
     {
-        if(idx != 0)
+        /*if(idx != 0)
         {
            theProject->addSlide(new SlideView(view, size));
-           theProject->addImage(*it);
-
+//           theProject->addImage(*it);
            std::cout<<"Added slide"<<std::endl;
-        }
+        }*/
+        imageList.push_back(*it);
         idx++;
     }
-    std::cout<<"totSlides: "<<theProject->getSizeList()<<std::endl;
+    std::cout<<"totSlides: "<<imageList.size()<<std::endl;
 
-    theView = theProject->getSlide(0);
+//    theView = theProject->getSlide(0);
     theView->setFill(false);
 
 
@@ -440,9 +442,9 @@ void MainWindow::on_actionOpen_triggered()
         preButton->setObjectName(QString::number(i));
         connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
         QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
-        QPixmap testMap = QPixmap::fromImage(theProject->getSlide(i)->getImage());
+        QPixmap testMap = QPixmap::fromImage(imageList.at(i));   //theProject->getSlide(i)->getImage()
         QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
-        testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        testMap = testMap.scaled(imageSize, Qt::IgnoreAspectRatio, Qt::FastTransformation);
         QIcon buttonIcon(testMap);
         preButton->setFixedSize(buttonSize);
         preButton->setIconSize(imageSize);
@@ -842,6 +844,41 @@ void MainWindow::on_spinBox_valueChanged(int arg1)
     emit fpsPickerSignal(arg1);
 }
 
+void MainWindow::exportGifSlot(std::string name)
+{
+//    std::cout<<name<<std::endl;
+    name += ".gif";
+    const char* cname = name.c_str();
+//    SlideView* slide = getSlide(0);
+    QImage slide = imageList.front();
+//    int width = slide->getImage().width();
+//    int height = slide->getImage().height();
+    int width = slide.width();
+    int height = slide.height();
+    int framesPerSec = theProject->getFramesPerSec(); // Set this variable when we change the frame playback speed
+    int delay = 100/framesPerSec; // This is the delay in 1/100th of a second. 5 corresponds to 25 frames per second
+    GifWriter gifWrt;
+    GifBegin(&gifWrt, cname, width, height, delay, 8, false);
+    int length = imageList.size();
+    for(auto itr = imageList.begin(); itr != imageList.end(); ++itr)
+//        for(int itr = 0; itr < length; itr++)
+    {
+//        SlideView* tempSlide = *itr;
+//        QImage tempSlide = getImage(itr).copy();
+        QImage tempSlide = (*itr).copy();
+        //        QImage tempImg = tempSlide->getImage().convertToFormat(QImage::Format_RGB32);
+        QImage tempImg = tempSlide.convertToFormat(QImage::Format_RGB32);
+        width = tempImg.width();
+        height = tempImg.height();
+        GifWriteFrame(&gifWrt, tempImg.bits(), width, height, delay, 8, false);
+        std::cout<<"Writing frame"<<std::endl;
+    }
+    GifEnd(&gifWrt);
+}
+//void MainWindow::on_pushButton_clicked()
+//{
+
+//}
 
 void MainWindow::on_pushButton_clicked()
 {

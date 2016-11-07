@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PreviewDialog</class>
- <widget class="QDialog" name="PreviewDialog">
+ <widget name="PreviewDialog" class="QDialog">
   <property name="geometry">
    <rect>
     <x>0</x>

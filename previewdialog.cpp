@@ -22,6 +22,7 @@ void PreviewDialog::previewSlot(int value, const std::vector<QImage>& _imageList
     int n = imageList.size();
     QGraphicsScene *theScene = new QGraphicsScene();
 
+    // Infinite loop
     while (true) {
         // wait time
         workerThread.msleep(delay);
@@ -35,5 +36,3 @@ void PreviewDialog::previewSlot(int value, const std::vector<QImage>& _imageList
         n++;
     }
 }
-
-
