@@ -259,8 +259,8 @@ void MainWindow::createNewSpriteProject(int pixSize)
     QImage image (size, size, QImage::Format_ARGB32);
     image.fill(Qt::transparent);
     theView->setImage(image);
-    theProject->addImage(theView->getImage());
-    imageList.push_back(theView->getImage());
+    //theProject->addImage(theView->getImage());
+    imageList.push_back(image);
 
 
     //set spinboxes range
@@ -280,7 +280,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     buttonsIndex = 0;
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
-    QPixmap testMap = QPixmap::fromImage(theProject->getSlide(currentIndex)->getImage().copy());
+    QPixmap testMap = QPixmap::fromImage(image);
     testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
     QIcon buttonIcon(testMap);
@@ -291,6 +291,8 @@ void MainWindow::createNewSpriteProject(int pixSize)
     preButton->setFlat(false);
 
     ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
+
+    indexToSet = 0;
 
     // Reset the connections
     connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
@@ -485,12 +487,12 @@ void MainWindow::changeFrame()
 void MainWindow::updateButton()
 {
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
-    imageList.at(currentFrameIndex) = theView->getImage();
+    imageList.at(indexToSet) = theView->getImage();
 
     QSize buttonSize((ui->scrollArea->height())-10,(ui->scrollArea->height())-10);
     testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
     QIcon buttonIcon(testMap);
-    buttons.at(currentFrameIndex)->setIcon(buttonIcon);
+    buttons.at(indexToSet)->setIcon(buttonIcon);
 
 }
 
