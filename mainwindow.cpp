@@ -252,16 +252,16 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
      theView = new SlideView(view, size);
     // This makes it so we only use the new slides
-    theProject->deleteAllSlidesAndRefresh();
-    delete theProject;
 
     imageList.clear();
     buttons.clear();
 
-    theProject = new Project("", theView, this);
+    QImage image (size, size, QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    theView->setImage(image);
+    theProject->addImage(theView->getImage());
+    imageList.push_back(theView->getImage());
 
-    theView = theProject->getSlide(0);
-    theView->setFill(false);
 
     //set spinboxes range
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
@@ -813,9 +813,6 @@ bool MainWindow::eventFilter(QObject *sender, QEvent *event)
     }
     return QWidget::eventFilter(sender,event);
 }
-
-
-
 
 void MainWindow::on_frameSlider_valueChanged(int value)
 {

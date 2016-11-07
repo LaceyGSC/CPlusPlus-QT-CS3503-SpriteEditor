@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[55];
-    char stringdata0[1148];
+    QByteArrayData data[58];
+    char stringdata0[1179];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -80,10 +80,13 @@ QT_MOC_LITERAL(47, 922, 27), // "on_MergeFrameButton_clicked"
 QT_MOC_LITERAL(48, 950, 28), // "on_RemoveFrameButton_clicked"
 QT_MOC_LITERAL(49, 979, 30), // "on_IncreaseIndexButton_clicked"
 QT_MOC_LITERAL(50, 1010, 30), // "on_DecreaseIndexButton_clicked"
-QT_MOC_LITERAL(51, 1041, 27), // "on_frameSlider_valueChanged"
-QT_MOC_LITERAL(52, 1069, 32), // "on_horizontalSlider_valueChanged"
-QT_MOC_LITERAL(53, 1102, 23), // "on_spinBox_valueChanged"
-QT_MOC_LITERAL(54, 1126, 21) // "on_pushButton_clicked"
+QT_MOC_LITERAL(51, 1041, 13), // "exportGifSlot"
+QT_MOC_LITERAL(52, 1055, 11), // "std::string"
+QT_MOC_LITERAL(53, 1067, 4), // "name"
+QT_MOC_LITERAL(54, 1072, 27), // "on_frameSlider_valueChanged"
+QT_MOC_LITERAL(55, 1100, 32), // "on_horizontalSlider_valueChanged"
+QT_MOC_LITERAL(56, 1133, 23), // "on_spinBox_valueChanged"
+QT_MOC_LITERAL(57, 1157, 21) // "on_pushButton_clicked"
 
     },
     "MainWindow\0undoSignal\0\0redoSignal\0"
@@ -117,6 +120,7 @@ QT_MOC_LITERAL(54, 1126, 21) // "on_pushButton_clicked"
     "on_RemoveFrameButton_clicked\0"
     "on_IncreaseIndexButton_clicked\0"
     "on_DecreaseIndexButton_clicked\0"
+    "exportGifSlot\0std::string\0name\0"
     "on_frameSlider_valueChanged\0"
     "on_horizontalSlider_valueChanged\0"
     "on_spinBox_valueChanged\0on_pushButton_clicked"
@@ -129,7 +133,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      45,   14, // methods
+      46,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -137,53 +141,54 @@ static const uint qt_meta_data_MainWindow[] = {
       10,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  239,    2, 0x06 /* Public */,
-       3,    0,  240,    2, 0x06 /* Public */,
-       4,    0,  241,    2, 0x06 /* Public */,
-       5,    0,  242,    2, 0x06 /* Public */,
-       6,    0,  243,    2, 0x06 /* Public */,
-       7,    0,  244,    2, 0x06 /* Public */,
-       8,    0,  245,    2, 0x06 /* Public */,
-       9,    1,  246,    2, 0x06 /* Public */,
-      11,    1,  249,    2, 0x06 /* Public */,
-      13,    2,  252,    2, 0x06 /* Public */,
+       1,    0,  244,    2, 0x06 /* Public */,
+       3,    0,  245,    2, 0x06 /* Public */,
+       4,    0,  246,    2, 0x06 /* Public */,
+       5,    0,  247,    2, 0x06 /* Public */,
+       6,    0,  248,    2, 0x06 /* Public */,
+       7,    0,  249,    2, 0x06 /* Public */,
+       8,    0,  250,    2, 0x06 /* Public */,
+       9,    1,  251,    2, 0x06 /* Public */,
+      11,    1,  254,    2, 0x06 /* Public */,
+      13,    2,  257,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      16,    0,  257,    2, 0x08 /* Private */,
-      17,    0,  258,    2, 0x08 /* Private */,
-      18,    0,  259,    2, 0x08 /* Private */,
-      19,    0,  260,    2, 0x08 /* Private */,
-      20,    0,  261,    2, 0x08 /* Private */,
-      21,    0,  262,    2, 0x08 /* Private */,
-      22,    0,  263,    2, 0x08 /* Private */,
-      23,    0,  264,    2, 0x08 /* Private */,
-      24,    0,  265,    2, 0x08 /* Private */,
-      25,    0,  266,    2, 0x08 /* Private */,
-      26,    0,  267,    2, 0x08 /* Private */,
-      27,    0,  268,    2, 0x08 /* Private */,
-      28,    0,  269,    2, 0x08 /* Private */,
-      29,    0,  270,    2, 0x08 /* Private */,
-      30,    0,  271,    2, 0x08 /* Private */,
-      31,    0,  272,    2, 0x08 /* Private */,
-      32,    0,  273,    2, 0x08 /* Private */,
-      33,    0,  274,    2, 0x08 /* Private */,
-      34,    1,  275,    2, 0x08 /* Private */,
-      36,    1,  278,    2, 0x08 /* Private */,
-      37,    1,  281,    2, 0x08 /* Private */,
-      39,    1,  284,    2, 0x08 /* Private */,
-      41,    0,  287,    2, 0x08 /* Private */,
-      42,    0,  288,    2, 0x08 /* Private */,
-      43,    1,  289,    2, 0x08 /* Private */,
-      45,    0,  292,    2, 0x08 /* Private */,
-      46,    0,  293,    2, 0x08 /* Private */,
-      47,    0,  294,    2, 0x08 /* Private */,
-      48,    0,  295,    2, 0x08 /* Private */,
-      49,    0,  296,    2, 0x08 /* Private */,
-      50,    0,  297,    2, 0x08 /* Private */,
-      51,    1,  298,    2, 0x08 /* Private */,
-      52,    1,  301,    2, 0x08 /* Private */,
-      53,    1,  304,    2, 0x08 /* Private */,
-      54,    0,  307,    2, 0x08 /* Private */,
+      16,    0,  262,    2, 0x08 /* Private */,
+      17,    0,  263,    2, 0x08 /* Private */,
+      18,    0,  264,    2, 0x08 /* Private */,
+      19,    0,  265,    2, 0x08 /* Private */,
+      20,    0,  266,    2, 0x08 /* Private */,
+      21,    0,  267,    2, 0x08 /* Private */,
+      22,    0,  268,    2, 0x08 /* Private */,
+      23,    0,  269,    2, 0x08 /* Private */,
+      24,    0,  270,    2, 0x08 /* Private */,
+      25,    0,  271,    2, 0x08 /* Private */,
+      26,    0,  272,    2, 0x08 /* Private */,
+      27,    0,  273,    2, 0x08 /* Private */,
+      28,    0,  274,    2, 0x08 /* Private */,
+      29,    0,  275,    2, 0x08 /* Private */,
+      30,    0,  276,    2, 0x08 /* Private */,
+      31,    0,  277,    2, 0x08 /* Private */,
+      32,    0,  278,    2, 0x08 /* Private */,
+      33,    0,  279,    2, 0x08 /* Private */,
+      34,    1,  280,    2, 0x08 /* Private */,
+      36,    1,  283,    2, 0x08 /* Private */,
+      37,    1,  286,    2, 0x08 /* Private */,
+      39,    1,  289,    2, 0x08 /* Private */,
+      41,    0,  292,    2, 0x08 /* Private */,
+      42,    0,  293,    2, 0x08 /* Private */,
+      43,    1,  294,    2, 0x08 /* Private */,
+      45,    0,  297,    2, 0x08 /* Private */,
+      46,    0,  298,    2, 0x08 /* Private */,
+      47,    0,  299,    2, 0x08 /* Private */,
+      48,    0,  300,    2, 0x08 /* Private */,
+      49,    0,  301,    2, 0x08 /* Private */,
+      50,    0,  302,    2, 0x08 /* Private */,
+      51,    1,  303,    2, 0x08 /* Private */,
+      54,    1,  306,    2, 0x08 /* Private */,
+      55,    1,  309,    2, 0x08 /* Private */,
+      56,    1,  312,    2, 0x08 /* Private */,
+      57,    0,  315,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -229,6 +234,7 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 52,   53,
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void, QMetaType::Int,   35,
@@ -284,10 +290,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 38: _t->on_RemoveFrameButton_clicked(); break;
         case 39: _t->on_IncreaseIndexButton_clicked(); break;
         case 40: _t->on_DecreaseIndexButton_clicked(); break;
-        case 41: _t->on_frameSlider_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 42: _t->on_horizontalSlider_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 43: _t->on_spinBox_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 44: _t->on_pushButton_clicked(); break;
+        case 41: _t->exportGifSlot((*reinterpret_cast< std::string(*)>(_a[1]))); break;
+        case 42: _t->on_frameSlider_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 43: _t->on_horizontalSlider_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 44: _t->on_spinBox_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 45: _t->on_pushButton_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -391,13 +398,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 45)
+        if (_id < 46)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 45;
+        _id -= 46;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 45)
+        if (_id < 46)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 45;
+        _id -= 46;
     }
     return _id;
 }
