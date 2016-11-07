@@ -17,7 +17,7 @@ PreviewDialog::~PreviewDialog()
 
 void PreviewDialog::previewSlot(int value, const std::vector<QImage>& _imageList) {
     fps = value;
-    int delay = 10 * (100 / fps); // This is the delay in 1/100th of a second. 5 corresponds to 25 frames per second
+    int delay = (100 / fps); // This is the delay in 1/100th of a second. 5 corresponds to 25 frames per second
     imageList = _imageList; // I think this is deepcopy?
     int n = imageList.size();
     QGraphicsScene *theScene = new QGraphicsScene();
@@ -32,7 +32,7 @@ void PreviewDialog::previewSlot(int value, const std::vector<QImage>& _imageList
 
         theScene->addPixmap(pixImage);
         theScene->setSceneRect(pixImage.rect());
-        theScene->setBackgroundBrush(Qt::white);
+        n++;
     }
 }
 

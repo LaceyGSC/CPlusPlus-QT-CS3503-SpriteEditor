@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setWindowTitle("GoldEn Sprite Editor");
     ui->colorPaletteWidget->installEventFilter(this);
     size = 32;
+    emit colorPaletteChangedSlot(qRgba(0, 0, 0, 255));
 
    // colorDialog = new QColorDialog(this);
 
@@ -498,6 +499,8 @@ void MainWindow::on_setFramePushButton_clicked()
     theView->setImage(imageList.at(indexToSet));
     currentFrameIndex = indexToSet;
 
+    ui->frameSlider->setValue(indexToSet);
+
 }
 
 void MainWindow::on_AddFrameButton_clicked()
@@ -827,7 +830,7 @@ void MainWindow::on_frameSlider_valueChanged(int value)
     }
 }
 
-// error if removed.
+//// error if removed.
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     std::cout << "what" << std::endl;
