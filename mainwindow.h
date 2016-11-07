@@ -62,8 +62,8 @@ private slots:
     //Slots for the width and size changers
     void on_paintWidthSpin_valueChanged(int arg1);
     void on_paintWidthSlide_sliderMoved(int position);
-    void on_shapeWidthSpin_valueChanged(int arg1);
-    void on_shapeWidthSlide_sliderMoved(int position);
+    //void on_shapeWidthSpin_valueChanged(int arg1);
+    //void on_shapeWidthSlide_sliderMoved(int position);
 
     // Receives Signal from UI EyeDropperButton
     void colorPaletteChangedSlot(QColor previewColor);

@@ -47,15 +47,16 @@ MainWindow::MainWindow(QWidget *parent) :
     theView = theProject->getSlide(0);
 
     theView->setFill(false);
+     int i = 0;
 
     theProject->addImage(theView->getImage());
     imageList.push_back(theView->getImage());
 
     //set spinboxes range
-    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/5);
+    //ui->shapeWidthSlide->setRange(1, theView->getImage().width()/5);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/5);
+    //ui->shapeWidthSpin->setRange(1, theView->getImage().width()/5);
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -83,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent) :
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(false);
+    preButton->setFlat(true);
 
     testLayout->addWidget(preButton);
 
@@ -210,14 +211,16 @@ void MainWindow::on_paintWidthSpin_valueChanged(int arg1)
 {
     ui->paintWidthSlide->setValue(arg1);
     theView->setPaintWidth(arg1);
+    theView->setShapeWidth(arg1);
 }
 
 void MainWindow::on_paintWidthSlide_sliderMoved(int position)
 {
     ui->paintWidthSpin->setValue(position);
     theView->setPaintWidth(position);
+    theView->setShapeWidth(position);
 }
-
+/*
 void MainWindow::on_shapeWidthSpin_valueChanged(int arg1)
 {
     ui->shapeWidthSlide->setValue(arg1);
@@ -229,6 +232,7 @@ void MainWindow::on_shapeWidthSlide_sliderMoved(int position)
     ui->shapeWidthSpin->setValue(position);
     theView->setShapeWidth(position);
 }
+*/
 
 void MainWindow::colorPaletteChangedSlot(QColor previewColor){
     QPalette palette = ui->colorPaletteWidget->palette();
@@ -292,7 +296,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
+    //ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
 
    //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -314,7 +318,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(false);
+    preButton->setFlat(true);
 
     ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
 
@@ -453,10 +457,10 @@ void MainWindow::on_actionOpen_triggered()
 
 
     //set spinboxes range
-    ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
+    //ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
+    //ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -530,8 +534,8 @@ void MainWindow::on_setFramePushButton_clicked()
 void MainWindow::on_AddFrameButton_clicked()
 {
     //set to inital state
-    ui->shapeWidthSlide->setValue(1);
-    ui->shapeWidthSpin->setValue(1);
+    //ui->shapeWidthSlide->setValue(1);
+    //ui->shapeWidthSpin->setValue(1);
     ui->paintWidthSlide->setValue(1);
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
@@ -558,7 +562,7 @@ void MainWindow::on_AddFrameButton_clicked()
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(false);
+    preButton->setFlat(true);
 
     testLayout->addWidget(preButton);
 
@@ -632,8 +636,8 @@ void MainWindow::on_CopyFrameButton_clicked()
     int startIndex = indexToSet + 1;
 
     //set to inital state
-    ui->shapeWidthSlide->setValue(1);
-    ui->shapeWidthSpin->setValue(1);
+    //ui->shapeWidthSlide->setValue(1);
+    //ui->shapeWidthSpin->setValue(1);
     ui->paintWidthSlide->setValue(1);
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
@@ -657,7 +661,7 @@ void MainWindow::on_CopyFrameButton_clicked()
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(false);
+    preButton->setFlat(true);
 
 
     testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
@@ -722,7 +726,7 @@ void MainWindow::on_MergeFrameButton_clicked()
         preButton->setFixedSize(buttonSize);
         preButton->setIconSize(buttonSize);
         preButton->setIcon(buttonIcon);
-        preButton->setFlat(false);
+        preButton->setFlat(true);
 
         testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
 
@@ -855,10 +859,6 @@ void MainWindow::on_spinBox_valueChanged(int arg1)
     emit fpsPickerSignal(arg1);
 }
 
-//void MainWindow::on_pushButton_clicked()
-//{
-
-//}
 
 void MainWindow::on_pushButton_clicked()
 {

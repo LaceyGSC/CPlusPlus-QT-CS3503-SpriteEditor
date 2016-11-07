@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>583</width>
+    <width>688</width>
     <height>615</height>
    </rect>
   </property>
@@ -54,255 +54,6 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QToolBox" name="ToolPages">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>131</width>
-      <height>431</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="currentIndex">
-     <number>2</number>
-    </property>
-    <widget class="QWidget" name="Draw">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>131</width>
-       <height>341</height>
-      </rect>
-     </property>
-     <attribute name="label">
-      <string>Page 1</string>
-     </attribute>
-     <layout class="QGridLayout" name="_2">
-      <item row="1" column="0">
-       <widget class="QPushButton" name="PaintBrushButton">
-        <property name="text">
-         <string>Paint Brush</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QSpinBox" name="paintWidthSpin"/>
-      </item>
-      <item row="8" column="0">
-       <widget class="QPushButton" name="FillButton">
-        <property name="text">
-         <string>Paint Bucket</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="PenButton">
-        <property name="text">
-         <string>Pen</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QPushButton" name="EraseButton">
-        <property name="text">
-         <string>Erase</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QSlider" name="paintWidthSlide">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Paint Width</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QPushButton" name="EyeDropperButton">
-        <property name="text">
-         <string>Eyedropper</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="Shape">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>131</width>
-       <height>341</height>
-      </rect>
-     </property>
-     <attribute name="label">
-      <string>Page 2</string>
-     </attribute>
-     <widget class="QPushButton" name="LineButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>81</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Line</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="CircleButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>40</y>
-        <width>81</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Ellipse</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="SquareButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>70</y>
-        <width>81</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Rectangle</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="checkBox_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>110</y>
-        <width>89</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Fill</string>
-      </property>
-     </widget>
-     <widget class="QSlider" name="shapeWidthSlide">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>180</y>
-        <width>111</width>
-        <height>22</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>140</y>
-        <width>71</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Pixel Width</string>
-      </property>
-     </widget>
-     <widget class="QSpinBox" name="shapeWidthSpin">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>160</y>
-        <width>51</width>
-        <height>24</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="page_3">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>131</width>
-       <height>341</height>
-      </rect>
-     </property>
-     <attribute name="label">
-      <string>Page</string>
-     </attribute>
-     <widget class="QPushButton" name="RotateRightButton">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>81</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Rotate Right</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="RotateLeftButton">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>30</y>
-        <width>101</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Rotate Left</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="FlipHorzButton">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>60</y>
-        <width>111</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Flip Horizontal</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="FlipVertButton">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>90</y>
-        <width>101</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Flip Vertical</string>
-      </property>
-     </widget>
-    </widget>
-   </widget>
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
@@ -360,7 +111,7 @@
        <x>0</x>
        <y>0</y>
        <width>339</width>
-       <height>155</height>
+       <height>154</height>
       </rect>
      </property>
     </widget>
@@ -368,8 +119,8 @@
    <widget class="QWidget" name="colorPaletteWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>460</y>
+      <x>490</x>
+      <y>30</y>
       <width>120</width>
       <height>80</height>
      </rect>
@@ -678,13 +429,158 @@
      <string>Preview</string>
     </property>
    </widget>
+   <widget class="QFrame" name="toolFrame">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>144</width>
+      <height>447</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="PenButton">
+       <property name="text">
+        <string>Pen</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="PaintBrushButton">
+       <property name="text">
+        <string>Paint Brush</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="EraseButton">
+       <property name="text">
+        <string>Erase</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="EyeDropperButton">
+       <property name="text">
+        <string>Eyedropper</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="FillButton">
+       <property name="text">
+        <string>Paint Bucket</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="LineButton">
+       <property name="text">
+        <string>Line</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="CircleButton">
+       <property name="text">
+        <string>Ellipse</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="SquareButton">
+       <property name="text">
+        <string>Rectangle</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBox_2">
+       <property name="text">
+        <string>Fill Shape</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="RotateRightButton">
+       <property name="text">
+        <string>Rotate Right</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="RotateLeftButton">
+       <property name="text">
+        <string>Rotate Left</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="FlipHorzButton">
+       <property name="text">
+        <string>Flip Horizontal</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="FlipVertButton">
+       <property name="text">
+        <string>Flip Vertical</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QSpinBox" name="paintWidthSpin">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>490</y>
+      <width>107</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QSlider" name="paintWidthSlide">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>520</y>
+      <width>114</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>460</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pixel Width</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>583</width>
+     <width>688</width>
      <height>22</height>
     </rect>
    </property>
