@@ -32,14 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //QImage theImage = QImage(size, size, QImage::Format_ARGB32);
     //theImage.fill(defaultColor);
 
-    // If we don't fill theImage before applying it. We get artifacts.
-    // I suggest the default background as white.
-    //QColor defaultColor = qRgba(255, 255, 255, 0);
-    //this is filing the image with white and not alpha, Steve
-    //theImage.fill(defaultColor);
-    //does this work with Fill? Steve
-    //theImage.fill(Qt::transparent);
-
     theView = new SlideView(view, size);
 
     theProject = new Project("", theView, this);
@@ -47,16 +39,13 @@ MainWindow::MainWindow(QWidget *parent) :
     theView = theProject->getSlide(0);
 
     theView->setFill(false);
-     //int i = 0;
 
     theProject->addImage(theView->getImage());
     imageList.push_back(theView->getImage());
 
     //set spinboxes range
-    //ui->shapeWidthSlide->setRange(1, theView->getImage().width()/5);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    //ui->shapeWidthSpin->setRange(1, theView->getImage().width()/5);
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -191,7 +180,6 @@ void MainWindow::on_EraseButton_clicked()
 
 void MainWindow::on_checkBox_2_stateChanged(int arg1)
 {
-    std::cout<<"here"<<std::endl;
     if(arg1 == 0){
         theView->setFill(false);
     }
@@ -214,19 +202,6 @@ void MainWindow::on_paintWidthSlide_sliderMoved(int position)
     theView->setPaintWidth(position);
     theView->setShapeWidth(position);
 }
-/*
-void MainWindow::on_shapeWidthSpin_valueChanged(int arg1)
-{
-    ui->shapeWidthSlide->setValue(arg1);
-    theView->setShapeWidth(arg1);
-}
-
-void MainWindow::on_shapeWidthSlide_sliderMoved(int position)
-{
-    ui->shapeWidthSpin->setValue(position);
-    theView->setShapeWidth(position);
-}
-*/
 
 void MainWindow::colorPaletteChangedSlot(QColor previewColor){
     QPalette palette = ui->colorPaletteWidget->palette();
@@ -287,10 +262,8 @@ void MainWindow::createNewSpriteProject(int pixSize)
     theView->setFill(false);
 
     //set spinboxes range
-    //ui->shapeWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSlide->setRange(1, theView->getImage().width()/2);
     ui->paintWidthSpin->setRange(1, theView->getImage().width()/2);
-    //ui->shapeWidthSpin->setRange(1, theView->getImage().width()/2);
 
    //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
@@ -530,8 +503,6 @@ void MainWindow::on_setFramePushButton_clicked()
 void MainWindow::on_AddFrameButton_clicked()
 {
     //set to inital state
-    //ui->shapeWidthSlide->setValue(1);
-    //ui->shapeWidthSpin->setValue(1);
     ui->paintWidthSlide->setValue(1);
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
@@ -569,9 +540,15 @@ void MainWindow::on_AddFrameButton_clicked()
 
 void MainWindow::on_RemoveFrameButton_clicked()
 {
+    ui->paintWidthSlide->setValue(1);
+    ui->paintWidthSpin->setValue(1);
+    ui->checkBox_2->setChecked(false);
+    theView->setPaintWidth(1);
+    theView->setShapeWidth(1);
+
     int spinValue = indexToSet;
 
-    if( spinValue != 0)
+    if( spinValue > 0)
     {
         QLayoutItem * item = testLayout->takeAt(indexToSet);
         delete item->widget();
@@ -587,7 +564,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
         theView->setImage(imageList.at(spinValue-1));
 
-        indexToSet = spinValue -1;
+        indexToSet = spinValue - 1;
 
 
     }
@@ -628,6 +605,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
         }
 
     }
+    std::cout<<indexToSet<<std::endl;
 
 
 
@@ -639,8 +617,6 @@ void MainWindow::on_CopyFrameButton_clicked()
     int startIndex = indexToSet + 1;
 
     //set to inital state
-    //ui->shapeWidthSlide->setValue(1);
-    //ui->shapeWidthSpin->setValue(1);
     ui->paintWidthSlide->setValue(1);
     ui->paintWidthSpin->setValue(1);
     ui->checkBox_2->setChecked(false);
