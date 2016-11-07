@@ -84,6 +84,9 @@ public:
     QPushButton *CopyFrameButton;
     QPushButton *MergeFrameButton;
     QSlider *frameSlider;
+    QSpinBox *fpsBox;
+    QLabel *label_3;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -300,6 +303,17 @@ public:
         frameSlider->setObjectName(QStringLiteral("frameSlider"));
         frameSlider->setGeometry(QRect(160, 320, 341, 16));
         frameSlider->setOrientation(Qt::Horizontal);
+        fpsBox = new QSpinBox(centralWidget);
+        fpsBox->setObjectName(QStringLiteral("fpsBox"));
+        fpsBox->setGeometry(QRect(440, 520, 48, 25));
+        fpsBox->setMinimum(10);
+        fpsBox->setMaximum(1000);
+        label_3 = new QLabel(centralWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(390, 520, 60, 16));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(500, 520, 80, 24));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -328,7 +342,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        ToolPages->setCurrentIndex(1);
+        ToolPages->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -374,6 +388,8 @@ public:
         DecreaseIndexButton->setText(QApplication::translate("MainWindow", "Down", 0));
         CopyFrameButton->setText(QApplication::translate("MainWindow", "Copy Frame", 0));
         MergeFrameButton->setText(QApplication::translate("MainWindow", "Merge Frame", 0));
+        label_3->setText(QApplication::translate("MainWindow", "FPS:", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "Preview", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0));
     } // retranslateUi

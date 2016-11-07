@@ -9,6 +9,7 @@ Project::Project()
 Project::Project(std::string name, SlideView* frame, QObject *parent) : QObject(parent)
 {
     framesList.push_back(frame);
+    framesPerSec = 10;
 }
 
 SlideView* Project::getSlide(int index)
@@ -74,7 +75,8 @@ void Project::exportGifSlot(std::string name)
     SlideView* slide = getSlide(0);
     int width = slide->getImage().width();
     int height = slide->getImage().height();
-    int framesPerSec = 10; // Set this variable when we change the frame playback speed
+    // updated to use slots with frame slider
+    //int framesPerSec = 10; // Set this variable when we change the frame playback speed
     int delay = 100/framesPerSec; // This is the delay in 1/100th of a second. 5 corresponds to 25 frames per second
     GifWriter gifWrt;
     GifBegin(&gifWrt, cname, width, height, delay, 8, false);
@@ -95,4 +97,8 @@ void Project::deleteAllSlidesAndRefresh()
 {
     framesList.clear();
     imageList.clear();
+}
+
+void Project::framesPerSecSlot(int value) {
+    framesPerSec = value;
 }

@@ -103,6 +103,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
 
     connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
+    connect(this, &MainWindow::showPreviewSignal, &previewDialog, &PreviewDialog::previewSlot);
 }
 
 MainWindow::~MainWindow()
@@ -332,6 +333,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
     //connect(this, &MainWindow::frameSliderSignal, theView, &SlideView::frameSliderSlot);
+    connect(this, &MainWindow::fpsPickerSignal, theProject, &Project::framesPerSecSlot);
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
@@ -490,7 +492,9 @@ void MainWindow::on_actionOpen_triggered()
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
     connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
+
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
+
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
 
@@ -852,4 +856,21 @@ void MainWindow::on_frameSlider_valueChanged(int value)
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     std::cout << "what" << std::endl;
+}
+
+void MainWindow::on_spinBox_valueChanged(int arg1)
+{
+    emit fpsPickerSignal(arg1);
+}
+
+//void MainWindow::on_pushButton_clicked()
+//{
+
+//}
+
+void MainWindow::on_pushButton_clicked()
+{
+    emit showPreviewSignal(ui->fpsBox->value(), imageList);
+    previewDialog.show();
+
 }

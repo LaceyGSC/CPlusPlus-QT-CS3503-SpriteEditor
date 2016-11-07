@@ -53,20 +53,24 @@ SOURCES       = main.cpp \
 		project.cpp \
 		slideview.cpp \
 		gifpopup.cpp \
-		newprojectdialog.cpp moc_mainwindow.cpp \
+		newprojectdialog.cpp \
+		previewdialog.cpp moc_mainwindow.cpp \
 		moc_slideview.cpp \
 		moc_gifpopup.cpp \
-		moc_newprojectdialog.cpp
+		moc_newprojectdialog.cpp \
+		moc_previewdialog.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		project.o \
 		slideview.o \
 		gifpopup.o \
 		newprojectdialog.o \
+		previewdialog.o \
 		moc_mainwindow.o \
 		moc_slideview.o \
 		moc_gifpopup.o \
-		moc_newprojectdialog.o
+		moc_newprojectdialog.o \
+		moc_previewdialog.o
 DIST          = ../../../Qt/5.7/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.7/clang_64/mkspecs/qdevice.pri \
 		../../../Qt/5.7/clang_64/mkspecs/features/device_config.prf \
@@ -199,6 +203,7 @@ DIST          = ../../../Qt/5.7/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.7/clang_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.7/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../Qt/5.7/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.7/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.7/clang_64/mkspecs/features/default_pre.prf \
 		../../../Qt/5.7/clang_64/mkspecs/features/mac/default_pre.prf \
@@ -226,12 +231,14 @@ DIST          = ../../../Qt/5.7/clang_64/mkspecs/features/spec_pre.prf \
 		slideview.h \
 		gifpopup.h \
 		gif.h \
-		newprojectdialog.h main.cpp \
+		newprojectdialog.h \
+		previewdialog.h main.cpp \
 		mainwindow.cpp \
 		project.cpp \
 		slideview.cpp \
 		gifpopup.cpp \
-		newprojectdialog.cpp
+		newprojectdialog.cpp \
+		previewdialog.cpp
 QMAKE_TARGET  = Gold_Enterprise_Sprite
 DESTDIR       = 
 TARGET        = Gold_Enterprise_Sprite.app/Contents/MacOS/Gold_Enterprise_Sprite
@@ -240,7 +247,7 @@ TARGET        = Gold_Enterprise_Sprite.app/Contents/MacOS/Gold_Enterprise_Sprite
 first: all
 ####### Build rules
 
-$(TARGET): ui_mainwindow.h ui_gifpopup.h ui_newprojectdialog.h $(OBJECTS)  
+$(TARGET): ui_mainwindow.h ui_gifpopup.h ui_newprojectdialog.h ui_previewdialog.h $(OBJECTS)  
 	@test -d Gold_Enterprise_Sprite.app/Contents/MacOS/ || mkdir -p Gold_Enterprise_Sprite.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -376,6 +383,7 @@ Makefile: Gold_Enterprise_Sprite.pro ../../../Qt/5.7/clang_64/mkspecs/macx-clang
 		../../../Qt/5.7/clang_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.7/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../Qt/5.7/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.7/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.7/clang_64/mkspecs/features/default_pre.prf \
 		../../../Qt/5.7/clang_64/mkspecs/features/mac/default_pre.prf \
@@ -535,6 +543,7 @@ Makefile: Gold_Enterprise_Sprite.pro ../../../Qt/5.7/clang_64/mkspecs/macx-clang
 ../../../Qt/5.7/clang_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.7/clang_64/mkspecs/macx-clang/qmake.conf:
 ../../../Qt/5.7/clang_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.7/clang_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.7/clang_64/mkspecs/features/default_pre.prf:
 ../../../Qt/5.7/clang_64/mkspecs/features/mac/default_pre.prf:
@@ -590,9 +599,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h project.h slideview.h gifpopup.h gif.h newprojectdialog.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp project.cpp slideview.cpp gifpopup.cpp newprojectdialog.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.ui gifpopup.ui newprojectdialog.ui $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h project.h slideview.h gifpopup.h gif.h newprojectdialog.h previewdialog.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp project.cpp slideview.cpp gifpopup.cpp newprojectdialog.cpp previewdialog.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.ui gifpopup.ui newprojectdialog.ui previewdialog.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -618,9 +627,9 @@ benchmark: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_slideview.cpp moc_gifpopup.cpp moc_newprojectdialog.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_slideview.cpp moc_gifpopup.cpp moc_newprojectdialog.cpp moc_previewdialog.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_slideview.cpp moc_gifpopup.cpp moc_newprojectdialog.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_slideview.cpp moc_gifpopup.cpp moc_newprojectdialog.cpp moc_previewdialog.cpp
 moc_mainwindow.cpp: ../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QMainWindow \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QGraphicsScene \
@@ -659,6 +668,7 @@ moc_mainwindow.cpp: ../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QMa
 		newprojectdialog.h \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QColorDialog \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qcolordialog.h \
+		previewdialog.h \
 		mainwindow.h \
 		../../../Qt/5.7/clang_64/bin/moc
 	/Users/andrewtsai/Qt/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/andrewtsai/Qt/5.7/clang_64/mkspecs/macx-clang -I/Users/andrewtsai/Documents/CS3505/A7 -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/usr/local/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/usr/include -I'/System/Library/Frameworks (framework directory)' -I'/Library/Frameworks (framework directory)' -F/Users/andrewtsai/Qt/5.7/clang_64/lib mainwindow.h -o moc_mainwindow.cpp
@@ -693,11 +703,17 @@ moc_newprojectdialog.cpp: ../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Heade
 		../../../Qt/5.7/clang_64/bin/moc
 	/Users/andrewtsai/Qt/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/andrewtsai/Qt/5.7/clang_64/mkspecs/macx-clang -I/Users/andrewtsai/Documents/CS3505/A7 -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/usr/local/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/usr/include -I'/System/Library/Frameworks (framework directory)' -I'/Library/Frameworks (framework directory)' -F/Users/andrewtsai/Qt/5.7/clang_64/lib newprojectdialog.h -o moc_newprojectdialog.cpp
 
+moc_previewdialog.cpp: ../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
+		previewdialog.h \
+		../../../Qt/5.7/clang_64/bin/moc
+	/Users/andrewtsai/Qt/5.7/clang_64/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/Users/andrewtsai/Qt/5.7/clang_64/mkspecs/macx-clang -I/Users/andrewtsai/Documents/CS3505/A7 -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtWidgets.framework/Headers -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtGui.framework/Headers -I/Users/andrewtsai/Qt/5.7/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/usr/local/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/usr/include -I'/System/Library/Frameworks (framework directory)' -I'/Library/Frameworks (framework directory)' -F/Users/andrewtsai/Qt/5.7/clang_64/lib previewdialog.h -o moc_previewdialog.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_gifpopup.h ui_newprojectdialog.h
+compiler_uic_make_all: ui_mainwindow.h ui_gifpopup.h ui_newprojectdialog.h ui_previewdialog.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_gifpopup.h ui_newprojectdialog.h
+	-$(DEL_FILE) ui_mainwindow.h ui_gifpopup.h ui_newprojectdialog.h ui_previewdialog.h
 ui_mainwindow.h: mainwindow.ui \
 		../../../Qt/5.7/clang_64/bin/uic
 	/Users/andrewtsai/Qt/5.7/clang_64/bin/uic mainwindow.ui -o ui_mainwindow.h
@@ -709,6 +725,10 @@ ui_gifpopup.h: gifpopup.ui \
 ui_newprojectdialog.h: newprojectdialog.ui \
 		../../../Qt/5.7/clang_64/bin/uic
 	/Users/andrewtsai/Qt/5.7/clang_64/bin/uic newprojectdialog.ui -o ui_newprojectdialog.h
+
+ui_previewdialog.h: previewdialog.ui \
+		../../../Qt/5.7/clang_64/bin/uic
+	/Users/andrewtsai/Qt/5.7/clang_64/bin/uic previewdialog.ui -o ui_previewdialog.h
 
 compiler_rez_source_make_all:
 compiler_rez_source_clean:
@@ -761,6 +781,7 @@ main.o: main.cpp mainwindow.h \
 		newprojectdialog.h \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QColorDialog \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qcolordialog.h \
+		previewdialog.h \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
@@ -804,6 +825,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		newprojectdialog.h \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QColorDialog \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qcolordialog.h \
+		previewdialog.h \
 		ui_mainwindow.h \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QFileDialog \
 		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qfiledialog.h \
@@ -867,6 +889,12 @@ newprojectdialog.o: newprojectdialog.cpp newprojectdialog.h \
 		ui_newprojectdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o newprojectdialog.o newprojectdialog.cpp
 
+previewdialog.o: previewdialog.cpp previewdialog.h \
+		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/QDialog \
+		../../../Qt/5.7/clang_64/lib/QtWidgets.framework/Headers/qdialog.h \
+		ui_previewdialog.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o previewdialog.o previewdialog.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
@@ -878,6 +906,9 @@ moc_gifpopup.o: moc_gifpopup.cpp
 
 moc_newprojectdialog.o: moc_newprojectdialog.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_newprojectdialog.o moc_newprojectdialog.cpp
+
+moc_previewdialog.o: moc_previewdialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_previewdialog.o moc_previewdialog.cpp
 
 ####### Install
 

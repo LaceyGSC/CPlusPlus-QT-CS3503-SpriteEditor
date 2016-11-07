@@ -35,10 +35,12 @@ public:
     QImage getImage(int index);
     void addImage(QImage image);
 
+    int framesPerSec;
 public slots:
     void addFrameSlot(SlideView* frame);
     void addImageToButton();
     void exportGifSlot(std::string name);
+    void framesPerSecSlot(int value);
 //  void callGifNamePopup();
 };
 

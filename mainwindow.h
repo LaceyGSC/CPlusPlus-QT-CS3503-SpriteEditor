@@ -15,6 +15,7 @@
 #include "gifpopup.h"
 #include "newprojectdialog.h"
 #include <QColorDialog>
+#include <previewdialog.h>
 
 namespace Ui {
 class MainWindow;
@@ -90,6 +91,12 @@ private slots:
 
     void on_horizontalSlider_valueChanged(int value);
 
+    void on_spinBox_valueChanged(int arg1);
+
+    void on_pushButton_clicked();
+
+
+    
 signals:
     void undoSignal();
     void redoSignal();
@@ -99,6 +106,8 @@ signals:
     void flipVerticalSignal();
     void paintBucketSignal();
     void colorPickerSignal(QColor color);
+    void fpsPickerSignal(int value);
+    void showPreviewSignal(int value, const std::vector<QImage>& imageList);
 
 
 protected:
@@ -124,6 +133,8 @@ private:
 
     gifPopup gifPopupDialog;
     NewProjectDialog newProjDialog;
+
+    PreviewDialog previewDialog;
 
     //QColorDialog *colorDialog;
 
