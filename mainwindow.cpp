@@ -16,12 +16,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("GoldEn Sprite Editor");
-
+    ui->colorPaletteWidget->installEventFilter(this);
     size = 32;
+
+   // colorDialog = new QColorDialog(this);
 
     // If we don't fill theImage before applying it. We get artifacts.
     // I suggest the default background as white.
-    QColor defaultColor = qRgba(255, 255, 255, 0);
+    //QColor defaultColor = qRgba(255, 255, 255, 0);
 
     //Creates and empty graphicsview to act as the parent for the SlideView
     view = new QGraphicsView();
@@ -99,6 +101,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
     connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
+
+    connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
 }
 
 MainWindow::~MainWindow()
@@ -268,7 +272,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
     // If we don't fill theImage before applying it, we get artifacts.
     // I suggest the default background be white.
-    QColor defaultColor = qRgba(255, 255, 255, 0);
+    //QColor defaultColor = qRgba(255, 255, 255, 0);
 
      theView = new SlideView(view, size);
     // This makes it so we only use the new slides
@@ -801,5 +805,25 @@ void MainWindow::on_DecreaseIndexButton_clicked()
         indexToSet = index - 1;
     }
 
+
 }
+
+
+bool MainWindow::eventFilter(QObject *sender, QEvent *event)
+{
+    if (sender == ui->colorPaletteWidget)
+    {
+        if(event->type() == QEvent::MouseButtonDblClick)
+        {
+            std::cout << "clicked" << std::endl;
+            QColor color;
+            color = QColorDialog::getColor();
+            emit colorPaletteChangedSlot(color);
+            emit colorPickerSignal(color);
+
+        }
+    }
+    return QWidget::eventFilter(sender,event);
+}
+
 

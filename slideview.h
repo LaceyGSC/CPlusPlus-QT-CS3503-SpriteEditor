@@ -111,6 +111,7 @@ public slots:
     void flipHorizontalSlot();
     void flipVerticalSlot();
     void paintBucketSlot();
+    void colorPickerSlot(QColor _color);
 };
 
 #endif // SLIDEVIEW_H

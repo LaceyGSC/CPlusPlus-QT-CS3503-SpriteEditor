@@ -14,6 +14,7 @@
 #include "slideview.h"
 #include "gifpopup.h"
 #include "newprojectdialog.h"
+#include <QColorDialog>
 
 namespace Ui {
 class MainWindow;
@@ -93,8 +94,10 @@ signals:
     void flipHorizontalSignal();
     void flipVerticalSignal();
     void paintBucketSignal();
+    void colorPickerSignal(QColor color);
 
 protected:
+    bool eventFilter( QObject* sender, QEvent* event);
 
 private:
     Ui::MainWindow *ui;
@@ -116,6 +119,9 @@ private:
 
     gifPopup gifPopupDialog;
     NewProjectDialog newProjDialog;
+
+    //QColorDialog *colorDialog;
+
 
 };
 
