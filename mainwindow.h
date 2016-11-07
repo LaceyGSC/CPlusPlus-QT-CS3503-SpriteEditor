@@ -136,6 +136,7 @@ private:
 
     PreviewDialog previewDialog;
 
+
     //QColorDialog *colorDialog;
 
 

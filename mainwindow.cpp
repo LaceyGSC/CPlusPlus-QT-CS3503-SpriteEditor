@@ -73,18 +73,19 @@ MainWindow::MainWindow(QWidget *parent) :
     QPushButton* preButton = new QPushButton();
     preButton->setObjectName(QString::number(0));
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
 
     buttons.push_back(preButton);
 
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
     QIcon buttonIcon(testMap);
 
     preButton->setFixedSize(buttonSize);
-    preButton->setIconSize(buttonSize);
+    preButton->setIconSize(imageSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
+    preButton->setFlat(false);
 
     testLayout->addWidget(preButton);
 
@@ -304,6 +305,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     // Set up the mini-slide previews so we can see how many slides we have
     QPushButton* preButton = new QPushButton();
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
     preButton->setObjectName(QString::number(currentIndex));
 
     buttons.push_back(preButton);
@@ -311,14 +313,14 @@ void MainWindow::createNewSpriteProject(int pixSize)
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     QPixmap testMap = QPixmap::fromImage(theProject->getSlide(currentIndex)->getImage().copy());
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
     QIcon buttonIcon(testMap);
 
     preButton->setFixedSize(buttonSize);
-    preButton->setIconSize(buttonSize);
+    preButton->setIconSize(imageSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
+    preButton->setFlat(false);
 
     ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
 
@@ -472,10 +474,11 @@ void MainWindow::on_actionOpen_triggered()
         connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
         QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
         QPixmap testMap = QPixmap::fromImage(theProject->getSlide(i)->getImage());
-        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
+        testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
         QIcon buttonIcon(testMap);
         preButton->setFixedSize(buttonSize);
-        preButton->setIconSize(buttonSize);
+        preButton->setIconSize(imageSize);
         preButton->setIcon(buttonIcon);
         preButton->setFlat(false);
         //preButton->setObjectName(indexName);
@@ -545,6 +548,7 @@ void MainWindow::on_AddFrameButton_clicked()
     QPushButton* preButton = new QPushButton();
     preButton->setObjectName(QString::number(buttons.size()));
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     QImage image (size, size, QImage::Format_ARGB32);
@@ -555,14 +559,14 @@ void MainWindow::on_AddFrameButton_clicked()
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
     currentFrameIndex = buttons.size();
 
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
     QIcon buttonIcon(testMap);
     buttons.push_back(preButton);
 
     preButton->setFixedSize(buttonSize);
-    preButton->setIconSize(buttonSize);
+    preButton->setIconSize(imageSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
+    preButton->setFlat(false);
 
     testLayout->addWidget(preButton);
 
@@ -645,6 +649,7 @@ void MainWindow::on_CopyFrameButton_clicked()
     QPushButton* preButton = new QPushButton();
     preButton->setObjectName(QString::number(startIndex));
     QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     theView->setImage(firstImage.copy());
@@ -654,14 +659,14 @@ void MainWindow::on_CopyFrameButton_clicked()
     QPixmap testMap = QPixmap::fromImage(theView->getImage());
     currentFrameIndex = startIndex;
 
-    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
     QIcon buttonIcon(testMap);
     buttons.insert(buttons.begin() + startIndex, preButton);
 
     preButton->setFixedSize(buttonSize);
-    preButton->setIconSize(buttonSize);
+    preButton->setIconSize(imageSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
+    preButton->setFlat(false);
 
 
     testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
@@ -708,6 +713,7 @@ void MainWindow::on_MergeFrameButton_clicked()
         QPushButton* preButton = new QPushButton();
         preButton->setObjectName(QString::number(startIndex));
         QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QSize imageSize((ui->scrollArea->height())-55,(ui->scrollArea->height())-55);
         connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
         theView->setImage(mergedImage);
@@ -717,14 +723,14 @@ void MainWindow::on_MergeFrameButton_clicked()
         QPixmap testMap = QPixmap::fromImage(theView->getImage());
         currentFrameIndex = startIndex;
 
-        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        testMap = testMap.scaled(imageSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
         QIcon buttonIcon(testMap);
         buttons.insert(buttons.begin() + startIndex, preButton);
 
         preButton->setFixedSize(buttonSize);
-        preButton->setIconSize(buttonSize);
+        preButton->setIconSize(imageSize);
         preButton->setIcon(buttonIcon);
-        preButton->setFlat(true);
+        preButton->setFlat(false);
 
         testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
 
