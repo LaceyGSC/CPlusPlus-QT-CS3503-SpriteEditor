@@ -17,15 +17,18 @@ SOURCES += main.cpp\
     project.cpp \
     slideview.cpp \
     gifpopup.cpp \
-    newprojectdialog.cpp
+    newprojectdialog.cpp \
+    previewdialog.cpp
 
 HEADERS  += mainwindow.h \
     project.h \
     slideview.h \
     gifpopup.h \
     gif.h \
-    newprojectdialog.h
+    newprojectdialog.h \
+    previewdialog.h
 
 FORMS    += mainwindow.ui \
     gifpopup.ui \
-    newprojectdialog.ui
+    newprojectdialog.ui \
+    previewdialog.ui

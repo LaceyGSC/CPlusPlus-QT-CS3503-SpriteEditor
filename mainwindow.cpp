@@ -8,6 +8,7 @@
 //#include <QList>
 #include <QFileDialog>
 #include <QString>
+#include "previewdialog.h"
 
 
 MainWindow::MainWindow(QWidget *parent) :

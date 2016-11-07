@@ -15,7 +15,7 @@
 #include "gifpopup.h"
 #include "newprojectdialog.h"
 #include <QColorDialog>
-#include <previewdialog.h>
+#include "previewdialog.h"
 
 namespace Ui {
 class MainWindow;
