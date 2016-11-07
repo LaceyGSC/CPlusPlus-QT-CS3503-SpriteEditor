@@ -872,5 +872,4 @@ void MainWindow::on_pushButton_clicked()
 {
     emit showPreviewSignal(ui->fpsBox->value(), imageList);
     previewDialog.show();
-
 }
