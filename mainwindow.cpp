@@ -311,11 +311,6 @@ void MainWindow::createNewSpriteProject(int pixSize)
     preButton->setIcon(buttonIcon);
     preButton->setFlat(false);
 
-
-//    testLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
-//    testLayout->setContentsMargins(10,0,10,0);
-//    ui->scrollAreaWidgetContents->setLayout(testLayout);
-
     ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
 
     // Reset the connections
@@ -565,53 +560,60 @@ void MainWindow::on_AddFrameButton_clicked()
 void MainWindow::on_RemoveFrameButton_clicked()
 {
     int spinValue = indexToSet;
-    std::cout<<spinValue<<std::endl;
 
-
-    QLayoutItem * item = testLayout->takeAt(indexToSet);
-    delete item->widget();
-
-    buttons.erase(buttons.begin() + spinValue);
-
-    imageList.erase(imageList.begin() + spinValue);
-
-    for(int i = spinValue; i < buttons.size(); i++)
+    if( spinValue != 0)
     {
-        buttons.at(i)->setObjectName(QString::number(i));
-    }
-    if(buttons.size() == 0)
-    {
-        QPushButton* preButton = new QPushButton();
-        preButton->setObjectName(QString::number(0));
-        std::cout<<preButton->objectName().toInt()<<std::endl;
-        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QLayoutItem * item = testLayout->takeAt(indexToSet);
+        delete item->widget();
 
+        for(int i = spinValue +1; i < buttons.size(); i++)
+        {
+            buttons.at(i)->setObjectName(QString::number(i-1));
+        }
 
-        QImage image(32, 32, QImage::Format_ARGB32);
-        imageList.push_back(image);
-        theView->setImage(image);
+        buttons.erase(buttons.begin() + spinValue);
 
-        QPixmap testMap = QPixmap::fromImage(theView->getImage());
-        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        imageList.erase(imageList.begin() + spinValue);
 
-        QIcon buttonIcon(testMap);
-        theProject->addImage(theView->getImage());
-
-        preButton->setFixedSize(buttonSize);
-        preButton->setIconSize(buttonSize);
-        preButton->setIcon(buttonIcon);
-        preButton->setFlat(false);
-
-        buttons.push_back(preButton);
-
-        testLayout->addWidget(preButton);
+        theView->setImage(imageList.at(spinValue-1));
 
     }
     else
     {
-        theView->setImage(imageList.at(spinValue - 1));
+        if(buttons.size() <= 1)
+        {
+            imageList.clear();
+            theProject->deleteAllSlidesAndRefresh();
+
+            QImage image(32, 32, QImage::Format_ARGB32);
+
+            imageList.push_back(image);
+            theView->setImage(image);
+            theProject->addImage(theView->getImage());
+
+
+        }
+        else
+        {
+            QLayoutItem * item = testLayout->takeAt(indexToSet);
+            delete item->widget();
+
+            for(int i = spinValue + 1; i < buttons.size(); i++)
+            {
+                buttons.at(i)->setObjectName(QString::number(i-1));
+            }
+
+            buttons.erase(buttons.begin() + spinValue);
+
+            imageList.erase(imageList.begin() + spinValue);
+
+            theView->setImage(imageList.at(spinValue));
+
+        }
+
     }
 
+    indexToSet = spinValue -1;
 
 }
 
@@ -654,24 +656,13 @@ void MainWindow::on_CopyFrameButton_clicked()
     for(int i = startIndex+1; i < buttons.size(); i++)
     {
 
-        qDebug() << "Button with old index: " << buttons[i];
-
         QPushButton* temp = buttons[i];
         QString s = temp->objectName();
         int nextIndex = s.toInt()+1;
         temp->setObjectName(QString::number(nextIndex));
 
-        qDebug() << "Button with new index: " << buttons[i];
 
     }
-
-    for(int i = 0; i < buttons.size(); i++)
-    {
-
-        qDebug() << "Button with new index finalized: " << buttons[i];
-
-    }
-
     indexToSet++;
 }
 
@@ -735,8 +726,9 @@ void MainWindow::on_MergeFrameButton_clicked()
             int nextIndex = s.toInt()+1;
             temp->setObjectName(QString::number(nextIndex));
 
-            indexToSet = startIndex;
         }
+
+        indexToSet = startIndex;
     }
     else
     {
