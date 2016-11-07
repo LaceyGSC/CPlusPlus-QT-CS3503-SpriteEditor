@@ -17,6 +17,8 @@ SlideView::SlideView(QGraphicsView *parent, int size) : QGraphicsView(parent)
     //Creates and initializes the global variables for the QImage, the QGraphicsScene, and the pixMap.
     //Failure to create new here causes fatal crash in mouse events
     theImage = QImage(size, size, QImage::Format_ARGB32);
+    theImage.fill(Qt::transparent);
+    //theImage.fill(qRgba(0, 0, 0, 0));
     theTool = pen;
     theScene  =  new QGraphicsScene(this);
     drawing = false;
@@ -32,14 +34,19 @@ SlideView::SlideView(QGraphicsView *parent, int size) : QGraphicsView(parent)
     //Creates the default opacity value and background color for the QGraphicScene
     //opacity: Set this between 0-255, 0 is transparent
     //int opacity = 255;//
-    QBrush brush2(QColor(128, 128, 128, 255));
-    QBrush brush(QColor(0, 0, 0, 0));
-    QPainter painty(&theImage);
+    QBrush brush2(qRgba(128, 128, 128, 10));
+    //brush2.setStyle(Qt::CrossPattern);
 
-    painty.fillRect(0,0, pixelWidth, pixelHeight, brush);
+    // redundant
+    //QBrush brush(qRgba(0, 0, 255, 255));
+    //QPainter painty(&theImage);
 
-    //color for testing
+    //painty.fillRect(0,0, pixelWidth, pixelHeight, brush);
+
+    //color for testing && set color palette preview
     color = qRgba(0, 255, 0, 255);
+    updatePalettePreview(color);
+
 
     //Sets the value of global pixImage to the default image created above
     //Fills with solid red for testing
@@ -70,6 +77,7 @@ SlideView::SlideView(QGraphicsView *parent, int size) : QGraphicsView(parent)
 
     //this->scale(.823, .823);
     this->setMouseTracking(true);
+
 }
 
 
@@ -124,6 +132,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
 
 
             QPainter paint(&theImage);
+            paint.setCompositionMode(QPainter::CompositionMode_Source);
             QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
             paint.setPen(color);
             paint.drawRect(pix);
@@ -218,8 +227,11 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             drawingY = event->pos().y()/(theScene->height()/pixelHeight);
             // Erase the theImage
             QPainter paint(&theImage);
-            //QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-            paint.eraseRect(drawingX, drawingY, paintWidth, paintWidth);
+            paint.setCompositionMode(QPainter::CompositionMode_Source);
+            QRect rect(drawingX, drawingY, paintWidth, paintWidth);
+            paint.setOpacity(0);
+            paint.fillRect(rect, qRgba(0, 0, 0, 0));
+            //paint.eraseRect(drawingX, drawingY, paintWidth, paintWidth);
             // Update what we see
             pixImage = QPixmap::fromImage(theImage);
             pixImageZoomed = pixImage.scaled(275, 275,
@@ -235,13 +247,15 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
             // Retrieve color
             QColor pickedColor;
             pickedColor.setRgba(theImage.pixel(drawingX, drawingY));
-            pickedColor.setRed(pickedColor.red());
-            pickedColor.setGreen(pickedColor.green());
-            pickedColor.setBlue(pickedColor.blue());
-            // Update color
-            QColor previewColor = qRgba(pickedColor.red(), pickedColor.green(), pickedColor.blue(), 255);
-            updatePalettePreview(previewColor);
-            emit updatePreview();
+            if (pickedColor.alpha() != 0) {
+                pickedColor.setRed(pickedColor.red());
+                pickedColor.setGreen(pickedColor.green());
+                pickedColor.setBlue(pickedColor.blue());
+                // Update color
+                QColor previewColor = qRgba(pickedColor.red(), pickedColor.green(), pickedColor.blue(), 255);
+                updatePalettePreview(previewColor);
+                //emit updatePreview();
+            }
         }
     }
 }
@@ -274,7 +288,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
         drawingY = event->pos().y()/(theScene->height()/pixelHeight);
         origPoint = event->pos();
 
-        if (hasPaintBucket)
+        if (theTool == paintBucket)
              {
 
                 // fillInArea(event->pos().x(), event->pos().y());
@@ -287,6 +301,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
             //get the x and y coordinates of the pixel
             //std::cout<<drawingX<<" "<<drawingY<<std::endl;
             QPainter paint(&theImage);
+            paint.setCompositionMode(QPainter::CompositionMode_Source);
             QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
             paint.setPen(color);
             paint.drawRect(pix);
@@ -310,8 +325,11 @@ void SlideView::mousePressEvent( QMouseEvent* event)
         else if(theTool == erase) {
             // Erase the theImage
             QPainter paint(&theImage);
-            //QRectF pix(drawingX, drawingY, 1/(theScene->height()/pixelHeight), 1/(theScene->width()/pixelWidth));
-            paint.eraseRect(drawingX, drawingY, paintWidth, paintWidth);
+            paint.setCompositionMode(QPainter::CompositionMode_Source);
+            QRect rect(drawingX, drawingY, paintWidth, paintWidth);
+            paint.setOpacity(0);
+            paint.fillRect(rect, qRgba(0, 0, 0, 0));
+            //paint.eraseRect(drawingX, drawingY, paintWidth, paintWidth);
             // Update what we see
             pixImage = QPixmap::fromImage(theImage);
             pixImageZoomed = pixImage.scaled(275, 275,
@@ -322,12 +340,14 @@ void SlideView::mousePressEvent( QMouseEvent* event)
         else if(theTool == eyedropper) {
             QColor pickedColor;
             pickedColor.setRgba(theImage.pixel(drawingX, drawingY));
-            pickedColor.setRed(pickedColor.red());
-            pickedColor.setGreen(pickedColor.green());
-            pickedColor.setBlue(pickedColor.blue());
+            if (pickedColor.alpha() != 0) {
+                pickedColor.setRed(pickedColor.red());
+                pickedColor.setGreen(pickedColor.green());
+                pickedColor.setBlue(pickedColor.blue());
 
-            color = qRgba(pickedColor.red(), pickedColor.green(), pickedColor.blue(), 255);
-            updatePalettePreview(color);
+                color = qRgba(pickedColor.red(), pickedColor.green(), pickedColor.blue(), 255);
+                updatePalettePreview(color);
+            }
         }
 
     }
@@ -348,6 +368,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
 void SlideView::mouseReleaseEvent( QMouseEvent* event)
 {
     emit updatePreview();
+    //std::count<<theTool<<std::endl;
     if(event->button() == Qt::LeftButton)
     {
         emit updatePreview();
@@ -410,11 +431,9 @@ void SlideView::mouseReleaseEvent( QMouseEvent* event)
 void SlideView::setTool(std::string tool) {
     if(tool == "line"){
         theTool = shapeLine;
-        //std::cout<<"reached setTool"<<std::endl;
     }
     if(tool == "circle"){
         theTool = shapeCircle;
-        //std::cout<<"reached setTool"<<std::endl;
     }
     if(tool == "rect"){
         theTool = shapeSquare;
@@ -427,11 +446,12 @@ void SlideView::setTool(std::string tool) {
     }
     if(tool == "eyedropper"){
         theTool = eyedropper;
-        std::cout<<"reached eyedropper"<<std::endl;
     }
     if(tool == "erase"){
         theTool = erase;
-        std::cout<<"reached erase"<<std::endl;
+    }
+    if(tool == "paintBucket"){
+        theTool = paintBucket;
     }
 
 
@@ -834,4 +854,10 @@ void SlideView::setImage(QImage image)
 {
     theImage = image.copy();
     this->updateScene();
+}
+
+void SlideView::colorPickerSlot(QColor _color)
+{
+
+    color = qRgba(_color.red(), _color.green(), _color.blue(), 255);
 }

@@ -29,16 +29,18 @@ public:
     void addSlideAt(int index, SlideView* frame);
     void addSlide(SlideView* frame);
     int getSizeList();
-
+    int getFramesPerSec();
     void deleteAllSlidesAndRefresh();
 
     QImage getImage(int index);
     void addImage(QImage image);
 
+    int framesPerSec;
 public slots:
     void addFrameSlot(SlideView* frame);
     void addImageToButton();
-
+//    void exportGifSlot(std::string name);
+    void framesPerSecSlot(int value);
 //  void callGifNamePopup();
 };
 

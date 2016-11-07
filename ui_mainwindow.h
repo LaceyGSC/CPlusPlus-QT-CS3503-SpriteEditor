@@ -83,6 +83,10 @@ public:
     QPushButton *DecreaseIndexButton;
     QPushButton *CopyFrameButton;
     QPushButton *MergeFrameButton;
+    QSlider *frameSlider;
+    QSpinBox *fpsBox;
+    QLabel *label_3;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -132,7 +136,7 @@ public:
         ToolPages->setAutoFillBackground(false);
         Draw = new QWidget();
         Draw->setObjectName(QStringLiteral("Draw"));
-        Draw->setGeometry(QRect(0, 0, 131, 350));
+        Draw->setGeometry(QRect(0, 0, 131, 341));
         _2 = new QGridLayout(Draw);
         _2->setSpacing(6);
         _2->setContentsMargins(11, 11, 11, 11);
@@ -181,7 +185,7 @@ public:
         ToolPages->addItem(Draw, QStringLiteral("Page 1"));
         Shape = new QWidget();
         Shape->setObjectName(QStringLiteral("Shape"));
-        Shape->setGeometry(QRect(0, 0, 131, 350));
+        Shape->setGeometry(QRect(0, 0, 131, 341));
         LineButton = new QPushButton(Shape);
         LineButton->setObjectName(QStringLiteral("LineButton"));
         LineButton->setGeometry(QRect(10, 10, 81, 32));
@@ -207,7 +211,7 @@ public:
         ToolPages->addItem(Shape, QStringLiteral("Page 2"));
         page_3 = new QWidget();
         page_3->setObjectName(QStringLiteral("page_3"));
-        page_3->setGeometry(QRect(0, 0, 131, 350));
+        page_3->setGeometry(QRect(0, 0, 131, 341));
         RotateRightButton = new QPushButton(page_3);
         RotateRightButton->setObjectName(QStringLiteral("RotateRightButton"));
         RotateRightButton->setGeometry(QRect(10, 10, 81, 21));
@@ -242,7 +246,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 339, 152));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 339, 155));
         scrollArea->setWidget(scrollAreaWidgetContents);
         colorPaletteWidget = new QWidget(centralWidget);
         colorPaletteWidget->setObjectName(QStringLiteral("colorPaletteWidget"));
@@ -295,10 +299,25 @@ public:
         MergeFrameButton = new QPushButton(centralWidget);
         MergeFrameButton->setObjectName(QStringLiteral("MergeFrameButton"));
         MergeFrameButton->setGeometry(QRect(270, 520, 80, 25));
+        frameSlider = new QSlider(centralWidget);
+        frameSlider->setObjectName(QStringLiteral("frameSlider"));
+        frameSlider->setGeometry(QRect(160, 320, 341, 16));
+        frameSlider->setOrientation(Qt::Horizontal);
+        fpsBox = new QSpinBox(centralWidget);
+        fpsBox->setObjectName(QStringLiteral("fpsBox"));
+        fpsBox->setGeometry(QRect(440, 520, 48, 25));
+        fpsBox->setMinimum(10);
+        fpsBox->setMaximum(1000);
+        label_3 = new QLabel(centralWidget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(390, 520, 60, 16));
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(500, 520, 80, 24));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 583, 20));
+        menuBar->setGeometry(QRect(0, 0, 583, 22));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -369,6 +388,8 @@ public:
         DecreaseIndexButton->setText(QApplication::translate("MainWindow", "Down", 0));
         CopyFrameButton->setText(QApplication::translate("MainWindow", "Copy Frame", 0));
         MergeFrameButton->setText(QApplication::translate("MainWindow", "Merge Frame", 0));
+        label_3->setText(QApplication::translate("MainWindow", "FPS:", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "Preview", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "Edit", 0));
     } // retranslateUi

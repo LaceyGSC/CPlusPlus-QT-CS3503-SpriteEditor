@@ -75,7 +75,7 @@
        <x>0</x>
        <y>0</y>
        <width>131</width>
-       <height>350</height>
+       <height>341</height>
       </rect>
      </property>
      <attribute name="label">
@@ -142,7 +142,7 @@
        <x>0</x>
        <y>0</y>
        <width>131</width>
-       <height>350</height>
+       <height>341</height>
       </rect>
      </property>
      <attribute name="label">
@@ -243,7 +243,7 @@
        <x>0</x>
        <y>0</y>
        <width>131</width>
-       <height>350</height>
+       <height>341</height>
       </rect>
      </property>
      <attribute name="label">
@@ -360,7 +360,7 @@
        <x>0</x>
        <y>0</y>
        <width>339</width>
-       <height>152</height>
+       <height>155</height>
       </rect>
      </property>
     </widget>
@@ -623,6 +623,61 @@
      <string>Merge Frame</string>
     </property>
    </widget>
+   <widget class="QSlider" name="frameSlider">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>320</y>
+      <width>341</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="fpsBox">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>520</y>
+      <width>48</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>10</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>520</y>
+      <width>60</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>FPS:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>520</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Preview</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -630,7 +685,7 @@
      <x>0</x>
      <y>0</y>
      <width>583</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

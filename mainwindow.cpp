@@ -16,12 +16,14 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("GoldEn Sprite Editor");
-
+    ui->colorPaletteWidget->installEventFilter(this);
     size = 32;
+
+   // colorDialog = new QColorDialog(this);
 
     // If we don't fill theImage before applying it. We get artifacts.
     // I suggest the default background as white.
-    QColor defaultColor = qRgba(255, 255, 255, 0);
+    //QColor defaultColor = qRgba(255, 255, 255, 0);
 
     //Creates and empty graphicsview to act as the parent for the SlideView
     view = new QGraphicsView();
@@ -81,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
+    preButton->setFlat(false);
 
     testLayout->addWidget(preButton);
 
@@ -99,6 +101,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, this, &MainWindow::exportGifSlot);
     connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
+
+    connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
+    connect(this, &MainWindow::showPreviewSignal, &previewDialog, &PreviewDialog::previewSlot);
 }
 
 MainWindow::~MainWindow()
@@ -141,6 +146,7 @@ void MainWindow::on_FlipVertButton_clicked()
 void MainWindow::on_FillButton_clicked()
 {
     emit paintBucketSignal();
+    theView->setTool("paintBucket");
 }
 
 void MainWindow::on_LineButton_clicked()
@@ -267,7 +273,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
     // If we don't fill theImage before applying it, we get artifacts.
     // I suggest the default background be white.
-    QColor defaultColor = qRgba(255, 255, 255, 0);
+    //QColor defaultColor = qRgba(255, 255, 255, 0);
 
      theView = new SlideView(view, size);
     // This makes it so we only use the new slides
@@ -308,12 +314,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
-
-
-//    testLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
-//    testLayout->setContentsMargins(10,0,10,0);
-//    ui->scrollAreaWidgetContents->setLayout(testLayout);
+    preButton->setFlat(false);
 
     ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
 
@@ -326,6 +327,8 @@ void MainWindow::createNewSpriteProject(int pixSize)
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
     connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
+    //connect(this, &MainWindow::frameSliderSignal, theView, &SlideView::frameSliderSlot);
+    connect(this, &MainWindow::fpsPickerSignal, theProject, &Project::framesPerSecSlot);
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
@@ -462,9 +465,6 @@ void MainWindow::on_actionOpen_triggered()
 
     for(int i = 0; i < loadedImages.size(); i++) {
     // Set up the mini-slide previews so we can see how many slides we have
-        QString indexName = i + "";
-        std::string test = indexName.toStdString();
-        std::cout << test << std::endl;
         QPushButton* preButton = new QPushButton();
         preButton->setObjectName(QString::number(i));
         connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
@@ -476,7 +476,7 @@ void MainWindow::on_actionOpen_triggered()
         preButton->setIconSize(buttonSize);
         preButton->setIcon(buttonIcon);
         preButton->setFlat(false);
-        preButton->setObjectName(indexName);
+        //preButton->setObjectName(indexName);
         ui->scrollAreaWidgetContents->layout()->addWidget(preButton);
 
         buttons.push_back(preButton);
@@ -489,7 +489,9 @@ void MainWindow::on_actionOpen_triggered()
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
     connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
+
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
+
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
 
@@ -521,7 +523,7 @@ void MainWindow::updateButton()
 void MainWindow::on_setFramePushButton_clicked()
 {
 
-    std::cout<<indexToSet<<std::endl;
+    std::cout<<indexToSet <<std::endl;
     theView->setImage(imageList.at(indexToSet));
     currentFrameIndex = indexToSet;
 
@@ -544,6 +546,7 @@ void MainWindow::on_AddFrameButton_clicked()
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
     QImage image (size, size, QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
     theView->setImage(image);
     theProject->addImage(theView->getImage());
     imageList.push_back(theView->getImage());
@@ -557,85 +560,301 @@ void MainWindow::on_AddFrameButton_clicked()
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
-
+    preButton->setFlat(false);
 
     testLayout->addWidget(preButton);
 
-    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+    indexToSet = buttons.size() -1;
+
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
 {
     int spinValue = indexToSet;
-    std::cout<<spinValue<<std::endl;
 
-
-    QLayoutItem * item = testLayout->takeAt(indexToSet);
-    delete item->widget();
-
-    buttons.erase(buttons.begin() + spinValue);
-
-    imageList.erase(imageList.begin() + spinValue);
-
-    for(int i = spinValue; i < buttons.size(); i++)
+    if( spinValue != 0)
     {
-        buttons.at(i)->setObjectName(QString::number(i));
-    }
-    if(buttons.size() == 0)
-    {
-        QPushButton* preButton = new QPushButton();
-        preButton->setObjectName(QString::number(0));
-        std::cout<<preButton->objectName().toInt()<<std::endl;
-        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QLayoutItem * item = testLayout->takeAt(indexToSet);
+        delete item->widget();
 
+        for(int i = spinValue +1; i < buttons.size(); i++)
+        {
+            buttons.at(i)->setObjectName(QString::number(i-1));
+        }
 
-        QImage image(32, 32, QImage::Format_ARGB32);
-        imageList.push_back(image);
-        theView->setImage(image);
+        buttons.erase(buttons.begin() + spinValue);
 
-        QPixmap testMap = QPixmap::fromImage(theView->getImage());
-        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        imageList.erase(imageList.begin() + spinValue);
 
-        QIcon buttonIcon(testMap);
-        theProject->addImage(theView->getImage());
-
-        buttons.push_back(preButton);
-
-        preButton->setFixedSize(buttonSize);
-        preButton->setIconSize(buttonSize);
-        preButton->setIcon(buttonIcon);
-        preButton->setFlat(true);
-
-        testLayout->addWidget(preButton);
+        theView->setImage(imageList.at(spinValue-1));
 
     }
     else
     {
-        theView->setImage(imageList.at(spinValue));
+        if(buttons.size() <= 1)
+        {
+            imageList.clear();
+            theProject->deleteAllSlidesAndRefresh();
+
+            QImage image(32, 32, QImage::Format_ARGB32);
+
+            imageList.push_back(image);
+            theView->setImage(image);
+            theProject->addImage(theView->getImage());
+
+
+        }
+        else
+        {
+            QLayoutItem * item = testLayout->takeAt(indexToSet);
+            delete item->widget();
+
+            for(int i = spinValue + 1; i < buttons.size(); i++)
+            {
+                buttons.at(i)->setObjectName(QString::number(i-1));
+            }
+
+            buttons.erase(buttons.begin() + spinValue);
+
+            imageList.erase(imageList.begin() + spinValue);
+
+            theView->setImage(imageList.at(spinValue));
+
+        }
+
     }
 
+    indexToSet = spinValue -1;
 
 }
 
 void MainWindow::on_CopyFrameButton_clicked()
 {
+    QImage firstImage = imageList.at(indexToSet);
+    int startIndex = indexToSet + 1;
 
+    //set to inital state
+    ui->shapeWidthSlide->setValue(1);
+    ui->shapeWidthSpin->setValue(1);
+    ui->paintWidthSlide->setValue(1);
+    ui->paintWidthSpin->setValue(1);
+    ui->checkBox_2->setChecked(false);
+
+    QPushButton* preButton = new QPushButton();
+    preButton->setObjectName(QString::number(startIndex));
+    QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+
+    theView->setImage(firstImage.copy());
+    theProject->addImage(theView->getImage());
+    imageList.insert(imageList.begin()+startIndex, theView->getImage());
+
+    QPixmap testMap = QPixmap::fromImage(theView->getImage());
+    currentFrameIndex = startIndex;
+
+    testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+    QIcon buttonIcon(testMap);
+    buttons.insert(buttons.begin() + startIndex, preButton);
+
+    preButton->setFixedSize(buttonSize);
+    preButton->setIconSize(buttonSize);
+    preButton->setIcon(buttonIcon);
+    preButton->setFlat(false);
+
+
+    testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
+
+    for(int i = startIndex+1; i < buttons.size(); i++)
+    {
+
+        QPushButton* temp = buttons[i];
+        QString s = temp->objectName();
+        int nextIndex = s.toInt()+1;
+        temp->setObjectName(QString::number(nextIndex));
+
+
+    }
+    indexToSet++;
 }
 
 void MainWindow::on_MergeFrameButton_clicked()
 {
+    int startIndex = 0;
 
+    if(indexToSet != 0)
+    {
+        QImage mergedImage;
+
+        QImage topImage = imageList.at(indexToSet).copy();
+        QImage bottomImage = imageList.at(indexToSet-1).copy();
+
+        QPixmap mergedMap(bottomImage.size());
+        QPainter p (&mergedMap);
+        p.drawImage(QPoint(0,0), bottomImage);
+        p.drawImage(QPoint(0,0), topImage);
+        p.end();
+
+        mergedImage = mergedMap.toImage();
+
+        startIndex = indexToSet + 1;
+
+        //set to inital state
+        ui->shapeWidthSlide->setValue(1);
+        ui->shapeWidthSpin->setValue(1);
+        ui->paintWidthSlide->setValue(1);
+        ui->paintWidthSpin->setValue(1);
+        ui->checkBox_2->setChecked(false);
+
+        QPushButton* preButton = new QPushButton();
+        preButton->setObjectName(QString::number(startIndex));
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+
+        theView->setImage(mergedImage);
+        theProject->addImage(theView->getImage());
+        imageList.insert(imageList.begin()+startIndex, theView->getImage());
+
+        QPixmap testMap = QPixmap::fromImage(theView->getImage());
+        currentFrameIndex = startIndex;
+
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        QIcon buttonIcon(testMap);
+        buttons.insert(buttons.begin() + startIndex, preButton);
+
+        preButton->setFixedSize(buttonSize);
+        preButton->setIconSize(buttonSize);
+        preButton->setIcon(buttonIcon);
+        preButton->setFlat(false);
+
+        testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
+
+        for(int i = startIndex+1; i < buttons.size(); i++)
+        {
+
+
+            QPushButton* temp = buttons[i];
+            QString s = temp->objectName();
+            int nextIndex = s.toInt()+1;
+            temp->setObjectName(QString::number(nextIndex));
+
+        }
+
+        indexToSet = startIndex;
+    }
+    else
+    {
+        on_CopyFrameButton_clicked();
+    }
 }
 
 void MainWindow::on_IncreaseIndexButton_clicked()
 {
+    int index = indexToSet;
+        if(buttons.size() - 1 == index)
+        {
 
+        }
+        else
+        {
+            std::iter_swap(imageList.begin() + index, imageList.begin() + (index + 1));
+            QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+            QPixmap testMap = QPixmap::fromImage(imageList.at(index));
+            testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+            QIcon buttonIcon(testMap);
+
+
+            buttons.at(index)->setIcon(buttonIcon);
+
+            QPixmap testMap2 = QPixmap::fromImage(imageList.at(index + 1));
+            testMap2 = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+            QIcon buttonIcon2(testMap2);
+
+            buttons.at(index + 1)->setIcon(buttonIcon2);
+            indexToSet = index + 1;
+        }
 }
 
 void MainWindow::on_DecreaseIndexButton_clicked()
 {
+    int index = indexToSet;
+    if(0 == index)
+    {
 
+    }
+    else
+    {
+        std::iter_swap(imageList.begin() + (index - 1), imageList.begin() + index);
+        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+        QPixmap testMap = QPixmap::fromImage(imageList.at(index - 1));
+        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon(testMap);
+
+
+        buttons.at(index - 1)->setIcon(buttonIcon);
+
+        QPixmap testMap2 = QPixmap::fromImage(imageList.at(index));
+        testMap2 = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+
+        QIcon buttonIcon2(testMap2);
+
+        buttons.at(index)->setIcon(buttonIcon2);
+        indexToSet = index - 1;
+    }
+
+
+}
+
+// Need to check for bug with Qt on OSX with QColorDialog
+// http://stackoverflow.com/questions/39774643/segfault-with-qcolordialog-in-qt5-7-and-macos
+bool MainWindow::eventFilter(QObject *sender, QEvent *event)
+{
+    if (sender == ui->colorPaletteWidget)
+    {
+        if(event->type() == QEvent::MouseButtonDblClick)
+        {
+            std::cout << "clicked" << std::endl;
+            QColor color;
+            color = QColorDialog::getColor(Qt::white, this, "Color Picker", QColorDialog::DontUseNativeDialog);
+            if (color.isValid()) {
+                emit colorPaletteChangedSlot(color);
+                emit colorPickerSignal(color);
+            }
+        }
+    }
+    return QWidget::eventFilter(sender,event);
+}
+
+
+
+
+void MainWindow::on_frameSlider_valueChanged(int value)
+{
+    if (imageList.size() == 1) {
+
+    }
+    else {
+        ui->frameSlider->setMaximum(imageList.size() - 1);
+        //emit frameSliderSignal(value);
+        std::cout << value << std::endl;
+
+        theView->setImage(imageList.at(value));
+        currentFrameIndex = value;
+
+    }
+}
+
+// error if removed.
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    std::cout << "what" << std::endl;
+}
+
+void MainWindow::on_spinBox_valueChanged(int arg1)
+{
+    emit fpsPickerSignal(arg1);
 }
 
 void MainWindow::exportGifSlot(std::string name)
@@ -649,7 +868,7 @@ void MainWindow::exportGifSlot(std::string name)
 //    int height = slide->getImage().height();
     int width = slide.width();
     int height = slide.height();
-    int framesPerSec = 10; // Set this variable when we change the frame playback speed
+    int framesPerSec = theProject->getFramesPerSec(); // Set this variable when we change the frame playback speed
     int delay = 100/framesPerSec; // This is the delay in 1/100th of a second. 5 corresponds to 25 frames per second
     GifWriter gifWrt;
     GifBegin(&gifWrt, cname, width, height, delay, 8, false);
@@ -668,4 +887,14 @@ void MainWindow::exportGifSlot(std::string name)
         std::cout<<"Writing frame"<<std::endl;
     }
     GifEnd(&gifWrt);
+}
+//void MainWindow::on_pushButton_clicked()
+//{
+
+//}
+
+void MainWindow::on_pushButton_clicked()
+{
+    emit showPreviewSignal(ui->fpsBox->value(), imageList);
+    previewDialog.show();
 }
