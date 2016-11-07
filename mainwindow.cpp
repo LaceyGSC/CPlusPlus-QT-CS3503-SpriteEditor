@@ -808,7 +808,8 @@ void MainWindow::on_DecreaseIndexButton_clicked()
 
 }
 
-
+// Need to check for bug with Qt on OSX with QColorDialog
+// http://stackoverflow.com/questions/39774643/segfault-with-qcolordialog-in-qt5-7-and-macos
 bool MainWindow::eventFilter(QObject *sender, QEvent *event)
 {
     if (sender == ui->colorPaletteWidget)
@@ -817,13 +818,15 @@ bool MainWindow::eventFilter(QObject *sender, QEvent *event)
         {
             std::cout << "clicked" << std::endl;
             QColor color;
-            color = QColorDialog::getColor();
-            emit colorPaletteChangedSlot(color);
-            emit colorPickerSignal(color);
-
+            color = QColorDialog::getColor(Qt::white, this, "Color Picker", QColorDialog::DontUseNativeDialog);
+            if (color.isValid()) {
+                emit colorPaletteChangedSlot(color);
+                emit colorPickerSignal(color);
+            }
         }
     }
     return QWidget::eventFilter(sender,event);
 }
+
 
 
