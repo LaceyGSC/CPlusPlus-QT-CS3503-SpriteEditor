@@ -331,6 +331,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
     connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
+    //connect(this, &MainWindow::frameSliderSignal, theView, &SlideView::frameSliderSlot);
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
@@ -521,7 +522,7 @@ void MainWindow::updateButton()
 void MainWindow::on_setFramePushButton_clicked()
 {
 
-    std::cout<<indexToSet<<std::endl;
+    std::cout<<indexToSet <<std::endl;
     theView->setImage(imageList.at(indexToSet));
     currentFrameIndex = indexToSet;
 
@@ -830,3 +831,25 @@ bool MainWindow::eventFilter(QObject *sender, QEvent *event)
 
 
 
+
+void MainWindow::on_frameSlider_valueChanged(int value)
+{
+    if (imageList.size() == 1) {
+
+    }
+    else {
+        ui->frameSlider->setMaximum(imageList.size() - 1);
+        //emit frameSliderSignal(value);
+        std::cout << value << std::endl;
+
+        theView->setImage(imageList.at(value));
+        currentFrameIndex = value;
+
+    }
+}
+
+// error if removed.
+void MainWindow::on_horizontalSlider_valueChanged(int value)
+{
+    std::cout << "what" << std::endl;
+}

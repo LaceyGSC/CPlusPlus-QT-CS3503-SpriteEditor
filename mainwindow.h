@@ -86,6 +86,10 @@ private slots:
 
     void on_DecreaseIndexButton_clicked();
 
+    void on_frameSlider_valueChanged(int value);
+
+    void on_horizontalSlider_valueChanged(int value);
+
 signals:
     void undoSignal();
     void redoSignal();
@@ -95,6 +99,7 @@ signals:
     void flipVerticalSignal();
     void paintBucketSignal();
     void colorPickerSignal(QColor color);
+
 
 protected:
     bool eventFilter( QObject* sender, QEvent* event);

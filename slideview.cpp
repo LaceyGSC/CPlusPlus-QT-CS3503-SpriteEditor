@@ -856,7 +856,8 @@ void SlideView::setImage(QImage image)
     this->updateScene();
 }
 
-void SlideView::colorPickerSlot(QColor _color) {
+void SlideView::colorPickerSlot(QColor _color)
+{
 
     color = qRgba(_color.red(), _color.green(), _color.blue(), 255);
 }

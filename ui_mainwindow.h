@@ -83,6 +83,7 @@ public:
     QPushButton *DecreaseIndexButton;
     QPushButton *CopyFrameButton;
     QPushButton *MergeFrameButton;
+    QSlider *frameSlider;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -132,7 +133,7 @@ public:
         ToolPages->setAutoFillBackground(false);
         Draw = new QWidget();
         Draw->setObjectName(QStringLiteral("Draw"));
-        Draw->setGeometry(QRect(0, 0, 131, 350));
+        Draw->setGeometry(QRect(0, 0, 131, 341));
         _2 = new QGridLayout(Draw);
         _2->setSpacing(6);
         _2->setContentsMargins(11, 11, 11, 11);
@@ -181,7 +182,7 @@ public:
         ToolPages->addItem(Draw, QStringLiteral("Page 1"));
         Shape = new QWidget();
         Shape->setObjectName(QStringLiteral("Shape"));
-        Shape->setGeometry(QRect(0, 0, 131, 350));
+        Shape->setGeometry(QRect(0, 0, 131, 341));
         LineButton = new QPushButton(Shape);
         LineButton->setObjectName(QStringLiteral("LineButton"));
         LineButton->setGeometry(QRect(10, 10, 81, 32));
@@ -207,7 +208,7 @@ public:
         ToolPages->addItem(Shape, QStringLiteral("Page 2"));
         page_3 = new QWidget();
         page_3->setObjectName(QStringLiteral("page_3"));
-        page_3->setGeometry(QRect(0, 0, 131, 350));
+        page_3->setGeometry(QRect(0, 0, 131, 341));
         RotateRightButton = new QPushButton(page_3);
         RotateRightButton->setObjectName(QStringLiteral("RotateRightButton"));
         RotateRightButton->setGeometry(QRect(10, 10, 81, 21));
@@ -242,7 +243,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 339, 152));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 339, 155));
         scrollArea->setWidget(scrollAreaWidgetContents);
         colorPaletteWidget = new QWidget(centralWidget);
         colorPaletteWidget->setObjectName(QStringLiteral("colorPaletteWidget"));
@@ -295,10 +296,14 @@ public:
         MergeFrameButton = new QPushButton(centralWidget);
         MergeFrameButton->setObjectName(QStringLiteral("MergeFrameButton"));
         MergeFrameButton->setGeometry(QRect(270, 520, 80, 25));
+        frameSlider = new QSlider(centralWidget);
+        frameSlider->setObjectName(QStringLiteral("frameSlider"));
+        frameSlider->setGeometry(QRect(160, 320, 341, 16));
+        frameSlider->setOrientation(Qt::Horizontal);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 583, 20));
+        menuBar->setGeometry(QRect(0, 0, 583, 22));
         menuFile = new QMenu(menuBar);
         menuFile->setObjectName(QStringLiteral("menuFile"));
         menuEdit = new QMenu(menuBar);
@@ -323,7 +328,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        ToolPages->setCurrentIndex(2);
+        ToolPages->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
