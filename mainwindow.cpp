@@ -138,7 +138,7 @@ void MainWindow::on_FlipVertButton_clicked()
 
 void MainWindow::on_FillButton_clicked()
 {
-    emit paintBucketSignal();
+    //emit paintBucketSignal();
     theView->setTool("paintBucket");
 }
 

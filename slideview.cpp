@@ -291,7 +291,7 @@ void SlideView::mousePressEvent( QMouseEvent* event)
         if (theTool == paintBucket)
              {
 
-                // fillInArea(event->pos().x(), event->pos().y());
+
                  // hasPaintBucket changes with interaction with gui
                 fillInArea(drawingX, drawingY);
              }
@@ -643,6 +643,11 @@ void SlideView::fillInArea(int pixelX, int pixelY)
 
     // get the current pixel color and fill in all neighboring pixels sharing the same color.  Thus fill in the area of the same color.
     QColor areaColor = theImage.pixelColor(pixelX, pixelY);
+    cout << "red = " << areaColor.red() << endl;
+    cout << "green = " << areaColor.green() << endl;
+    cout << "blue = " << areaColor.blue() << endl;
+    cout << "alpha = " << areaColor.alpha() << endl;
+
 
     theImage.setPixel(pixelX, pixelY, color);
 
@@ -694,7 +699,7 @@ void SlideView::fillInArea(int pixelX, int pixelY)
         }
 
 
-        cout << endl;
+       // cout << endl;
 
 
     }
@@ -720,7 +725,13 @@ bool SlideView::isValidPoint(int pixelX, int pixelY)
  */
 bool SlideView::hasAreaColor(QColor areaColor, QColor neighborColor)
 {
-    bool sameColor = (areaColor.red() == neighborColor.red() && areaColor.green() == neighborColor.green() && areaColor.blue() == neighborColor.blue());
+    bool sameColor = (areaColor.red() == neighborColor.red() && areaColor.green() == neighborColor.green() && areaColor.blue() == neighborColor.blue() && areaColor.alpha() == neighborColor.alpha());
+
+    cout << "neigh's red = " << neighborColor.red() << endl;
+    cout << "neigh's green = " << neighborColor.green() << endl;
+    cout << "neigh's blue = " << neighborColor.blue() << endl;
+    cout << "neigh's alpha = " << neighborColor.alpha() << endl;
+
     return sameColor;
 }
 
