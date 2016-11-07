@@ -81,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent) :
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
+    preButton->setFlat(false);
 
     testLayout->addWidget(preButton);
 
@@ -309,7 +309,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
+    preButton->setFlat(false);
 
 
 //    testLayout = new QHBoxLayout(ui->scrollAreaWidgetContents);
@@ -554,12 +554,12 @@ void MainWindow::on_AddFrameButton_clicked()
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
-
+    preButton->setFlat(false);
 
     testLayout->addWidget(preButton);
 
-    connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
+    indexToSet = buttons.size() -1;
+
 }
 
 void MainWindow::on_RemoveFrameButton_clicked()
@@ -600,7 +600,7 @@ void MainWindow::on_RemoveFrameButton_clicked()
         preButton->setFixedSize(buttonSize);
         preButton->setIconSize(buttonSize);
         preButton->setIcon(buttonIcon);
-        preButton->setFlat(true);
+        preButton->setFlat(false);
 
         buttons.push_back(preButton);
 
@@ -646,7 +646,7 @@ void MainWindow::on_CopyFrameButton_clicked()
     preButton->setFixedSize(buttonSize);
     preButton->setIconSize(buttonSize);
     preButton->setIcon(buttonIcon);
-    preButton->setFlat(true);
+    preButton->setFlat(false);
 
 
     testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
@@ -671,16 +671,18 @@ void MainWindow::on_CopyFrameButton_clicked()
         qDebug() << "Button with new index finalized: " << buttons[i];
 
     }
-    indexToSet = startIndex;
+
+    indexToSet++;
 }
 
 void MainWindow::on_MergeFrameButton_clicked()
 {
-    int startIndex;
+    int startIndex = 0;
 
     if(indexToSet != 0)
     {
         QImage mergedImage;
+
         QImage topImage = imageList.at(indexToSet).copy();
         QImage bottomImage = imageList.at(indexToSet-1).copy();
 
@@ -720,7 +722,7 @@ void MainWindow::on_MergeFrameButton_clicked()
         preButton->setFixedSize(buttonSize);
         preButton->setIconSize(buttonSize);
         preButton->setIcon(buttonIcon);
-        preButton->setFlat(true);
+        preButton->setFlat(false);
 
         testLayout->insertWidget(startIndex,preButton, 0, Qt::AlignCenter);
 
@@ -733,52 +735,42 @@ void MainWindow::on_MergeFrameButton_clicked()
             int nextIndex = s.toInt()+1;
             temp->setObjectName(QString::number(nextIndex));
 
-
+            indexToSet = startIndex;
         }
     }
     else
     {
         on_CopyFrameButton_clicked();
     }
-
-    indexToSet = startIndex;
 }
 
 void MainWindow::on_IncreaseIndexButton_clicked()
 {
     int index = indexToSet;
-    if(buttons.size() - 1 == index)
-    {
+        if(buttons.size() - 1 == index)
+        {
 
-    }
-    else
-    {
-        std::iter_swap(imageList.begin() + index, imageList.begin() + (index + 1));
-        QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
-        QPixmap testMap = QPixmap::fromImage(imageList.at(index));
-        testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+        }
+        else
+        {
+            std::iter_swap(imageList.begin() + index, imageList.begin() + (index + 1));
+            QSize buttonSize((ui->scrollArea->height())-40,(ui->scrollArea->height())-40);
+            QPixmap testMap = QPixmap::fromImage(imageList.at(index));
+            testMap = testMap.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
-        QIcon buttonIcon(testMap);
+            QIcon buttonIcon(testMap);
 
 
-        buttons.at(index)->setIcon(buttonIcon);
+            buttons.at(index)->setIcon(buttonIcon);
 
-        QPixmap testMap2 = QPixmap::fromImage(imageList.at(index + 1));
-        testMap2 = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
+            QPixmap testMap2 = QPixmap::fromImage(imageList.at(index + 1));
+            testMap2 = testMap2.scaled(buttonSize,Qt::IgnoreAspectRatio, Qt::FastTransformation);
 
-        QIcon buttonIcon2(testMap2);
+            QIcon buttonIcon2(testMap2);
 
-        buttons.at(index + 1)->setIcon(buttonIcon2);
-        indexToSet = index + 1;
-    }
-
-    for(int i = 0; i < buttons.size(); i++)
-    {
-
-        qDebug() << "Button with new index finalized: " << buttons[i];
-
-    }
-    indexToSet = startIndex;
+            buttons.at(index + 1)->setIcon(buttonIcon2);
+            indexToSet = index + 1;
+        }
 }
 
 void MainWindow::on_DecreaseIndexButton_clicked()
