@@ -119,10 +119,11 @@ QPixmap SlideView::getPixMap()
  * */
 void SlideView::mouseMoveEvent( QMouseEvent* event)
 {
-    emit updatePreview();
+
 
     if(drawing)
     {
+        emit updatePreview();
 
         if(theTool == pen){
             emit updatePreview();

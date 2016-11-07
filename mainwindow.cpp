@@ -339,6 +339,7 @@ void MainWindow::on_actionOpen_triggered()
     int spriteWidth = list.back().toInt();
     int spriteHeight = list.front().toInt();
     std::vector<QImage> loadedImages;
+    imageList.clear();
     line = in.readLine();
     int numFrames = line.toInt();
     uchar* buffer = new uchar[spriteWidth * spriteHeight * 4];
@@ -353,32 +354,32 @@ void MainWindow::on_actionOpen_triggered()
             pos++;
             count++;
         }
-        std::cout<<line.toStdString()<<std::endl;
-        std::cout<<"count : "<<count<<" pos: "<<pos<<std::endl;
+        //std::cout<<line.toStdString()<<std::endl;
+        //std::cout<<"count : "<<count<<" pos: "<<pos<<std::endl;
         count++;
         // This initializes a new QImage every time we finish reading a frame
         if(count % spriteHeight == 0)
         {
-            std::cout<<"End of frame"<<std::endl;
+            //std::cout<<"End of frame"<<std::endl;
             QImage temp(buffer, spriteWidth, spriteHeight, QImage::Format_ARGB32);
-            loadedImages.push_back(temp.copy());
+            imageList.push_back(temp.copy());
             delete buffer;
             if(count + 1 != numFrames)
             {
-                std::cout<<"Create new buffer. count : "<<count<<" pos: "<<pos<<std::endl;
+                //std::cout<<"Create new buffer. count : "<<count<<" pos: "<<pos<<std::endl;
                 // Be sure to give it enough room for the RGBA parts
                 buffer = new uchar[spriteHeight * spriteWidth * 4];
                 pos = 0;
             }
         }
     }
-    std::cout<<loadedImages.size()<<std::endl;
+    std::cout<<imageList.size()<<std::endl;
 
     // -------------------------------------------------------------
     // Use the data to initialize the view and signals
     // -------------------------------------------------------------
     currentIndex = 0;
-    int numSlidesToRemove = theProject->getSizeList();
+    int numSlidesToRemove = buttons.size();
 //    theProject->
     std::cout<<"slides to remove: "<<numSlidesToRemove<<std::endl;
     std::cout << "Loaded sprite: "<<spriteWidth<<" "<<spriteHeight <<std::endl;
@@ -400,33 +401,31 @@ void MainWindow::on_actionOpen_triggered()
     //Create an empty graphicsview to act as the parent for the SlideView
     view = new QGraphicsView();
     //Creates a slide view: extended qGraphicsView with view as its parent
-    QImage theImage = loadedImages.front();
+    //QImage theImage = imageList.front();
     // If we don't fill theImage before applying it, we get artifacts.
     // I suggest the default background be white.
 //    QColor defaultColor = qRgba(255, 255, 255, 0);
 
     theView = new SlideView(view, size);
     // This makes it so we only use the new slides
-    theProject->deleteAllSlidesAndRefresh();
-    delete theProject;
-    theProject = new Project("", theView, this);
-    imageList.clear();
+    //theProject->deleteAllSlidesAndRefresh();
+    //delete theProject;
+    //theProject = new Project("", theView, this);
+
+
+    /*
     int idx = 0;
     for(auto it = loadedImages.begin(); it != loadedImages.end(); it++)
     {
-        /*if(idx != 0)
-        {
-           theProject->addSlide(new SlideView(view, size));
-//           theProject->addImage(*it);
-           std::cout<<"Added slide"<<std::endl;
-        }*/
         imageList.push_back(*it);
         idx++;
     }
     std::cout<<"totSlides: "<<imageList.size()<<std::endl;
 
+
 //    theView = theProject->getSlide(0);
     theView->setFill(false);
+    */
 
 
     //set spinboxes range
@@ -437,8 +436,10 @@ void MainWindow::on_actionOpen_triggered()
 
     //Adds a the extended slideview to the layout for frame_2
     ui->drawingGridLayout->addWidget(theView);
+    std::cout<<buttons.size()<<std::endl;
+    buttons.clear();
 
-    for(int i = 0; i < loadedImages.size(); i++) {
+    for(int i = 0; i < imageList.size(); i++) {
     // Set up the mini-slide previews so we can see how many slides we have
         QPushButton* preButton = new QPushButton();
         preButton->setObjectName(QString::number(i));
@@ -457,6 +458,9 @@ void MainWindow::on_actionOpen_triggered()
 
         buttons.push_back(preButton);
     }
+    std::cout<<imageList.size()<<std::endl;
+    std::cout<<buttons.size()<<std::endl;
+    indexToSet = buttons.size() - 1;
     // Reset the connections
     connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
     connect(this, &MainWindow::redoSignal, theView, &SlideView::redoSlot);
@@ -470,6 +474,8 @@ void MainWindow::on_actionOpen_triggered()
 
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
+
+
 
 //    connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
 
