@@ -309,6 +309,11 @@ public:
 "#checkBox_2\n"
 "{\n"
 "color: white;\n"
+"}\n"
+"\n"
+"QPushButton:pressed \n"
+"{ \n"
+"background-color: 222930; \n"
 "}"));
         toolFrame->setFrameShape(QFrame::StyledPanel);
         toolFrame->setFrameShadow(QFrame::Raised);
@@ -411,6 +416,11 @@ public:
 "max-width: 70px;\n"
 "min-height: 20px;\n"
 "max-height: 20px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed \n"
+"{ \n"
+"background-color: 222930; \n"
 "}"));
         frameCM->setFrameShape(QFrame::StyledPanel);
         frameCM->setFrameShadow(QFrame::Raised);
@@ -465,6 +475,11 @@ public:
 "max-width: 70px;\n"
 "min-height: 20px;\n"
 "max-height: 20px;\n"
+"}\n"
+"\n"
+"QPushButton:pressed \n"
+"{ \n"
+"background-color: 222930; \n"
 "}"));
         frameMove->setFrameShape(QFrame::StyledPanel);
         frameMove->setFrameShadow(QFrame::Raised);
