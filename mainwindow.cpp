@@ -674,6 +674,7 @@ void MainWindow::on_MergeFrameButton_clicked()
         QImage bottomImage = imageList.at(indexToSet-1).copy();
 
         QPixmap mergedMap(bottomImage.size());
+        mergedMap.fill(Qt::transparent);
         QPainter p (&mergedMap);
         p.drawImage(QPoint(0,0), bottomImage);
         p.drawImage(QPoint(0,0), topImage);
