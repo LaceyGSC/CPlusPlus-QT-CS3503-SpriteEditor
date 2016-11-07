@@ -85,6 +85,8 @@ private slots:
 
     void on_DecreaseIndexButton_clicked();
 
+    void exportGifSlot(std::string name);
+
 signals:
     void undoSignal();
     void redoSignal();

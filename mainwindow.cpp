@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <slideview.h>
 #include "newprojectdialog.h"
-//#include "gif.h"
+#include "gif.h"
 //#include <QList>
 #include <QFileDialog>
 #include <QString>
@@ -97,7 +97,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
 
-    connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
+    connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, this, &MainWindow::exportGifSlot);
     connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
 }
 
@@ -430,7 +430,7 @@ void MainWindow::on_actionOpen_triggered()
     theProject->deleteAllSlidesAndRefresh();
     delete theProject;
     theProject = new Project("", theView, this);
-
+    imageList.clear();
     int idx = 0;
     for(auto it = loadedImages.begin(); it != loadedImages.end(); it++)
     {
@@ -439,8 +439,10 @@ void MainWindow::on_actionOpen_triggered()
            theProject->addSlide(new SlideView(view, size));
            theProject->addImage(*it);
 
+
            std::cout<<"Added slide"<<std::endl;
         }
+//        imageList.push_back(*it);
         idx++;
     }
     std::cout<<"totSlides: "<<theProject->getSizeList()<<std::endl;
@@ -636,3 +638,34 @@ void MainWindow::on_DecreaseIndexButton_clicked()
 
 }
 
+void MainWindow::exportGifSlot(std::string name)
+{
+//    std::cout<<name<<std::endl;
+    name += ".gif";
+    const char* cname = name.c_str();
+//    SlideView* slide = getSlide(0);
+    QImage slide = imageList.front();
+//    int width = slide->getImage().width();
+//    int height = slide->getImage().height();
+    int width = slide.width();
+    int height = slide.height();
+    int framesPerSec = 10; // Set this variable when we change the frame playback speed
+    int delay = 100/framesPerSec; // This is the delay in 1/100th of a second. 5 corresponds to 25 frames per second
+    GifWriter gifWrt;
+    GifBegin(&gifWrt, cname, width, height, delay, 8, false);
+    int length = imageList.size();
+    for(auto itr = imageList.begin(); itr != imageList.end(); ++itr)
+//        for(int itr = 0; itr < length; itr++)
+    {
+//        SlideView* tempSlide = *itr;
+//        QImage tempSlide = getImage(itr).copy();
+        QImage tempSlide = (*itr).copy();
+        //        QImage tempImg = tempSlide->getImage().convertToFormat(QImage::Format_RGB32);
+        QImage tempImg = tempSlide.convertToFormat(QImage::Format_RGB32);
+        width = tempImg.width();
+        height = tempImg.height();
+        GifWriteFrame(&gifWrt, tempImg.bits(), width, height, delay, 8, false);
+        std::cout<<"Writing frame"<<std::endl;
+    }
+    GifEnd(&gifWrt);
+}

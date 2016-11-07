@@ -38,7 +38,7 @@ public:
 public slots:
     void addFrameSlot(SlideView* frame);
     void addImageToButton();
-    void exportGifSlot(std::string name);
+
 //  void callGifNamePopup();
 };
 
