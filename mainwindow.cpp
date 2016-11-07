@@ -594,6 +594,9 @@ void MainWindow::on_RemoveFrameButton_clicked()
 
         theView->setImage(imageList.at(spinValue-1));
 
+        indexToSet = spinValue -1;
+
+
     }
     else
     {
@@ -603,10 +606,12 @@ void MainWindow::on_RemoveFrameButton_clicked()
             theProject->deleteAllSlidesAndRefresh();
 
             QImage image(32, 32, QImage::Format_ARGB32);
+            image.fill(Qt::transparent);
 
             imageList.push_back(image);
             theView->setImage(image);
             theProject->addImage(theView->getImage());
+            indexToSet = 0;
 
 
         }
@@ -625,12 +630,13 @@ void MainWindow::on_RemoveFrameButton_clicked()
             imageList.erase(imageList.begin() + spinValue);
 
             theView->setImage(imageList.at(spinValue));
+            indexToSet = 0;
 
         }
 
     }
 
-    indexToSet = spinValue -1;
+
 
 }
 
