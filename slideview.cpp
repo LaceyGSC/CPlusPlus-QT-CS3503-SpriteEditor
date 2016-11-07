@@ -44,7 +44,7 @@ SlideView::SlideView(QGraphicsView *parent, int size) : QGraphicsView(parent)
     //painty.fillRect(0,0, pixelWidth, pixelHeight, brush);
 
     //color for testing && set color palette preview
-    color = qRgba(0, 255, 0, 255);
+    color = qRgba(0, 0, 0, 255);
     updatePalettePreview(color);
 
 
