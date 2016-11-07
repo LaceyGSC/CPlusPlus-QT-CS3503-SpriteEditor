@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     theView = theProject->getSlide(0);
 
     theView->setFill(false);
-     int i = 0;
+     //int i = 0;
 
     theProject->addImage(theView->getImage());
     imageList.push_back(theView->getImage());
