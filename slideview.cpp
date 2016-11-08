@@ -1,6 +1,6 @@
 /**
-    Programmer:     Thuy Nguyen, Steven Reese, Lacey <last name> , Tambra Smith, Andrew Tsai
-    Last updated:   November 1, 2016
+    Programmer:     Thuy Nguyen, Steven Reese, Lacey Tay , Tambra Smith, Andrew Tsai
+    Last updated:   November 07, 2016
     Description:    Slide view provides the algorithm to modify the sprite editor canvas, enabling user to create pixel art.
 
 */
@@ -616,15 +616,6 @@ void SlideView::flipVerticalSlot()
 
 
 //***************************************************START CODE FOR PAINT BUCKET*****************************************************************************
-
-/**
- * Sets the SlideView into paint bucket mode or not into paint bucket mode depending on what the user wants
- */
-void SlideView::paintBucketSlot()
-{
-    hasPaintBucket = !hasPaintBucket;  // every time the user clicks on fill button, paintbucket option is changed
-    cout << hasPaintBucket << endl;
-}
 
 /**
  *  Does a paint bucket fill of the area selected by changing color of that area to the current color

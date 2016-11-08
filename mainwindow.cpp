@@ -1,3 +1,11 @@
+/**
+    Programmer:     Thuy Nguyen, Steven Reese, Lacey <last name> , Tambra Smith, Andrew Tsai
+    Last updated:   November 1, 2016
+    Description:    MainWindow connects any event that happens on the gui with its appropriate code.
+
+*/
+
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
@@ -80,13 +88,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     testLayout->addWidget(preButton);
 
+    //
     connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
     connect(this, &MainWindow::redoSignal, theView, &SlideView::redoSlot);
     connect(this, &MainWindow::rotateLeftSignal, theView, &SlideView::rotateLeftSlot);
     connect(this, &MainWindow::rotateRightSignal, theView, &SlideView::rotateRightSlot);
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
-    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
@@ -138,7 +146,6 @@ void MainWindow::on_FlipVertButton_clicked()
 
 void MainWindow::on_FillButton_clicked()
 {
-    //emit paintBucketSignal();
     theView->setTool("paintBucket");
 }
 
@@ -301,7 +308,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
     connect(this, &MainWindow::rotateRightSignal, theView, &SlideView::rotateRightSlot);
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
-    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
+
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
     //connect(this, &MainWindow::frameSliderSignal, theView, &SlideView::frameSliderSlot);
     connect(this, &MainWindow::fpsPickerSignal, theProject, &Project::framesPerSecSlot);
@@ -535,7 +542,7 @@ void MainWindow::on_actionOpen_triggered()
     connect(this, &MainWindow::rotateRightSignal, theView, &SlideView::rotateRightSlot);
     connect(this, &MainWindow::flipHorizontalSignal, theView, &SlideView::flipHorizontalSlot);
     connect(this, &MainWindow::flipVerticalSignal, theView, &SlideView::flipVerticalSlot);
-    connect(this, &MainWindow::paintBucketSignal, theView, &SlideView::paintBucketSlot);
+
 
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
 

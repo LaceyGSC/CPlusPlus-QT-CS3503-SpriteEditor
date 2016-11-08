@@ -1,3 +1,10 @@
+/**
+    Programmer:     Thuy Nguyen, Steven Reese, Lacey Tay, Tambra Smith, Andrew Tsai
+    Last updated:   November 07, 2016
+    Description:    Slide view provides the algorithm to modify the sprite editor canvas, enabling user to create pixel art.
+
+*/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -107,7 +114,6 @@ signals:
     void rotateRightSignal();
     void flipHorizontalSignal();
     void flipVerticalSignal();
-    void paintBucketSignal();
     void colorPickerSignal(QColor color);
     void fpsPickerSignal(int value);
     void showPreviewSignal(int value, const std::vector<QImage>& imageList);

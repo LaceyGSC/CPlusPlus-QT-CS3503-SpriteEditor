@@ -110,7 +110,6 @@ public slots:
     void rotateRightSlot();
     void flipHorizontalSlot();
     void flipVerticalSlot();
-    void paintBucketSlot();
     void colorPickerSlot(QColor _color);
 
 };
