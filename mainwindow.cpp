@@ -308,17 +308,17 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
-<<<<<<< Updated upstream
+
     connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
-=======
+
 
     connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
     connect(this, &MainWindow::showPreviewSignal, &previewWindow, &PreviewWindow::previewSlot);
 
->>>>>>> Stashed changes
+
     //connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
     //connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
-}
+
 
 void MainWindow::on_actionOpen_triggered()
 {
