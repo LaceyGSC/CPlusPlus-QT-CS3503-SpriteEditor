@@ -8,7 +8,7 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     ui->setupUi(this);
     // set the default size to be 10px
     size = 10;
-
+    this->setWindowTitle("New Sprite Project Size");
     // populate the combo box
     ui->sizeComboBox->addItem("10x10");
     ui->sizeComboBox->addItem("30x30");

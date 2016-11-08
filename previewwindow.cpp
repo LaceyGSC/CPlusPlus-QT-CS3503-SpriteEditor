@@ -6,6 +6,7 @@ PreviewWindow::PreviewWindow(QWidget *parent) :
     ui(new Ui::PreviewWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Preview Animation");
     connect(&timer, &QTimer::timeout, this, &PreviewWindow::timerSlot);
 }
 
