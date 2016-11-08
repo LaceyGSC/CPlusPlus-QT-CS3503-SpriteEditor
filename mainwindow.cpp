@@ -331,60 +331,107 @@ void MainWindow::on_actionOpen_triggered()
     {
         return;
     }
-
     QTextStream in(&file);
     QString line = in.readLine();
     QStringList list = line.split(QRegExp("\\s"));
     int count = 0;
     int spriteWidth = list.back().toInt();
     int spriteHeight = list.front().toInt();
-    std::vector<QImage> loadedImages;
+
     imageList.clear();
     line = in.readLine();
     int numFrames = line.toInt();
-    uchar* buffer = new uchar[spriteWidth * spriteHeight * 4];
+    if(spriteHeight > spriteWidth)
+    {
+        for(int i = 0; i < numFrames; i++)
+        {
+            QImage temp(spriteHeight, spriteHeight, QImage::Format_ARGB32);
+//            loadedImages.push_back();
+            imageList.push_back(temp);
+        }
+    }
+    else
+    {
+        for(int i = 0; i < numFrames; i++)
+        {
+            QImage temp(spriteWidth, spriteWidth, QImage::Format_ARGB32);
+//            loadedImages.push_back();
+            imageList.push_back(temp);
+        }
+    }
+//    uchar* buffer = new uchar[spriteWidth * spriteHeight * 4];
     int pos = 0;
+    int x = 0;
+    int y = 0;
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+    int alpha = 0;
+    int tmpNum = 0;
     while(!in.atEnd())
     {
         // This reads the lines and puts them into QImages
         QString line = in.readLine();
         list = line.split(QRegExp("\\s"));
-        for(auto it = list.begin(); it != list.end(); it++) {
-            *(buffer + pos) = (*it).toInt();
+        for(auto it = list.begin(); it != list.end(); ++it) {
+            tmpNum = (*it).toInt();
+            switch(pos % 4) {
+                case 0:
+                    red = tmpNum;
+                break;
+                case 1:
+                    green = tmpNum;
+                break;
+                case 2:
+                    blue = tmpNum;
+                break;
+                case 3:
+                    alpha = tmpNum;
+                break;
+            }
+            if((pos - 3) % 4 == 0) {
+//            QImage imageTmp = imageList.at(count);
+//            QColor col = qRgba(red, green)
+                imageList.at(count).setPixel(x, y, qRgba(red, green, blue, alpha));
+//            imageTmp.setPixel(x, y, qRgba(red, green, blue, alpha));
+                std::cout<<"Setting ("<<x<<", "<<y<<") to "<<red<<", "<<green<<", "<<blue<<", "<<alpha<<std::endl;
+//            std::cout<<"pos: "<<pos<<" x: "<<x<<" y: "<<y<<std::endl;
+            }
             pos++;
-            count++;
-        }
-        //std::cout<<line.toStdString()<<std::endl;
-        //std::cout<<"count : "<<count<<" pos: "<<pos<<std::endl;
-        count++;
-        // This initializes a new QImage every time we finish reading a frame
-        if(count % spriteHeight == 0)
-        {
-            //std::cout<<"End of frame"<<std::endl;
-            QImage temp(buffer, spriteWidth, spriteHeight, QImage::Format_ARGB32);
-            imageList.push_back(temp.copy());
-            delete buffer;
-            if(count + 1 != numFrames)
+            if(pos % 4 == 0)
             {
-                //std::cout<<"Create new buffer. count : "<<count<<" pos: "<<pos<<std::endl;
-                // Be sure to give it enough room for the RGBA parts
-                buffer = new uchar[spriteHeight * spriteWidth * 4];
-                pos = 0;
+                x++;
             }
         }
+        y++;
+        std::cout<<line.toStdString()<<std::endl;
+        if(y % spriteHeight == 0)
+            count++;
+        if(x == spriteWidth) {
+            x -= spriteWidth;
+        }
+        if(y == spriteHeight) {
+            y -= spriteHeight;
+        }
     }
+
     std::cout<<imageList.size()<<std::endl;
+//>>>>>>> c12c689425a12159f202eece4a3e1df6ed59e97c
 
     // -------------------------------------------------------------
     // Use the data to initialize the view and signals
     // -------------------------------------------------------------
     currentIndex = 0;
-    int numSlidesToRemove = buttons.size();
+//<<<<<<< HEAD
+//    int numSlidesToRemove = theProject->getSizeList();
+//=======
+//    int numSlidesToRemove = buttons.size();
+//>>>>>>> c12c689425a12159f202eece4a3e1df6ed59e97c
 //    theProject->
-    std::cout<<"slides to remove: "<<numSlidesToRemove<<std::endl;
+//    std::cout<<"slides to remove: "<<numSlidesToRemove<<std::endl;
     std::cout << "Loaded sprite: "<<spriteWidth<<" "<<spriteHeight <<std::endl;
 
-    size = spriteWidth;
+    size = imageList.front().width(); // spriteWidth;
 
     while(testLayout->count() > 0)
     {
@@ -401,13 +448,27 @@ void MainWindow::on_actionOpen_triggered()
     //Create an empty graphicsview to act as the parent for the SlideView
     view = new QGraphicsView();
     //Creates a slide view: extended qGraphicsView with view as its parent
-    //QImage theImage = imageList.front();
-    // If we don't fill theImage before applying it, we get artifacts.
-    // I suggest the default background be white.
-//    QColor defaultColor = qRgba(255, 255, 255, 0);
-
     theView = new SlideView(view, size);
+
     // This makes it so we only use the new slides
+//<<<<<<< HEAD
+//    theProject->deleteAllSlidesAndRefresh();
+//    delete theProject;
+//    theProject = new Project("", theView, this);
+//    imageList.clear();
+////    int idx = 0;
+////    for(auto it = loadedImages.begin(); it != loadedImages.end(); it++)
+////    {
+////        /*if(idx != 0)
+////        {
+////           theProject->addSlide(new SlideView(view, size));
+////           theProject->addImage(*it);
+////           std::cout<<"Added slide"<<std::endl;
+////        }*/
+////        imageList.push_back(*it);
+////        idx++;
+////    }
+//=======
     //theProject->deleteAllSlidesAndRefresh();
     //delete theProject;
     //theProject = new Project("", theView, this);
@@ -420,6 +481,7 @@ void MainWindow::on_actionOpen_triggered()
         imageList.push_back(*it);
         idx++;
     }
+>>>>>>> c12c689425a12159f202eece4a3e1df6ed59e97c
     std::cout<<"totSlides: "<<imageList.size()<<std::endl;
 
 
@@ -458,8 +520,13 @@ void MainWindow::on_actionOpen_triggered()
 
         buttons.push_back(preButton);
     }
-    std::cout<<imageList.size()<<std::endl;
-    std::cout<<buttons.size()<<std::endl;
+    // Set the image to be the first one in the file
+    theView->setImage(imageList.at(0));
+    currentFrameIndex = 0;
+    ui->frameSlider->setValue(0);
+
+    std::cout<<"imageList size: "<<imageList.size()<<std::endl;
+    std::cout<<"num buttons "<<buttons.size()<<std::endl;
     indexToSet = buttons.size() - 1;
     // Reset the connections
     connect(this, &MainWindow::undoSignal, theView, &SlideView::undoSlot);
@@ -474,6 +541,7 @@ void MainWindow::on_actionOpen_triggered()
 
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
+//>>>>>>> c12c689425a12159f202eece4a3e1df6ed59e97c
 
 
 
@@ -864,7 +932,7 @@ void MainWindow::exportGifSlot(std::string name)
     int delay = 100/framesPerSec; // This is the delay in 1/100th of a second. 5 corresponds to 25 frames per second
     GifWriter gifWrt;
     GifBegin(&gifWrt, cname, width, height, delay, 8, false);
-    int length = imageList.size();
+//    int length = imageList.size();
     for(auto itr = imageList.begin(); itr != imageList.end(); ++itr)
 //        for(int itr = 0; itr < length; itr++)
     {
@@ -872,7 +940,7 @@ void MainWindow::exportGifSlot(std::string name)
 //        QImage tempSlide = getImage(itr).copy();
         QImage tempSlide = (*itr).copy();
         //        QImage tempImg = tempSlide->getImage().convertToFormat(QImage::Format_RGB32);
-        QImage tempImg = tempSlide.convertToFormat(QImage::Format_RGB32);
+        QImage tempImg = tempSlide;//.convertToFormat(QImage::Format_RGB32);
         width = tempImg.width();
         height = tempImg.height();
         GifWriteFrame(&gifWrt, tempImg.bits(), width, height, delay, 8, false);
@@ -889,4 +957,45 @@ void MainWindow::on_pushButton_clicked()
 {
     emit showPreviewSignal(ui->fpsBox->value(), imageList);
     previewDialog.show();
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    // Save it
+    QString filenamePicked = QFileDialog::getSaveFileName(
+                    this,
+                    tr("Save Sprite"),
+                    "C:://",
+                    "Sprite file (*.ssp)");
+        std::cout<<filenamePicked.toStdString()<<std::endl;
+        QFile saveFile(filenamePicked);
+        if (!saveFile.open(QIODevice::WriteOnly | QIODevice::Text))
+                return;
+        QTextStream out(&saveFile);
+        // Start writing to file
+    std::cout<<"Ready to save"<<std::endl;
+    QImage temp = imageList.front();
+    int saveWidth = temp.width();
+    int saveHeight = temp.height();
+    int numFrames2Save = imageList.size();
+    int count = 0;
+//    std::cout<<saveWidth<<saveHeight<<numFrames2Save<<std::endl;
+    out<<saveHeight<<" "<<saveWidth<<"\n";
+    out<<numFrames2Save<<"\n";
+    for(auto it = imageList.begin(); it != imageList.end(); ++it) {
+        temp = *it;
+        for(int y = 0; y < saveHeight; y++) {
+            // This will go from top to bottom
+            for(int x = 0; x < saveWidth; x++) {
+                QColor qc = temp.pixelColor(x,y);
+                out<<qc.red()<<" "<<qc.green()<<" "<<qc.blue()<<" "<<qc.alpha();
+                if(x + 1 != saveWidth)
+                    out<<" ";
+            }
+            if((y != saveHeight-1) || (count != numFrames2Save-1))
+                out << "\n";
+        }
+        count++;
+    }
+    saveFile.close();
 }
