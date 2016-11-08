@@ -4,7 +4,6 @@
 #include <QDialog>
 #include <QPixmap>
 #include <QGraphicsScene>
-#include <QThread>
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
@@ -23,14 +22,14 @@ public:
 
 private:
     Ui::PreviewWindow *ui;
-    int fps;
     std::vector<QImage> imageList;
     QPixmap pixImage;
     QGraphicsPixmapItem pixMap;
-    QThread workerThread;
     QGraphicsView theView;
     QGraphicsScene *theScene;
     QTimer timer;
+
+    int fps;
     int counter;
 
 public slots:
