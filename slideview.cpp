@@ -157,7 +157,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                 itemToDraw = new QGraphicsLineItem;
                 theScene->addItem(itemToDraw);
                 QPen pen(color);
-                pen.setWidth(8 * shapeWidth);
+                pen.setWidth(4 + shapeWidth);
                 //pen.setWidth(10);
                 itemToDraw->setPen(pen);
                 //itemToDraw->setPos(origPoint);
@@ -177,7 +177,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                 circleToDraw = new QGraphicsEllipseItem;
                 theScene->addItem(circleToDraw);
                 QPen pen(color);
-                pen.setWidth(4 * shapeWidth);
+                pen.setWidth(4 + shapeWidth);
                 //pen.setWidth(10);
                 circleToDraw->setPen(pen);
                 //itemToDraw->setPos(origPoint);
@@ -199,7 +199,7 @@ void SlideView::mouseMoveEvent( QMouseEvent* event)
                 SquareToDraw = new QGraphicsRectItem;
                 theScene->addItem(SquareToDraw);
                 QPen pen(color);
-                pen.setWidth(4 * shapeWidth);
+                pen.setWidth(4 + shapeWidth);
                 //pen.setWidth(10);
                 SquareToDraw->setPen(pen);
                 //itemToDraw->setPos(origPoint);

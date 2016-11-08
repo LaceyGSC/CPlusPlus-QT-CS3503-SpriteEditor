@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("GoldEn Sprite Editor");
     ui->colorPaletteWidget->installEventFilter(this);
-    size = 32;
+    size = 30;
     emit colorPaletteChangedSlot(qRgba(0, 0, 0, 255));
 
    // colorDialog = new QColorDialog(this);
