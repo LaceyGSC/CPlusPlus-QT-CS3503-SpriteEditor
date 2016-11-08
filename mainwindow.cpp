@@ -938,13 +938,27 @@ void MainWindow::exportGifSlot(std::string name)
     {
 //        SlideView* tempSlide = *itr;
 //        QImage tempSlide = getImage(itr).copy();
-        QImage tempSlide = (*itr).copy();
+//        QImage tempSlide = (*itr).copy();
         //        QImage tempImg = tempSlide->getImage().convertToFormat(QImage::Format_RGB32);
-        QImage tempImg = tempSlide;//.convertToFormat(QImage::Format_RGB32);
+        QImage tempImg = *itr; // tempSlide.convertToFormat(QImage::Format_RGB32);
         width = tempImg.width();
         height = tempImg.height();
+//        uint8_t * buffer = new uint8_t[width*height*4];
+//        int count = 0;
+//        for(int y = 0; y < height; y++) {
+//            for(int x = 0; x < width; x++) {
+//                QColor qc = tempImg.pixelColor(x,y);
+//                buffer[count]=qc.red();
+//                buffer[count+1]=qc.green();
+//                buffer[count+2]=qc.blue();
+//                count+=3;
+//            }
+//        }
+
         GifWriteFrame(&gifWrt, tempImg.bits(), width, height, delay, 8, false);
+//        GifWriteFrame(&gifWrt, buffer, width, height, delay, 8, false);
         std::cout<<"Writing frame"<<std::endl;
+//        delete buffer;
     }
     GifEnd(&gifWrt);
 }
