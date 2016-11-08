@@ -8,7 +8,7 @@
 //#include <QList>
 #include <QFileDialog>
 #include <QString>
-#include "previewdialog.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("GoldEn Sprite Editor");
     ui->colorPaletteWidget->installEventFilter(this);
-    size = 32;
+    size = 30;
     emit colorPaletteChangedSlot(qRgba(0, 0, 0, 255));
 
    // colorDialog = new QColorDialog(this);
@@ -96,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
 
     connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
-    connect(this, &MainWindow::showPreviewSignal, &previewDialog, &PreviewDialog::previewSlot);
+    connect(this, &MainWindow::showPreviewSignal, &previewWindow, &PreviewWindow::previewSlot);
 }
 
 MainWindow::~MainWindow()
@@ -955,8 +955,9 @@ void MainWindow::exportGifSlot(std::string name)
 
 void MainWindow::on_pushButton_clicked()
 {
+
     emit showPreviewSignal(ui->fpsBox->value(), imageList);
-    previewDialog.show();
+    previewWindow.show();
 }
 
 void MainWindow::on_actionSave_triggered()
