@@ -318,7 +318,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
     //connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
     //connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
-
+}
 
 void MainWindow::on_actionOpen_triggered()
 {
