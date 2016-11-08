@@ -18,6 +18,7 @@ SlideView::SlideView(QGraphicsView *parent, int size) : QGraphicsView(parent)
     //Failure to create new here causes fatal crash in mouse events
     theImage = QImage(size, size, QImage::Format_ARGB32);
     theImage.fill(Qt::transparent);
+    NUMBER_OF_PIXEL = size;
     //theImage.fill(qRgba(0, 0, 0, 0));
     theTool = pen;
     theScene  =  new QGraphicsScene(this);

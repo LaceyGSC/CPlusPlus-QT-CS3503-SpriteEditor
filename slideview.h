@@ -85,7 +85,7 @@ private:
     bool hasAreaColor(QColor areaColor, QColor neighborColor);
     bool isFillableNeighbor(int x, int y, QColor areaColor);
 
-    const int NUMBER_OF_PIXEL = 32; // an matrix of pixels should be a square matrix.
+    int NUMBER_OF_PIXEL; // an matrix of pixels should be a square matrix.
 
     void drawLine(int x1, int y1, int x2, int y2);
     void drawCirle(int x1, int y1, int w, int h);
