@@ -95,6 +95,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_actionSave_triggered();
+
 signals:
     void undoSignal();
     void redoSignal();
