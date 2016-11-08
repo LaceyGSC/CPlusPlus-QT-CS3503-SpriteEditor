@@ -97,6 +97,8 @@ private slots:
 
     void on_actionSave_triggered();
 
+    void on_actionExit_triggered();
+
 signals:
     void undoSignal();
     void redoSignal();

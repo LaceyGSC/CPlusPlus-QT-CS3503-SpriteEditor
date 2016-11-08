@@ -308,7 +308,7 @@ void MainWindow::createNewSpriteProject(int pixSize)
 
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
     connect(preButton,SIGNAL(clicked()),this,SLOT(changeFrame()));
-
+    connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
     //connect(&gifPopupDialog, &gifPopup::gifFileNameEntered, theProject, &Project::exportGifSlot);
     //connect(&newProjDialog, &NewProjectDialog::createNewProj, this, &MainWindow::createNewSpriteProject);
 }
@@ -539,7 +539,7 @@ void MainWindow::on_actionOpen_triggered()
 
     connect(theView, &SlideView::updatePalettePreviewSignal, this, &MainWindow::colorPaletteChangedSlot);
 
-
+    connect(this, &MainWindow::colorPickerSignal, theView, &SlideView::colorPickerSlot);
     connect(theView, &SlideView::updatePreview, this, &MainWindow::updateButton);
 //>>>>>>> c12c689425a12159f202eece4a3e1df6ed59e97c
 
@@ -998,4 +998,9 @@ void MainWindow::on_actionSave_triggered()
         count++;
     }
     saveFile.close();
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    this->close();
 }
