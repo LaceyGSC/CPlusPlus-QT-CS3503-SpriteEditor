@@ -1,12 +1,16 @@
+/**
+    Programmer:     Tambra Smith
+    Last updated:   November 7, 2016
+    Description:    This is the pop up box code to create the name of the gif to be exported
+
+*/
 #ifndef GIFPOPUP_H
 #define GIFPOPUP_H
 
 #include <QDialog>
 #include <string>
 
-namespace Ui {
-class gifPopup;
-}
+namespace Ui {class gifPopup;}
 
 class gifPopup : public QDialog
 {
@@ -26,3 +30,7 @@ private:
 };
 
 #endif // GIFPOPUP_H
+
+/*
+ * Code Review: Lacey Taylor
+ */

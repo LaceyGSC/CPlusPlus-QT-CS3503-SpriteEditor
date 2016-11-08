@@ -1,3 +1,9 @@
+/**
+    Programmer:     Thuy Nguyen, Steven Reese, Lacey Tay, Tambra Smith, Andrew Tsai
+    Last updated:   November 07, 2016
+    Description:    Slide view provides the algorithm to modify the sprite editor canvas, enabling user to create pixel art.
+
+*/
 #ifndef NEWPROJECTDIALOG_H
 #define NEWPROJECTDIALOG_H
 
@@ -27,3 +33,7 @@ private:
 };
 
 #endif // NEWPROJECTDIALOG_H
+
+/*
+ * Code Review: Lacey Taylor
+ */

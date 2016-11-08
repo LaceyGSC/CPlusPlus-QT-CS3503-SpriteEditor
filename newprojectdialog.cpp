@@ -1,6 +1,15 @@
+/**
+    Programmer:     Thuy Nguyen, Steven Reese, Lacey Tay, Tambra Smith, Andrew Tsai
+    Last updated:   November 07, 2016
+    Description:    Slide view provides the algorithm to modify the sprite editor canvas, enabling user to create pixel art.
+
+*/
 #include "newprojectdialog.h"
 #include "ui_newprojectdialog.h"
 
+//Description: Constructor for the new project popup, takes in the parent widget for inheritance
+//Parameters:    QWidget parent to initialize QDialog
+//Return:        N/A
 NewProjectDialog::NewProjectDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewProjectDialog)
@@ -19,11 +28,17 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     connect(ui->sizeComboBox, SIGNAL(activated(int)), this, SLOT(onUpdateSize()));
 }
 
+//Description: Destructor for the pop up, cleares the UI
+//Parameters:    N/A
+//Return:        N/A
 NewProjectDialog::~NewProjectDialog()
 {
     delete ui;
 }
 
+//Description: Listener method to change the size of the new project based on change in ui
+//Parameters:    N/A
+//Return:        N/A
 void NewProjectDialog::onUpdateSize()
 {
     // update size variable
@@ -50,3 +65,7 @@ void NewProjectDialog::on_buttonBox_accepted()
     emit createNewProj(size);
     this->close();
 }
+
+/*
+ * Code Review: Lacey Taylor
+ */
