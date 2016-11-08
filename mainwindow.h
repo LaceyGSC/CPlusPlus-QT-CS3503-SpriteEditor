@@ -15,7 +15,8 @@
 #include "gifpopup.h"
 #include "newprojectdialog.h"
 #include <QColorDialog>
-#include "previewdialog.h"
+#include "previewwindow.h"
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -132,7 +133,7 @@ private:
     gifPopup gifPopupDialog;
     NewProjectDialog newProjDialog;
 
-    PreviewDialog previewDialog;
+     PreviewWindow previewWindow;
 
 
     //QColorDialog *colorDialog;

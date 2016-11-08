@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>previewwindow</class>
- <widget class="QDialog" name="previewwindow">
+ <class>PreviewWindow</class>
+ <widget class="QDialog" name="PreviewWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -45,7 +45,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>previewwindow</receiver>
+   <receiver>PreviewWindow</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -61,7 +61,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>previewwindow</receiver>
+   <receiver>PreviewWindow</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -7,21 +7,22 @@
 #include <QThread>
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
+#include <QTimer>
 
 namespace Ui {
-class previewwindow;
+class PreviewWindow;
 }
 
-class previewwindow : public QDialog
+class PreviewWindow : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit previewwindow(QWidget *parent = 0);
-    ~previewwindow();
+    explicit PreviewWindow(QWidget *parent = 0);
+    ~PreviewWindow();
 
 private:
-    Ui::previewwindow *ui;
+    Ui::PreviewWindow *ui;
     int fps;
     std::vector<QImage> imageList;
     QPixmap pixImage;
@@ -29,9 +30,12 @@ private:
     QThread workerThread;
     QGraphicsView theView;
     QGraphicsScene *theScene;
+    QTimer timer;
+    int counter;
 
 public slots:
     void previewSlot(int value, std::vector<QImage> _imageList);
+    void timerSlot();
 };
 
 #endif // PREVIEWWINDOW_H
