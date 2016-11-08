@@ -1,3 +1,9 @@
+/*
+Programmers: Thuy Nguyen, Stephen Reese, Andrew Tsai, Lacey Taylor, and Tambra Smith
+Last updated: 11-7-16
+Description: Holds the main image displayed on the canvas. Enables different clicks and mouse movements.
+*/
+
 #ifndef SLIDEVIEW_H
 #define SLIDEVIEW_H
 

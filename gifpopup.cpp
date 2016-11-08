@@ -6,7 +6,8 @@ gifPopup::gifPopup(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::gifPopup)
 {
-    ui->setupUi(this);
+    ui->setupUi(this);  
+    this->setWindowTitle("Export Gif");
 }
 
 gifPopup::~gifPopup()
