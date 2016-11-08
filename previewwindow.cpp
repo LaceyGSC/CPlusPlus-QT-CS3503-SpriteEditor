@@ -7,7 +7,6 @@ PreviewWindow::PreviewWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(&timer, &QTimer::timeout, this, &PreviewWindow::timerSlot);
-
 }
 
 PreviewWindow::~PreviewWindow()
@@ -15,25 +14,29 @@ PreviewWindow::~PreviewWindow()
     delete ui;
 }
 
-void PreviewWindow::previewSlot(int value, std::vector<QImage> _imageList) {
-
+/*
+ * Receives a vector of QImages, speed of .GIF, and start timer for .GIF preview
+ */
+void PreviewWindow::previewSlot(int value, std::vector<QImage> _imageList)
+{
     fps = value;
-    int delay =  (1000 / fps); // This is the delay in 1/100th of a second. 5 corresponds to 25 frames per second
-    imageList = _imageList; // I think this is deepcopy?
+    int delay =  (1000 / fps);
+    imageList = _imageList;
     counter = imageList.size();
-
     timer.start(delay);
 }
 
-void PreviewWindow::timerSlot() {
-    // Preview
+/*
+ * Creates a new QImage each time for each frame of the .GIF preview
+ * This slot is connected to timer.timeout()
+ */
+void PreviewWindow::timerSlot()
+{
     theScene = new QGraphicsScene(ui->previewView);
     QImage theImage = imageList.at(counter % imageList.size());
-    //theImage = imageList.at(0);
     pixImage = QPixmap::fromImage(theImage);
-
     theScene->addPixmap(pixImage);
     theScene->setSceneRect(pixImage.rect());
-    counter++;
     ui->previewView->setScene(theScene);
+    counter++;
 }
